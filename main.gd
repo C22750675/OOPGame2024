@@ -17,4 +17,5 @@ func _on_mob_timer_timeout():
 	mob.initialize(mob_spawn_location.position, player_position)
 
 	# Spawn the mob by adding it to the Main scene.
+	
 	add_child(mob)
