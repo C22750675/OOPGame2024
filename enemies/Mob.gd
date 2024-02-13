@@ -1,12 +1,17 @@
 extends CharacterBody3D
 
 # Minimum speed of the mob in meters per second.
-@export var min_speed = 10
+@export var min_speed = 5
 # Maximum speed of the mob in meters per second.
-@export var max_speed = 18
+@export var max_speed = 6
 
-func _physics_process(_delta):
+@export var fall_acceleration = 75
+
+func _physics_process(delta):
 	move_and_slide()
+	# If the mob is not on the floor, apply gravity
+	if not is_on_floor():
+		velocity.y -= fall_acceleration * delta
 
 # This function will be called from the Main scene.
 func initialize(start_position, player_position):
@@ -27,3 +32,5 @@ func initialize(start_position, player_position):
 
 func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
+	
+ 
