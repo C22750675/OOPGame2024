@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://drfp8737erqji"]
+[gd_scene load_steps=5 format=3 uid="uid://drfp8737erqji"]
 
 [ext_resource type="PackedScene" uid="uid://c80p3jyjyuds8" path="res://art/player.glb" id="1_3xpvg"]
 [ext_resource type="Script" path="res://player/player.gd" id="1_xluy3"]
+[ext_resource type="Texture2D" uid="uid://cwsmd8eapn0k0" path="res://crabTemplate.png" id="3_vmck4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uoktf"]
 radius = 0.8
@@ -15,3 +16,59 @@ script = ExtResource("1_xluy3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_uoktf")
+
+[node name="crabUp" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(152, 392, 112, 72)
+
+[node name="crabDown" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(160, 160, 112, 88)
+
+[node name="crabLeft" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(272, 392, 104, 72)
+
+[node name="crabRight" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(40, 392, 104, 72)
+
+[node name="crabUpLeft" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(264, 392, 112, 80)
+
+[node name="crabUpRight" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(32, 392, 112, 72)
+
+[node name="crabDownLeft" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(280, 160, 112, 96)
+
+[node name="crabDownRight" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+visible = false
+texture = ExtResource("3_vmck4")
+region_enabled = true
+region_rect = Rect2(48, 152, 112, 96)

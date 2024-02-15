@@ -1,13 +1,25 @@
 extends CharacterBody3D
 
+# Define Sprite nodes for each direction
+@onready var sprite_forward = $crabUp
+@onready var sprite_backward = $crabDown
+@onready var sprite_left = $crabLeft
+@onready var sprite_right = $crabRight
+@onready var sprite_up_left = $crabUpLeft
+@onready var sprite_up_right = $crabUpRight
+@onready var sprite_down_left = $crabDownLeft
+@onready var sprite_down_right = $crabDownRight
+
+
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
 @export var fall_acceleration = 75
 
-var fallback_direction = Vector3(0, 0, 270)	
+var fallback_direction = Vector3(0, 0, 1)	
 
 var target_velocity = Vector3.ZERO
+var target_direction = Vector3.ZERO
 var target_enemy = null
 var min_distance = 7
 
@@ -16,15 +28,7 @@ func _physics_process(delta):
 
 	# Find nearest enemy
 	find_nearest_enemy()
-
-	if target_enemy != null:
-		var target_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
-		$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
 		
-	if target_enemy == null:
-		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
-		
-
 	if Input.is_action_pressed("move_right"):
 		direction.x += 1
 	if Input.is_action_pressed("move_left"):
@@ -33,7 +37,9 @@ func _physics_process(delta):
 		direction.z += 1
 	if Input.is_action_pressed("move_forward"):
 		direction.z -= 1
-
+		
+	print_debug(direction)
+		
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 
@@ -48,6 +54,18 @@ func _physics_process(delta):
 	# Moving the Character
 	velocity = target_velocity
 	move_and_slide()
+	
+	if target_enemy != null:
+		target_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
+		$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
+		update_sprite_direction(direction, target_direction)
+		
+	else:
+		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+		target_direction = Vector3.ZERO
+		update_sprite_direction(direction, target_direction)
+	
+	
 
 func find_nearest_enemy():
 	# Retrieve all nodes tagged as enemies in the scene
@@ -72,4 +90,52 @@ func find_nearest_enemy():
 			
 	# Update the target_enemy variable with the closest enemy found
 	target_enemy = closest_enemy
+	
+func update_sprite_direction(direction, target_direction):
+	#print("Direction:", direction)
+	var angle_degrees
+	if target_direction != Vector3.ZERO:
+		angle_degrees = rad_to_deg(atan2(target_direction.z, target_direction.x))
+		
+	# Calculate the angle of the direction vector
+	else: 
+		angle_degrees = rad_to_deg(atan2(direction.z, direction.x))
+
+	# Adjust angle to be in range 0-360
+	if angle_degrees < 0:
+		angle_degrees += 360
+	
+	print("angleDegrees:", angle_degrees)
+
+	# Hide all sprites
+	sprite_forward.hide()
+	sprite_backward.hide()
+	sprite_left.hide()
+	sprite_right.hide()
+	sprite_up_left.hide()
+	sprite_up_right.hide()
+	sprite_down_left.hide()
+	sprite_down_right.hide()
+
+	# Show the sprite corresponding to the current direction
+	if angle_degrees > 22.5 and angle_degrees <= 67.5:
+		sprite_down_right.show()
+	elif angle_degrees > 67.5 and angle_degrees <= 112.5:
+		sprite_backward.show()
+	elif angle_degrees > 112.5 and angle_degrees <= 157.5:
+		sprite_down_left.show()
+	elif angle_degrees > 157.5 and angle_degrees <= 202.5:
+		sprite_left.show()
+	elif angle_degrees > 202.5 and angle_degrees <= 247.5:
+		sprite_up_left.show()
+	elif angle_degrees > 247.5 and angle_degrees <= 292.5:
+		sprite_forward.show()
+	elif angle_degrees > 292.5 and angle_degrees <= 337.5:
+		sprite_up_right.show()
+	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) and (angle_degrees != 0) or direction == Vector3(1, 0, 0):
+		sprite_right.show()
+	
+	# If no input, ensure fallback direction faces down
+	else:
+		sprite_backward.show()
 	
