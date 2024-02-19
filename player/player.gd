@@ -106,9 +106,9 @@ func update_sprite_direction(target_direction):
 	if target_direction != Vector3.ZERO:
 		angle_degrees = rad_to_deg(atan2(target_direction.z, target_direction.x))
 		hide_sprites()
-		spite_direction(angle_degrees)
+		sprite_direction(angle_degrees)
 	
-func spite_direction(angle_degrees):
+func sprite_direction(angle_degrees):
 	# Adjust angle to be in range 0-360
 	if angle_degrees < 0:
 		angle_degrees += 360

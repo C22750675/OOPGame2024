@@ -35,7 +35,7 @@ func initialize(start_position, player_position):
 func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
 	
-func take_damage(damage_amount):
+func take_damage(damage_amount): #needs a check to ensure damage_amount is non-negative
 	health -= damage_amount
 	print("health", health)
 	if health == 0:
