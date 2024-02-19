@@ -1,14 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://drfp8737erqji"]
+[gd_scene load_steps=7 format=3 uid="uid://drfp8737erqji"]
 
 [ext_resource type="PackedScene" uid="uid://c80p3jyjyuds8" path="res://art/player.glb" id="1_3xpvg"]
 [ext_resource type="Script" path="res://player/player.gd" id="3_4p8t2"]
 [ext_resource type="Script" path="res://player/attackArea.gd" id="3_rv3yr"]
 [ext_resource type="Texture2D" uid="uid://cwsmd8eapn0k0" path="res://crabTemplate.png" id="3_vmck4"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_a2oc7"]
-radius = 2.0
-
-[sub_resource type="SphereMesh" id="SphereMesh_ofdiy"]
+[sub_resource type="SphereMesh" id="SphereMesh_l328t"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uoktf"]
 radius = 0.8
@@ -23,13 +20,13 @@ script = ExtResource("3_4p8t2")
 [node name="attackArea" type="Area3D" parent="Pivot"]
 script = ExtResource("3_rv3yr")
 
-[node name="attackArea" type="CollisionShape3D" parent="Pivot/attackArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2)
-shape = SubResource("SphereShape3D_a2oc7")
+[node name="attackArea" type="CollisionPolygon3D" parent="Pivot/attackArea"]
+transform = Transform3D(-2.57115, 3.06418, -1.33939e-07, 0, -1.74846e-07, -4, -3.06418, -2.57115, 1.12389e-07, 0, 0, 0)
+polygon = PackedVector2Array(1, 0, 0.985, 0.174, 0.94, 0.342, 0.866, 0.5, 0.707, 0.707, 0.5, 0.866, 0.342, 0.94, 0.174, 0.985, 0, 1, 0, 0)
 
 [node name="attackArea_debug" type="MeshInstance3D" parent="Pivot/attackArea/attackArea"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-mesh = SubResource("SphereMesh_ofdiy")
+transform = Transform3D(-0.482091, 0, -0.574533, 0.574533, -3.27835e-08, -0.482091, -2.51136e-08, -0.75, 2.10729e-08, 0.383022, 0.321394, -0.125)
+mesh = SubResource("SphereMesh_l328t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_uoktf")

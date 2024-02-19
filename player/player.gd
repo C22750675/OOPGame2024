@@ -56,25 +56,34 @@ func _physics_process(delta):
 	# Moving the Character
 	velocity = target_velocity
 	move_and_slide()
-	
+
+	direction_management(direction)
+
+func direction_management(direction): 
 	if target_enemy != null:
 		target_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
 		if attackArea.is_visible_in_tree():
-			$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
-		elif attackArea.is_visible_in_tree() == false : 
-			$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
-			update_sprite_direction(target_direction)
-		
-	if target_enemy == null :
+			if target_direction != Vector3.ZERO:
+				$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+		else : 
+			var look_direction = direction
+			if look_direction == Vector3.ZERO:
+				look_direction = target_direction
+			if look_direction != Vector3.ZERO:
+				$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+				update_sprite_direction(target_direction)
+
+	else:
 		if attackArea.is_visible_in_tree():
-			$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+			if target_direction != Vector3.ZERO:
+				$Pivot.look_at(global_transform.origin + target_direction, Vector3.UP)
 		else :
-			$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
-			target_direction = Vector3.ZERO
-			hide_sprites()
-			sprite_backward.show()
-		
-	
+			var look_direction = direction
+			if look_direction == Vector3.ZERO:
+				look_direction = target_direction
+			if look_direction != Vector3.ZERO:
+				$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
+				update_sprite_direction(direction)
 
 func find_nearest_enemy():
 	# Retrieve all nodes tagged as enemies in the scene
@@ -130,7 +139,7 @@ func sprite_direction(angle_degrees):
 		sprite_forward.show()
 	elif angle_degrees > 292.5 and angle_degrees <= 337.5:
 		sprite_up_right.show()
-	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) and (angle_degrees != 0 or angle_degrees == 360):
+	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) or angle_degrees == 360:
 		sprite_right.show()
 	
 func hide_sprites():
