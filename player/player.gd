@@ -10,6 +10,8 @@ extends CharacterBody3D
 @onready var sprite_down_left = $crabDownLeft
 @onready var sprite_down_right = $crabDownRight
 
+@onready var attackArea = $Pivot/attackArea/attackArea/attackArea_debug
+
 
 # How fast the player moves in meters per second.
 @export var speed = 14
@@ -38,7 +40,7 @@ func _physics_process(delta):
 	if Input.is_action_pressed("move_forward"):
 		direction.z -= 1
 		
-	print_debug(direction)
+	#print_debug(direction)
 		
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
@@ -57,14 +59,20 @@ func _physics_process(delta):
 	
 	if target_enemy != null:
 		target_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
-		$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
-		update_sprite_direction(target_direction)
+		if attackArea.is_visible_in_tree():
+			$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+		elif attackArea.is_visible_in_tree() == false : 
+			$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+			update_sprite_direction(target_direction)
 		
-	else:
-		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
-		target_direction = Vector3.ZERO
-		hide_sprites()
-		sprite_backward.show()
+	if target_enemy == null :
+		if attackArea.is_visible_in_tree():
+			$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+		else :
+			$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+			target_direction = Vector3.ZERO
+			hide_sprites()
+			sprite_backward.show()
 		
 	
 
@@ -99,14 +107,13 @@ func update_sprite_direction(target_direction):
 		angle_degrees = rad_to_deg(atan2(target_direction.z, target_direction.x))
 		hide_sprites()
 		spite_direction(angle_degrees)
-		
 	
 func spite_direction(angle_degrees):
 	# Adjust angle to be in range 0-360
 	if angle_degrees < 0:
 		angle_degrees += 360
 	
-	print("angleDegrees:", angle_degrees)
+	#print("angleDegrees:", angle_degrees)
 	
 	# Show the sprite corresponding to the current direction
 	if angle_degrees > 22.5 and angle_degrees <= 67.5:
@@ -123,7 +130,7 @@ func spite_direction(angle_degrees):
 		sprite_forward.show()
 	elif angle_degrees > 292.5 and angle_degrees <= 337.5:
 		sprite_up_right.show()
-	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) and (angle_degrees != 0) or angle_degrees == Vector3(1, 0, 0):
+	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) and (angle_degrees != 0 or angle_degrees == 360):
 		sprite_right.show()
 	
 func hide_sprites():
@@ -136,4 +143,10 @@ func hide_sprites():
 	sprite_up_right.hide()
 	sprite_down_left.hide()
 	sprite_down_right.hide()
+
+func lock_attack_direction(target_direction): # saves most recent enemy lock on target direction
+	var lock_target_direction
+	lock_target_direction = target_direction
+	
+	return lock_target_direction
 	
