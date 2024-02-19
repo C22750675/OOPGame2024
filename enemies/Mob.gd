@@ -7,6 +7,8 @@ extends CharacterBody3D
 
 @export var fall_acceleration = 75
 
+var health = 10
+
 func _physics_process(delta):
 	move_and_slide()
 	# If the mob is not on the floor, apply gravity
@@ -33,4 +35,8 @@ func initialize(start_position, player_position):
 func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
 	
- 
+func take_damage(damage_amount):
+	health -= damage_amount
+	print("health", health)
+	if health == 0:
+		queue_free() # kills mob
