@@ -26,6 +26,7 @@ polygon = PackedVector2Array(1, 0, 0.985, 0.174, 0.94, 0.342, 0.866, 0.5, 0.707,
 
 [node name="attackArea_debug" type="MeshInstance3D" parent="Pivot/attackArea/attackArea"]
 transform = Transform3D(-0.482091, 0, -0.574533, 0.574533, -3.27835e-08, -0.482091, -2.51136e-08, -0.75, 2.10729e-08, 0.383022, 0.321394, -0.125)
+visible = false
 mesh = SubResource("SphereMesh_l328t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
