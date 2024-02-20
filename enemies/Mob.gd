@@ -19,7 +19,7 @@ func _physics_process(delta):
 func initialize(start_position, player_position):
 	# We position the mob by placing it at start_position
 	# and rotate it towards player_position, so it looks at the player.
-	look_at_from_position(start_position, player_position, Vector3.UP)
+	look_at_from_position(start_position, player_position + Vector3(0, 2, 0), Vector3.UP)
 	# Rotate this mob randomly within range of -90 and +90 degrees,
 	# so that it doesn't move directly towards the player.
 	rotate_y(randf_range(-PI / 4, PI / 4))
@@ -35,8 +35,19 @@ func initialize(start_position, player_position):
 func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
 	
-func take_damage(damage_amount): #needs a check to ensure damage_amount is non-negative
+func take_damage(damage_amount):
+
+	# if the damage is 0 or less, don't do anything
+	if damage_amount <= 0:
+		return
+	
+	# if the mob is already dead, don't do anything
+	if health <= 0:
+		return
+
+	# subtract the damage from the health
 	health -= damage_amount
+
 	print("health", health)
-	if health == 0:
+	if health <= 0:
 		queue_free() # kills mob
