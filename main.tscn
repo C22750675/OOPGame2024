@@ -53,7 +53,7 @@ size = 19.0
 [node name="Cylinders" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinders"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, -15)
 mesh = SubResource("CylinderMesh_lw14x")
 surface_material_override/0 = SubResource("StandardMaterial3D_eg1kd")
 
@@ -63,7 +63,7 @@ mesh = SubResource("CylinderMesh_lw14x")
 surface_material_override/0 = SubResource("StandardMaterial3D_eg1kd")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Cylinders"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, -15)
 mesh = SubResource("CylinderMesh_lw14x")
 surface_material_override/0 = SubResource("StandardMaterial3D_eg1kd")
 
