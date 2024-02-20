@@ -16,7 +16,6 @@ script = ExtResource("3_4p8t2")
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Character" parent="Pivot" instance=ExtResource("1_3xpvg")]
-visible = false
 
 [node name="attackArea" type="Area3D" parent="Pivot"]
 script = ExtResource("3_rv3yr")
