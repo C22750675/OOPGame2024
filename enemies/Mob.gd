@@ -35,8 +35,19 @@ func initialize(start_position, player_position):
 func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
 	
-func take_damage(damage_amount): #needs a check to ensure damage_amount is non-negative
+func take_damage(damage_amount):
+
+	# if the damage is 0 or less, don't do anything
+	if damage_amount <= 0:
+		return
+	
+	# if the mob is already dead, don't do anything
+	if health <= 0:
+		return
+
+	# subtract the damage from the health
 	health -= damage_amount
+
 	print("health", health)
-	if health == 0:
+	if health <= 0:
 		queue_free() # kills mob
