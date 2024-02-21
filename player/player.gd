@@ -13,6 +13,94 @@ extends CharacterBody3D
 @onready var attackArea = $Pivot/attackArea/attackArea/attackArea_debug
 
 
+# Store the player's last position
+var last_position = Vector3.ZERO
+
+
+var can_move_xp = true
+var can_move_xn = true
+var can_move_zp = true
+var can_move_zn = true
+
+
+func _on_BoundaryAreaRight_body_entered(body):
+	
+		if body == self:
+
+			# Restrict player from moving any more right
+			can_move_xp = false
+			print("Entered BoundaryAreaRight")
+
+func _on_BoundaryAreaRight_body_exited(body):
+	
+	if body == self:
+
+		# Allow player to move right again
+		can_move_xp = true
+
+
+func _on_BoundaryAreaLeft_body_entered(body):
+	
+		if body == self:
+
+			# Restrict player from moving any more left
+			can_move_xn = false
+			print("Entered BoundaryAreaLeft")
+
+func _on_BoundaryAreaLeft_body_exited(body):
+	
+	if body == self:
+
+		# Allow player to move left again
+		can_move_xn = true
+
+
+func _on_BoundaryAreaTop_body_entered(body):
+
+	if body == self:
+
+		# Restrict player from moving up
+		can_move_zn = false
+		print("Entered BoundaryAreaTop")
+	
+func _on_BoundaryAreaTop_body_exited(body):
+	
+	if body == self:
+
+		# Allow player to move up again
+		can_move_zn = true
+
+
+func _on_BoundaryAreaBottom_body_entered(body):
+
+	if body == self:
+
+		# Restrict player from moving down
+		can_move_zp = false
+		print("Entered BoundaryAreaBottom")
+	
+func _on_BoundaryAreaBottom_body_exited(body):
+	
+	if body == self:
+
+		# Allow player to move down again
+		can_move_zp = true
+
+		
+func _ready():
+
+	# Connect the body_entered and body_exited signals of the BoundaryArea to the corresponding functions
+	var boundary_areas =  ["BoundaryAreaRight", "BoundaryAreaLeft", "BoundaryAreaTop", "BoundaryAreaBottom"]
+	
+
+	for boundary_area_name in boundary_areas:
+
+		var boundary_area = get_node("../Ground/" + boundary_area_name)
+
+		boundary_area.connect("body_entered", Callable(self, "_on_" + boundary_area_name + "_body_entered"))
+		boundary_area.connect("body_exited", Callable(self, "_on_" + boundary_area_name + "_body_exited"))
+
+
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
@@ -26,18 +114,19 @@ var target_enemy = null
 var min_distance = 7
 
 func _physics_process(delta):
+
 	var direction = Vector3.ZERO
 
 	# Find nearest enemy
 	find_nearest_enemy()
 		
-	if Input.is_action_pressed("move_right"):
+	if Input.is_action_pressed("move_right") and can_move_xp:
 		direction.x += 1
-	if Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("move_left") and can_move_xn:
 		direction.x -= 1
-	if Input.is_action_pressed("move_back"):
+	if Input.is_action_pressed("move_back") and can_move_zp:
 		direction.z += 1
-	if Input.is_action_pressed("move_forward"):
+	if Input.is_action_pressed("move_forward") and can_move_zn:
 		direction.z -= 1
 		
 	#print_debug(direction)
@@ -58,6 +147,30 @@ func _physics_process(delta):
 	move_and_slide()
 
 	direction_management(direction)
+
+	# If player's y is less than -5, reset player to starting position
+
+	if global_transform.origin.y < -5:
+
+		global_transform.origin = Vector3(0, 0, 0) # reset player to starting position
+
+		velocity = Vector3.ZERO # stop player from moving
+		
+		target_velocity = Vector3.ZERO # set target velocity to zero
+
+		direction = Vector3.ZERO # set direction to zero
+
+		target_direction = Vector3.ZERO # set target direction to zero
+
+		target_enemy = null # set target enemy to null
+
+		hide_sprites() # hide all sprites
+
+		# reset player's rotation
+		$Pivot.basis = Basis.IDENTITY
+		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+		update_sprite_direction(fallback_direction)
+
 
 func direction_management(direction): 
 	if target_enemy != null:
@@ -158,4 +271,3 @@ func lock_attack_direction(target_direction): # saves most recent enemy lock on 
 	lock_target_direction = target_direction
 	
 	return lock_target_direction
-	
