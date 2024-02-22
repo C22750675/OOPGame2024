@@ -22,6 +22,7 @@ var can_move_xn = true
 var can_move_zp = true
 var can_move_zn = true
 
+# The following functions are called when the player enters or exits the 4 boundary areas
 
 func _on_BoundaryAreaRight_body_entered(body):
 	
@@ -86,8 +87,9 @@ func _on_BoundaryAreaBottom_body_exited(body):
 		# Allow player to move down again
 		can_move_zp = true
 
-		
-func _ready():
+# This function connects the collision signals emmited by the BoundaryArea nodes to their
+# corresponding functions
+func boundarySignalConnect():
 
 	# Connect the body_entered and body_exited signals of the BoundaryArea to the corresponding functions
 	var boundary_areas =  ["BoundaryAreaRight", "BoundaryAreaLeft", "BoundaryAreaTop", "BoundaryAreaBottom"]
@@ -97,8 +99,14 @@ func _ready():
 
 		var boundary_area = get_node("../Ground/" + boundary_area_name)
 
-		boundary_area.connect("body_entered", Callable(self, "_on_" + boundary_area_name + "_body_entered"))
-		boundary_area.connect("body_exited", Callable(self, "_on_" + boundary_area_name + "_body_exited"))
+
+		if not boundary_area.is_connected("body_entered", Callable(self, "_on_" + boundary_area_name + "_body_entered")):
+			
+			boundary_area.connect("body_entered", Callable(self, "_on_" + boundary_area_name + "_body_entered"))
+
+		if not boundary_area.is_connected("body_exited", Callable(self, "_on_" + boundary_area_name + "_body_exited")):
+			
+			boundary_area.connect("body_exited", Callable(self, "_on_" + boundary_area_name + "_body_exited"))
 
 
 # How fast the player moves in meters per second.
@@ -149,7 +157,6 @@ func _physics_process(delta):
 	direction_management(direction)
 
 	# If player's y is less than -5, reset player to starting position
-
 	if global_transform.origin.y < -5:
 
 		global_transform.origin = Vector3(0, 0, 0) # reset player to starting position
@@ -174,27 +181,44 @@ func _physics_process(delta):
 
 func direction_management(direction): 
 	if target_enemy != null:
+
 		target_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
+		
 		if attackArea.is_visible_in_tree():
+			
 			if target_direction != Vector3.ZERO:
-				$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+				
+				$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
 		else : 
+			
 			var look_direction = direction
+			
 			if look_direction == Vector3.ZERO:
+			
 				look_direction = target_direction
+			
 			if look_direction != Vector3.ZERO:
-				$Pivot.basis = Basis.looking_at(lock_attack_direction(target_direction), Vector3.UP)
+			
+				$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
 				update_sprite_direction(target_direction)
 
 	else:
+		
 		if attackArea.is_visible_in_tree():
+			
 			if target_direction != Vector3.ZERO:
+			
 				$Pivot.look_at(global_transform.origin + target_direction, Vector3.UP)
 		else :
+		
 			var look_direction = direction
+			
 			if look_direction == Vector3.ZERO:
+				
 				look_direction = target_direction
+			
 			if look_direction != Vector3.ZERO:
+				
 				$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
 				update_sprite_direction(direction)
 
@@ -265,9 +289,3 @@ func hide_sprites():
 	sprite_up_right.hide()
 	sprite_down_left.hide()
 	sprite_down_right.hide()
-
-func lock_attack_direction(target_direction): # saves most recent enemy lock on target direction
-	var lock_target_direction
-	lock_target_direction = target_direction
-	
-	return lock_target_direction
