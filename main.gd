@@ -2,6 +2,9 @@ extends Node
 
 @export var mob_scene: PackedScene
 
+# Preload the mob script to read its global variables
+var Mob = preload("res://enemies/Mob.gd")
+
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -18,3 +21,7 @@ func _on_mob_timer_timeout():
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+
+func _process(delta):
+	
+	$killCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)

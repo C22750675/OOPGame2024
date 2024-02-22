@@ -28,9 +28,8 @@ script = ExtResource("1_unty3")
 mob_scene = ExtResource("2_qne0q")
 
 [node name="killCounter" type="Label" parent="."]
-offset_right = 1.0
+offset_right = 40.0
 offset_bottom = 23.0
-scale = Vector2(5, 5)
 
 [node name="Ground" type="Node" parent="."]
 

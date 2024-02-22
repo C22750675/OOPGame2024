@@ -17,6 +17,8 @@ extends CharacterBody3D
 var last_position = Vector3.ZERO
 
 
+# Variables to store whether the player can move in the positive or negative x and z directions
+
 var can_move_xp = true
 var can_move_xn = true
 var can_move_zp = true
@@ -89,7 +91,7 @@ func _on_BoundaryAreaBottom_body_exited(body):
 
 # This function connects the collision signals emmited by the BoundaryArea nodes to their
 # corresponding functions
-func boundarySignalConnect():
+func _ready():
 
 	# Connect the body_entered and body_exited signals of the BoundaryArea to the corresponding functions
 	var boundary_areas =  ["BoundaryAreaRight", "BoundaryAreaLeft", "BoundaryAreaTop", "BoundaryAreaBottom"]
@@ -98,7 +100,6 @@ func boundarySignalConnect():
 	for boundary_area_name in boundary_areas:
 
 		var boundary_area = get_node("../Ground/" + boundary_area_name)
-
 
 		if not boundary_area.is_connected("body_entered", Callable(self, "_on_" + boundary_area_name + "_body_entered")):
 			

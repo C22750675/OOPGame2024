@@ -5,7 +5,9 @@ extends CharacterBody3D
 # Maximum speed of the mob in meters per second.
 @export var max_speed = 6
 
+# Acceleration of the mob in meters per second squared.
 @export var fall_acceleration = 75
+
 
 var health = 10
 
@@ -59,4 +61,8 @@ func take_damage(damage_amount):
 
 	#print("health", health)
 	if health <= 0:
+
 		queue_free() # kills mob
+
+		# increment the number of mobs killed
+		GlobalVars.mobsKilled += 1
