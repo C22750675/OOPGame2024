@@ -17,104 +17,12 @@ extends CharacterBody3D
 var last_position = Vector3.ZERO
 
 
-# Variables to store whether the player can move in the positive or negative x and z directions
-
-var can_move_xp = true
-var can_move_xn = true
-var can_move_zp = true
-var can_move_zn = true
-
-# The following functions are called when the player enters or exits the 4 boundary areas
-
-func _on_BoundaryAreaRight_body_entered(body):
-	
-		if body == self:
-
-			# Restrict player from moving any more right
-			can_move_xp = false
-			print("Entered BoundaryAreaRight")
-
-func _on_BoundaryAreaRight_body_exited(body):
-	
-	if body == self:
-
-		# Allow player to move right again
-		can_move_xp = true
-
-
-func _on_BoundaryAreaLeft_body_entered(body):
-	
-		if body == self:
-
-			# Restrict player from moving any more left
-			can_move_xn = false
-			print("Entered BoundaryAreaLeft")
-
-func _on_BoundaryAreaLeft_body_exited(body):
-	
-	if body == self:
-
-		# Allow player to move left again
-		can_move_xn = true
-
-
-func _on_BoundaryAreaTop_body_entered(body):
-
-	if body == self:
-
-		# Restrict player from moving up
-		can_move_zn = false
-		print("Entered BoundaryAreaTop")
-	
-func _on_BoundaryAreaTop_body_exited(body):
-	
-	if body == self:
-
-		# Allow player to move up again
-		can_move_zn = true
-
-
-func _on_BoundaryAreaBottom_body_entered(body):
-
-	if body == self:
-
-		# Restrict player from moving down
-		can_move_zp = false
-		print("Entered BoundaryAreaBottom")
-	
-func _on_BoundaryAreaBottom_body_exited(body):
-	
-	if body == self:
-
-		# Allow player to move down again
-		can_move_zp = true
-
-# This function connects the collision signals emmited by the BoundaryArea nodes to their
-# corresponding functions
-func _ready():
-
-	# Connect the body_entered and body_exited signals of the BoundaryArea to the corresponding functions
-	var boundary_areas =  ["BoundaryAreaRight", "BoundaryAreaLeft", "BoundaryAreaTop", "BoundaryAreaBottom"]
-	
-
-	for boundary_area_name in boundary_areas:
-
-		var boundary_area = get_node("../Ground/" + boundary_area_name)
-
-		if not boundary_area.is_connected("body_entered", Callable(self, "_on_" + boundary_area_name + "_body_entered")):
-			
-			boundary_area.connect("body_entered", Callable(self, "_on_" + boundary_area_name + "_body_entered"))
-
-		if not boundary_area.is_connected("body_exited", Callable(self, "_on_" + boundary_area_name + "_body_exited")):
-			
-			boundary_area.connect("body_exited", Callable(self, "_on_" + boundary_area_name + "_body_exited"))
-
-
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
 @export var fall_acceleration = 75
 
+# The direction the player will fallback to when there is no input
 var fallback_direction = Vector3(0, 0, 1)	
 
 var target_velocity = Vector3.ZERO
@@ -122,26 +30,49 @@ var target_direction = Vector3.ZERO
 var target_enemy = null
 var min_distance = 7
 
+# Called when the node enters the scene tree for the first time.
+func _ready():
+
+	sprite_backward.show()
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 
 	var direction = Vector3.ZERO
 
+
+	# Move the character depending on the input
+	if Input.is_action_pressed("move_right"):
+
+		direction.x += 1
+
+	if Input.is_action_pressed("move_left"):
+
+		direction.x -= 1
+
+	if Input.is_action_pressed("move_back"):
+
+		direction.z += 1
+
+	if Input.is_action_pressed("move_forward"):
+
+		direction.z -= 1
+
+	# Normalize the direction vector to ensure constant movement speed
+	if direction != Vector3.ZERO:
+
+		direction = direction.normalized()
+
+	# Calculate the players next position
+	var new_position = position + direction * speed * delta
+
+	# If the next position is outside the floor radius, stop the character
+	if new_position.distance_to(Vector3.ZERO) > 25:
+
+		direction = Vector3.ZERO
+	
 	# Find nearest enemy
 	find_nearest_enemy()
-		
-	if Input.is_action_pressed("move_right") and can_move_xp:
-		direction.x += 1
-	if Input.is_action_pressed("move_left") and can_move_xn:
-		direction.x -= 1
-	if Input.is_action_pressed("move_back") and can_move_zp:
-		direction.z += 1
-	if Input.is_action_pressed("move_forward") and can_move_zn:
-		direction.z -= 1
-		
-	#print_debug(direction)
-		
-	if direction != Vector3.ZERO:
-		direction = direction.normalized()
 
 	# Ground Velocity
 	target_velocity.x = direction.x * speed
@@ -157,8 +88,8 @@ func _physics_process(delta):
 
 	direction_management(direction)
 
-	# If player's y is less than -5, reset player to starting position
-	if global_transform.origin.y < -5:
+	# If player's y is less than -2, reset player to starting position
+	if global_transform.origin.y < -2:
 
 		global_transform.origin = Vector3(0, 0, 0) # reset player to starting position
 
@@ -181,6 +112,7 @@ func _physics_process(delta):
 
 
 func direction_management(direction): 
+
 	if target_enemy != null:
 
 		target_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
@@ -190,6 +122,7 @@ func direction_management(direction):
 			if target_direction != Vector3.ZERO:
 				
 				$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
+
 		else : 
 			
 			var look_direction = direction
@@ -221,20 +154,26 @@ func direction_management(direction):
 			if look_direction != Vector3.ZERO:
 				
 				$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
+
 				update_sprite_direction(direction)
 
 func find_nearest_enemy():
+
 	# Retrieve all nodes tagged as enemies in the scene
 	var enemies = get_tree().get_nodes_in_group("Enemies")
 	
 	# If there are no enemies, return early
 	if enemies.size() == 0:
+
 		target_enemy = null
+
+
 		return
 		
 	var closest_distance = float(min_distance)
 	var closest_enemy = null
 	
+
 	# Iterate through each enemy and calculate the distance to the character
 	for enemy in enemies:
 		var distance_to_enemy = global_transform.origin.distance_to(enemy.global_transform.origin)
@@ -248,36 +187,56 @@ func find_nearest_enemy():
 	target_enemy = closest_enemy
 	
 func update_sprite_direction(target_direction):
-	#print("Direction:", direction)
+
 	var angle_degrees
+
+
 	if target_direction != Vector3.ZERO:
+
 		angle_degrees = rad_to_deg(atan2(target_direction.z, target_direction.x))
+
 		hide_sprites()
+
 		sprite_direction(angle_degrees)
 	
 func sprite_direction(angle_degrees):
+
 	# Adjust angle to be in range 0-360
 	if angle_degrees < 0:
+
 		angle_degrees += 360
-	
-	#print("angleDegrees:", angle_degrees)
 	
 	# Show the sprite corresponding to the current direction
 	if angle_degrees > 22.5 and angle_degrees <= 67.5:
+
 		sprite_down_right.show()
+
 	elif angle_degrees > 67.5 and angle_degrees <= 112.5:
+
 		sprite_backward.show()
+
 	elif angle_degrees > 112.5 and angle_degrees <= 157.5:
+
 		sprite_down_left.show()
+
 	elif angle_degrees > 157.5 and angle_degrees <= 202.5:
+
 		sprite_left.show()
+
 	elif angle_degrees > 202.5 and angle_degrees <= 247.5:
+
 		sprite_up_left.show()
+
 	elif angle_degrees > 247.5 and angle_degrees <= 292.5:
+
 		sprite_forward.show()
+
 	elif angle_degrees > 292.5 and angle_degrees <= 337.5:
+
 		sprite_up_right.show()
+
 	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) or angle_degrees == 360:
+		
 		sprite_right.show()
 	
 func hide_sprites():

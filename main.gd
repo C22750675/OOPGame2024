@@ -23,5 +23,5 @@ func _on_mob_timer_timeout():
 	add_child(mob)
 
 func _process(delta):
-	
+
 	$killCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)

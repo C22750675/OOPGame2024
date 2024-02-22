@@ -59,7 +59,6 @@ func take_damage(damage_amount):
 	# subtract the damage from the health
 	health -= damage_amount
 
-	#print("health", health)
 	if health <= 0:
 
 		queue_free() # kills mob
