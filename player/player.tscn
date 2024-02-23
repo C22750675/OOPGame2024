@@ -10,13 +10,12 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_uoktf"]
 radius = 0.8
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_t5iwf")
 
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Character" parent="Pivot" instance=ExtResource("1_3xpvg")]
-visible = false
 
 [node name="attackArea" type="Area3D" parent="Pivot"]
 script = ExtResource("3_rv3yr")
