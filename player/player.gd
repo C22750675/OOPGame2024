@@ -147,8 +147,6 @@ func find_nearest_enemy():
 	if enemies.size() == 0:
 
 		target_enemy = null
-
-
 		return
 		
 	var closest_distance = float(min_distance)
