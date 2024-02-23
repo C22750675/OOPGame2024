@@ -5,6 +5,8 @@ extends CharacterBody3D
 # Maximum speed of the mob in meters per second.
 @export var max_speed = 6
 
+var random_speed = 5
+
 # Acceleration of the mob in meters per second squared.
 @export var fall_acceleration = 75
 
@@ -13,11 +15,21 @@ var health = 10
 
 func _physics_process(delta):
 
+	var direction = Vector3.ZERO
+
 	move_and_slide()
 
 	# If the mob is not on the floor, apply gravity
 	if not is_on_floor():
 		velocity.y -= fall_acceleration * delta
+
+	# Calculate the players next position
+	var new_position = position + direction * random_speed * delta
+
+	# Despawn the mob if it reaches edge of the map
+	if new_position.distance_to(Vector3.ZERO) > 25:
+		
+		queue_free()
 
 # This function will be called from the Main scene.
 func initialize(start_position, player_position):
@@ -33,7 +45,7 @@ func initialize(start_position, player_position):
 	rotate_y(randf_range(-PI / 4, PI / 4))
 
 	# We calculate a random speed (integer)
-	var random_speed = randi_range(min_speed, max_speed)
+	random_speed = randi_range(min_speed, max_speed)
 
 	# We calculate a forward velocity that represents the speed.
 	velocity = Vector3.FORWARD * random_speed

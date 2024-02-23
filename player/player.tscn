@@ -16,6 +16,7 @@ script = ExtResource("1_t5iwf")
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Character" parent="Pivot" instance=ExtResource("1_3xpvg")]
+visible = false
 
 [node name="attackArea" type="Area3D" parent="Pivot"]
 script = ExtResource("3_rv3yr")
@@ -87,6 +88,13 @@ visible = false
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(48, 152, 112, 96)
+
+[node name="playerHealth" type="ProgressBar" parent="."]
+offset_right = 4.0
+offset_bottom = 27.0
+step = 1.0
+rounded = true
+show_percentage = false
 
 [connection signal="body_entered" from="Pivot/attackArea" to="Pivot/attackArea" method="_on_body_entered"]
 [connection signal="body_exited" from="Pivot/attackArea" to="Pivot/attackArea" method="_on_body_exited"]

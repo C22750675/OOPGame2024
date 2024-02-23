@@ -12,6 +12,8 @@ extends CharacterBody3D
 
 @onready var attackArea = $Pivot/attackArea/attackArea/attackArea_debug
 
+# Player health
+var health = 100
 
 # Store the player's last position
 var last_position = Vector3.ZERO
@@ -30,10 +32,23 @@ var target_direction = Vector3.ZERO
 var target_enemy = null
 var min_distance = 7
 
+func update_health_bar():
+	
+	$playerHealth.value = health
+
+func take_damage(damage):
+
+	health -= damage
+
+	update_health_bar()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
 	sprite_backward.show()
+
+	$playerHealth.max_value = 100
+	$playerHealth.value = health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -58,7 +73,7 @@ func _physics_process(delta):
 
 		direction.z -= 1
 
-	# Normalize the direction vector to ensure constant movement speed
+	# Normalize the direction vector to ensure constant movement speed in all directions
 	if direction != Vector3.ZERO:
 
 		direction = direction.normalized()
@@ -84,6 +99,7 @@ func _physics_process(delta):
 
 	# Moving the Character
 	velocity = target_velocity
+
 	move_and_slide()
 
 	direction_management(direction)
@@ -110,52 +126,17 @@ func _physics_process(delta):
 		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
 		update_sprite_direction(fallback_direction)
 
+# This function change fixes issue with attack direction but causes inbuilt Godot issue
+func direction_management(direction):
 
-func direction_management(direction): 
+	var look_direction = direction
 
-	if target_enemy != null:
+	if look_direction == Vector3.ZERO and target_enemy != null:
+		look_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
 
-		target_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
-		
-		if attackArea.is_visible_in_tree():
-			
-			if target_direction != Vector3.ZERO:
-				
-				$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
-
-		else : 
-			
-			var look_direction = direction
-			
-			if look_direction == Vector3.ZERO:
-			
-				look_direction = target_direction
-			
-			if look_direction != Vector3.ZERO:
-			
-				$Pivot.basis = Basis.looking_at(target_direction, Vector3.UP)
-				update_sprite_direction(target_direction)
-
-	else:
-		
-		if attackArea.is_visible_in_tree():
-			
-			if target_direction != Vector3.ZERO:
-			
-				$Pivot.look_at(global_transform.origin + target_direction, Vector3.UP)
-		else :
-		
-			var look_direction = direction
-			
-			if look_direction == Vector3.ZERO:
-				
-				look_direction = target_direction
-			
-			if look_direction != Vector3.ZERO:
-				
-				$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
-
-				update_sprite_direction(direction)
+	if look_direction != Vector3.ZERO:
+		$Pivot.basis = Basis.looking_at(look_direction, Vector3.UP)
+		update_sprite_direction(look_direction)
 
 func find_nearest_enemy():
 
@@ -238,6 +219,13 @@ func sprite_direction(angle_degrees):
 	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) or angle_degrees == 360:
 		
 		sprite_right.show()
+
+# Take damage on collision with mob
+func _on_Mob_body_entered(body):
+
+	if body.is_in_group("Enemies"):
+
+		take_damage(10)
 	
 func hide_sprites():
 	# Hide all sprites
