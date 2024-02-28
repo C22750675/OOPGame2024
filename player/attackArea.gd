@@ -1,10 +1,12 @@
 extends Area3D
 
 var damage_amount = 10
+var knockback_amount = -2
 var attack_visual: MeshInstance3D
 
 var attack_cooldown: float = 0.5
 var last_attack_time = 0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,6 +34,7 @@ func _input(event):
 			for body in get_overlapping_bodies(): 
 				if body.is_in_group("Enemies"):
 					apply_damage(body)#calls func to do damage
+					apply_knockback(body)
 	else:
 		attack_visual.hide()
 
@@ -42,3 +45,9 @@ func _on_body_entered(body): # func is called when zone detects a body enetering
 func _on_body_exited(body): #func is called when zone detects a body exits it
 	if body.is_in_group("Enemies"):
 		check_enemies_in_zone() # checks if there are no bodies in the zone
+
+func apply_knockback(enemy : CharacterBody3D):
+	#Check if enemy has knockback method
+	if enemy.has_method("take_knockback"):
+		enemy.take_knockback(knockback_amount)
+		
