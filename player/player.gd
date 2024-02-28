@@ -32,23 +32,23 @@ var target_direction = Vector3.ZERO
 var target_enemy = null
 var min_distance = 7
 
-func update_health_bar():
-	
-	$playerHealth.value = health
-
 func take_damage(damage):
 
 	health -= damage
+	
+	$HealthBar3D.update_health(health)
+	
+# Take damage on collision with mob
+func _on_Mob_body_entered(body):
 
-	update_health_bar()
+	if body.is_in_group("Enemies"):
+
+		take_damage(10)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
 	sprite_backward.show()
-
-	$playerHealth.max_value = 100
-	$playerHealth.value = health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -219,13 +219,6 @@ func sprite_direction(angle_degrees):
 	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) or angle_degrees == 360:
 		
 		sprite_right.show()
-
-# Take damage on collision with mob
-func _on_Mob_body_entered(body):
-
-	if body.is_in_group("Enemies"):
-
-		take_damage(10)
 	
 func hide_sprites():
 	# Hide all sprites

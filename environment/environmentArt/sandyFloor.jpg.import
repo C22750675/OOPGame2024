@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwsmd8eapn0k0"
-path.s3tc="res://.godot/imported/crabTemplate.png-1e93a67350c9b6c29a4261cfb3f42d66.s3tc.ctex"
+uid="uid://csofvxgx2pp2a"
+path.s3tc="res://.godot/imported/sandyFloor.jpg-d8057d57c39c19f082252a33a853b0ab.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://crabTemplate.png"
-dest_files=["res://.godot/imported/crabTemplate.png-1e93a67350c9b6c29a4261cfb3f42d66.s3tc.ctex"]
+source_file="res://environment/environmentArt/sandyFloor.jpg"
+dest_files=["res://.godot/imported/sandyFloor.jpg-d8057d57c39c19f082252a33a853b0ab.s3tc.ctex"]
 
 [params]
 

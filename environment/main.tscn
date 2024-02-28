@@ -1,15 +1,15 @@
 [gd_scene load_steps=10 format=3 uid="uid://cce2ofdk2m3j5"]
 
-[ext_resource type="PackedScene" uid="uid://drfp8737erqji" path="res://player/player.tscn" id="1_ack5r"]
-[ext_resource type="Script" path="res://main.gd" id="1_unty3"]
-[ext_resource type="PackedScene" uid="uid://bposst2udwsnm" path="res://enemies/Mob.tscn" id="2_qne0q"]
-[ext_resource type="Texture2D" uid="uid://csofvxgx2pp2a" path="res://sandyFloor.jpg" id="3_0cci2"]
-[ext_resource type="AudioStream" uid="uid://ctehd2aho6vjo" path="res://audio/bubbles.mp3" id="4_p8lu4"]
+[ext_resource type="Script" path="res://environment/main.gd" id="1_b1xqc"]
+[ext_resource type="PackedScene" uid="uid://bposst2udwsnm" path="res://mob/Mob.tscn" id="2_8biir"]
+[ext_resource type="Texture2D" uid="uid://csofvxgx2pp2a" path="res://environment/environmentArt/sandyFloor.jpg" id="3_die2f"]
+[ext_resource type="PackedScene" uid="uid://drfp8737erqji" path="res://player/Player.tscn" id="4_7gklv"]
+[ext_resource type="AudioStream" uid="uid://ctehd2aho6vjo" path="res://audio/bubbles.mp3" id="5_2urcn"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_42cdm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bjg7y"]
-albedo_texture = ExtResource("3_0cci2")
+albedo_texture = ExtResource("3_die2f")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_u4oyr"]
 
@@ -21,8 +21,8 @@ _data = {
 point_count = 5
 
 [node name="Main" type="Node"]
-script = ExtResource("1_unty3")
-mob_scene = ExtResource("2_qne0q")
+script = ExtResource("1_b1xqc")
+mob_scene = ExtResource("2_8biir")
 
 [node name="killCounter" type="Label" parent="."]
 offset_right = 1.0
@@ -46,11 +46,11 @@ mesh = SubResource("CylinderMesh_u4oyr")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0683984, 0.997658, 0, -0.997658, 0.0683984, -2.13127, 7.19727, 2.68224)
 
-[node name="Player" parent="." instance=ExtResource("1_ack5r")]
+[node name="Player" parent="." instance=ExtResource("4_7gklv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Bubbles" type="AudioStreamPlayer" parent="Player"]
-stream = ExtResource("4_p8lu4")
+stream = ExtResource("5_2urcn")
 
 [node name="CameraPivot" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)

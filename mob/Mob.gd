@@ -28,7 +28,7 @@ func _physics_process(delta):
 
 	# Despawn the mob if it reaches edge of the map
 	if new_position.distance_to(Vector3.ZERO) > 25:
-		
+
 		queue_free()
 
 # This function will be called from the Main scene.
@@ -62,10 +62,12 @@ func take_damage(damage_amount):
 
 	# if the damage is 0 or less, don't do anything
 	if damage_amount <= 0:
+		
 		return
 	
 	# if the mob is already dead, don't do anything
 	if health <= 0:
+
 		return
 
 	# subtract the damage from the health

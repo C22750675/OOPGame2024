@@ -3,7 +3,7 @@ extends Node
 @export var mob_scene: PackedScene
 
 # Preload the mob script to read its global variables
-var Mob = preload("res://enemies/Mob.gd")
+var Mob = preload("res://mob/Mob.gd")
 
 
 func _on_mob_timer_timeout():

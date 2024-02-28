@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bposst2udwsnm"]
 
-[ext_resource type="Script" path="res://enemies/Mob.gd" id="1_32kma"]
-[ext_resource type="PackedScene" uid="uid://vvdjfyxqr3cq" path="res://art/mob.glb" id="1_sq4i3"]
+[ext_resource type="Script" path="res://mob/Mob.gd" id="1_32kma"]
+[ext_resource type="PackedScene" uid="uid://vvdjfyxqr3cq" path="res://mob/mobModels/mob.glb" id="2_5acdd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dhbjf"]
 size = Vector3(2.84009, 1.4444, 2.24567)
@@ -11,7 +11,7 @@ script = ExtResource("1_32kma")
 
 [node name="Pivot" type="Node3D" parent="."]
 
-[node name="Character" parent="Pivot" instance=ExtResource("1_sq4i3")]
+[node name="Character" parent="Pivot" instance=ExtResource("2_5acdd")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_dhbjf")
