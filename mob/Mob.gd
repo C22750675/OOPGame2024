@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 # Minimum speed of the mob in meters per second.
-@export var min_speed = 5
+@export var min_speed = 4
 # Maximum speed of the mob in meters per second.
 @export var max_speed = 6
 
@@ -11,8 +11,8 @@ var random_speed = 5
 @export var fall_acceleration = 75
 
 var target_player = null
-var min_distance = 7
-var health = 50
+var min_distance = 15
+var health = 10
 
 func _physics_process(delta):
 
@@ -22,18 +22,31 @@ func _physics_process(delta):
 
 	# If the mob is not on the floor, apply gravity
 	if not is_on_floor():
+
 		velocity.y -= fall_acceleration * delta
 
-	# Calculate the players next position
+	# If the mob is within minimum distance of the player, change its movement direction
+	if target_player != null and global_transform.origin.distance_to(target_player.global_transform.origin) < min_distance:
+		
+		direction = (target_player.global_transform.origin - global_transform.origin).normalized()
+		
+		
+		velocity = direction * random_speed
+	else:
+		
+		velocity = velocity.normalized() * random_speed
+
+	# Calculate the players next position to anticipate their movement
 	var new_position = position + direction * random_speed * delta
 
-	# Despawn the mob if it reaches edge of the map
+	# Despawn the mob if the next position reaches edge of the map
 	if new_position.distance_to(Vector3.ZERO) > 25:
 
 		queue_free()
 		
-	find_nearest_player()
-	direction_management(direction)
+	find_player()
+
+	direction_management()
 	
 
 # This function will be called from the Main scene.
@@ -86,49 +99,43 @@ func take_damage(damage_amount):
 		GlobalVars.mobsKilled += 1
 
 func take_knockback(knockback_amount : float):
+
 	var knockback_direction = (target_player.global_transform.origin - global_transform.origin).normalized()
-	var knockback_distance = knockback_amount
+	var knockback_force = knockback_direction * knockback_amount
+
+	# Apply the knockback force to the mob's velocity
+	velocity += knockback_force
 	
-	var knockback_vector = knockback_direction * knockback_distance
-	
-	# Move the character in the opposite direction of knockback
-	global_transform.origin += knockback_vector
-	move_and_slide()
-	
-func find_nearest_player():
-	# Retrieve all nodes tagged as enemies in the scene
+func find_player():
+
+	# Retrieve player node
 	var players = get_tree().get_nodes_in_group("player")
+
+	# Get the first player in the list
+	var player = players[0]
 	
-	# If there are no enemies, return early
-	if players.size() == 0:
-		target_player = null
-		return
+	var distance_to_player = global_transform.origin.distance_to(player.global_transform.origin)
+
+	# If the current enemy is closer than the previously closest one, update the closest enemy
+	if distance_to_player < min_distance:
+
+		target_player = player
+
+	else:
 		
-	var closest_distance = float(min_distance)
-	var closest_player = null
+		target_player = null
 	
 
-	# Iterate through each enemy and calculate the distance to the characteraa
-	for player in players:
-		var distance_to_enemy = global_transform.origin.distance_to(player.global_transform.origin)
-	
-		# If the current enemy is closer than the previously closest one, update the closest enemy
-		if distance_to_enemy < closest_distance:
-			closest_distance = distance_to_enemy
-			closest_player = player
-			
-	# Update the target_enemy variable with the closest enemy found
-	target_player = closest_player
-	
+func direction_management():
 
-func direction_management(direction):
-	
-	var look_direction = direction
+	if target_player != null:
 
-	if look_direction == Vector3.ZERO and target_player != null:
-		look_direction = (target_player.global_transform.origin - global_transform.origin).normalized()
+		var look_direction = (target_player.global_transform.origin - global_transform.origin).normalized()
+		
+		
+		if look_direction != Vector3.ZERO:
 
-	if look_direction != Vector3.ZERO:
-		var look_rotation = Basis().looking_at(look_direction, Vector3.UP)
-		$Pivot.global_transform.basis = look_rotation
-	
+			var look_rotation = Basis().looking_at(look_direction, Vector3.UP)
+
+
+			$Pivot.global_transform.basis = look_rotation

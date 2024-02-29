@@ -10,6 +10,8 @@ extends CharacterBody3D
 @onready var sprite_down_left = $crabDownLeft
 @onready var sprite_down_right = $crabDownRight
 
+@onready var damage_timer = $damageTimer # Timer for taking damage
+
 @onready var attackArea = $Pivot/attackArea/attackArea/attackArea_debug
 
 # Player health
@@ -18,6 +20,9 @@ var health = 100
 # Store the player's last position
 var last_position = Vector3.ZERO
 
+var is_colliding_with_mob = false
+
+var colliding_mobs = [] # List of mobs the player is currently colliding with
 
 # How fast the player moves in meters per second.
 @export var speed = 14
@@ -31,24 +36,6 @@ var target_velocity = Vector3.ZERO
 var target_direction = Vector3.ZERO
 var target_enemy = null
 var min_distance = 7
-
-func take_damage(damage):
-	
-	if $SubViewport/HealthBar3D.value < damage:
-		
-		damage = $SubViewport/HealthBar3D.value
-		
-	$SubViewport/HealthBar3D.value -= damage
-	
-# Take damage on collision with mob
-func _on_Mob_body_entered(body):
-
-	print(body)
-
-	if body.is_in_group("Enemies"):
-
-		take_damage(10)
-		
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -131,6 +118,74 @@ func _physics_process(delta):
 		$Pivot.basis = Basis.IDENTITY
 		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
 		update_sprite_direction(fallback_direction)
+
+func take_damage(damage):
+	
+	if $SubViewport/HealthBar3D.value < damage:
+		
+		damage = $SubViewport/HealthBar3D.value
+		
+	$SubViewport/HealthBar3D.value -= damage
+
+	if $SubViewport/HealthBar3D.value == 0:
+		
+		gameOver()
+	
+	damage_timer.start()
+	
+# Take damage on collision with mob
+func _on_Mob_body_entered(body):
+
+	if body.is_in_group("Enemies"):
+		# Add the mob to the array when the player collides with it
+		colliding_mobs.append(body)
+
+		take_damage(5)
+
+		damage_timer.start() # Start the timer when the player collides with a mob
+
+func _on_Mob_body_exited(body):
+
+	if body.is_in_group("Enemies"):
+
+		# Remove the mob from the array when the player stops colliding with it
+		colliding_mobs.erase(body)
+
+	if colliding_mobs.size() == 0:
+		
+		damage_timer.stop() # Stop the timer when the player is no longer colliding with any mob
+
+func _on_damage_timer_timeout():
+	
+	for mob in colliding_mobs:
+
+		take_damage(5)
+
+# Game over function
+func gameOver():
+	
+	$SubViewport/HealthBar3D.value = 100
+		
+	global_transform.origin = Vector3(0, 0, 0) # reset player to starting position
+
+	velocity = Vector3.ZERO # stop player from moving
+	
+	target_velocity = Vector3.ZERO # set target velocity to zero
+
+	target_direction = Vector3.ZERO # set target direction to zero
+
+	target_enemy = null # set target enemy to null
+
+	var mobs = get_tree().get_nodes_in_group("Enemies")
+
+	for mob in mobs:
+		
+		mob.queue_free()
+
+	# reset player's rotation
+	$Pivot.basis = Basis.IDENTITY # reset player's rotation
+	$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+	update_sprite_direction(fallback_direction)
 
 # This function change fixes issue with attack direction but causes inbuilt Godot issue
 func direction_management(direction):

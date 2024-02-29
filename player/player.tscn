@@ -19,8 +19,8 @@ script = ExtResource("1_t5iwf")
 
 [node name="Area3D" type="Area3D" parent="."]
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00012207, 0, 0)
+[node name="MobCollision" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -0.00012207, 0, 0)
 shape = SubResource("BoxShape3D_8rgmq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -29,7 +29,8 @@ shape = SubResource("BoxShape3D_8rgmq")
 
 [node name="Pivot" type="Node3D" parent="."]
 
-[node name="Character" parent="Pivot" instance=ExtResource("1_3xpvg")]
+[node name="DebugPlayer" parent="Pivot" instance=ExtResource("1_3xpvg")]
+visible = false
 
 [node name="attackArea" type="Area3D" parent="Pivot"]
 script = ExtResource("3_rv3yr")
@@ -106,10 +107,11 @@ transparent_bg = true
 [node name="HealthBar3D" parent="SubViewport" instance=ExtResource("5_gfcm2")]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_vi6jk")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_Mob_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_Mob_body_exited"]
 [connection signal="body_entered" from="Pivot/attackArea" to="Pivot/attackArea" method="_on_body_entered"]
 [connection signal="body_exited" from="Pivot/attackArea" to="Pivot/attackArea" method="_on_body_exited"]
