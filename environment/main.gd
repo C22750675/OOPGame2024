@@ -22,6 +22,6 @@ func _on_mob_timer_timeout():
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
 
-func _process(delta):
+func _process(_delta):
 
 	$killCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)

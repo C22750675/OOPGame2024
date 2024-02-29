@@ -33,22 +33,28 @@ var target_enemy = null
 var min_distance = 7
 
 func take_damage(damage):
-
-	health -= damage
 	
-	$HealthBar3D.update_health(health)
+	if $SubViewport/HealthBar3D.value < damage:
+		
+		damage = $SubViewport/HealthBar3D.value
+		
+	$SubViewport/HealthBar3D.value -= damage
 	
 # Take damage on collision with mob
 func _on_Mob_body_entered(body):
 
+	print(body)
+
 	if body.is_in_group("Enemies"):
 
 		take_damage(10)
+		
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
 	sprite_backward.show()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -155,7 +161,9 @@ func find_nearest_enemy():
 
 	# Iterate through each enemy and calculate the distance to the character
 	for enemy in enemies:
+		
 		var distance_to_enemy = global_transform.origin.distance_to(enemy.global_transform.origin)
+	
 	
 		# If the current enemy is closer than the previously closest one, update the closest enemy
 		if distance_to_enemy < closest_distance:
@@ -165,17 +173,17 @@ func find_nearest_enemy():
 	# Update the target_enemy variable with the closest enemy found
 	target_enemy = closest_enemy
 	
-func update_sprite_direction(target_direction):
+func update_sprite_direction(new_target_direction):
 
 	var angle_degrees
 
+	if new_target_direction != Vector3.ZERO:
 
-	if target_direction != Vector3.ZERO:
-
-		angle_degrees = rad_to_deg(atan2(target_direction.z, target_direction.x))
+		angle_degrees = rad_to_deg(atan2(new_target_direction.z, new_target_direction.x))
 
 		hide_sprites()
 
+		# Show the sprite corresponding to the current direction
 		sprite_direction(angle_degrees)
 	
 func sprite_direction(angle_degrees):
