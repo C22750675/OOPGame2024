@@ -191,11 +191,21 @@ func gameOver():
 func direction_management(direction):
 
 	var look_direction = direction
-
-	if look_direction == Vector3.ZERO and target_enemy != null:
-		look_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
-
+	if look_direction == Vector3.ZERO:
+		look_direction = fallback_direction
+		$Pivot.basis = Basis.IDENTITY # reset player's rotation
+		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+		update_sprite_direction(fallback_direction)
 	if look_direction != Vector3.ZERO:
+		$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
+		update_sprite_direction(direction)
+	
+	if target_enemy != null:
+		look_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
+		$Pivot.basis = Basis.looking_at(look_direction,Vector3.UP)
+		update_sprite_direction(look_direction)
+		
+	elif target_enemy == null:
 		$Pivot.basis = Basis.looking_at(look_direction, Vector3.UP)
 		update_sprite_direction(look_direction)
 
