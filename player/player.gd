@@ -47,8 +47,7 @@ func _ready():
 func _physics_process(delta):
 
 	var direction = Vector3.ZERO
-
-
+	
 	# Move the character depending on the input
 	if Input.is_action_pressed("move_right"):
 
@@ -189,25 +188,29 @@ func gameOver():
 	update_sprite_direction(fallback_direction)
 
 func direction_management(direction):
-
 	var look_direction = direction
-	if look_direction == Vector3.ZERO:
+
+	if look_direction == Vector3.ZERO and target_enemy == null:
 		look_direction = fallback_direction
-		$Pivot.basis = Basis.IDENTITY # reset player's rotation
-		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
-		update_sprite_direction(fallback_direction)
-	if look_direction != Vector3.ZERO:
-		$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
-		update_sprite_direction(direction)
-	
+		rotate_player(look_direction)
+		return
+
 	if target_enemy != null:
 		look_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
-		$Pivot.basis = Basis.looking_at(look_direction,Vector3.UP)
-		update_sprite_direction(look_direction)
-		
-	elif target_enemy == null:
-		$Pivot.basis = Basis.looking_at(look_direction, Vector3.UP)
-		update_sprite_direction(look_direction)
+		rotate_player(look_direction)
+	elif look_direction != Vector3.ZERO:
+		rotate_player(look_direction)
+
+func rotate_player(target_direction):
+	var target_rotation = Basis().looking_at(target_direction, Vector3.UP)
+	var current_rotation = $Pivot.global_transform.basis
+
+	var new_rotation = current_rotation.slerp(target_rotation, 0.08) # Adjust the interpolation factor (0.1) to control the rotation speed
+
+	$Pivot.global_transform.basis = new_rotation
+
+	update_sprite_direction(target_direction)
+
 
 func find_nearest_enemy():
 
@@ -301,3 +304,5 @@ func hide_sprites():
 	sprite_up_right.hide()
 	sprite_down_left.hide()
 	sprite_down_right.hide()
+	
+	
