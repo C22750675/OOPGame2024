@@ -46,6 +46,7 @@ mesh = SubResource("SphereMesh_l328t")
 [node name="crabUp" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(152, 392, 112, 72)
@@ -53,6 +54,7 @@ region_rect = Rect2(152, 392, 112, 72)
 [node name="crabDown" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(160, 160, 112, 88)
@@ -60,6 +62,7 @@ region_rect = Rect2(160, 160, 112, 88)
 [node name="crabLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(272, 392, 104, 72)
@@ -67,6 +70,7 @@ region_rect = Rect2(272, 392, 104, 72)
 [node name="crabRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(40, 392, 104, 72)
@@ -74,6 +78,7 @@ region_rect = Rect2(40, 392, 104, 72)
 [node name="crabUpLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(264, 392, 112, 80)
@@ -81,6 +86,7 @@ region_rect = Rect2(264, 392, 112, 80)
 [node name="crabUpRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(32, 392, 112, 72)
@@ -88,6 +94,7 @@ region_rect = Rect2(32, 392, 112, 72)
 [node name="crabDownLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(280, 160, 112, 96)
@@ -95,6 +102,7 @@ region_rect = Rect2(280, 160, 112, 96)
 [node name="crabDownRight" type="Sprite3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
 visible = false
+render_priority = 100
 texture = ExtResource("3_vmck4")
 region_enabled = true
 region_rect = Rect2(48, 152, 112, 96)
