@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8vnpg2b68fvw"]
+
+[ext_resource type="PackedScene" uid="uid://dr31ll2h5qouk" path="res://environment/environmentModels/Amphitheater.dae" id="1_lj6cb"]
+
+[node name="Amphitheater" instance=ExtResource("1_lj6cb")]
