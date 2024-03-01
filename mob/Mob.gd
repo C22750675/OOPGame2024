@@ -1,53 +1,92 @@
 extends CharacterBody3D
 
 # Minimum speed of the mob in meters per second.
-@export var min_speed = 4
-# Maximum speed of the mob in meters per second.
-@export var max_speed = 6
+@export var min_speed = 3
 
-var random_speed = 5
+# Maximum speed of the mob in meters per second.
+@export var max_speed = 5
+
+# Random speed of the mob in meters per second.
+var random_speed
 
 # Acceleration of the mob in meters per second squared.
 @export var fall_acceleration = 75
 
 var target_player = null
-var min_distance = 15
-var health = 10
+var min_distance = 10
+var health = 20
+
+# Add a timer for the knockback effect
+var knockback_timer = 0.2 # Mob will be knocked back for x seconds
+var knockback_time = 0
+
+var knockback_force = Vector3.ZERO
+
+var movementState = "normal"
+
 
 func _physics_process(delta):
 
-	var direction = Vector3.ZERO
-
 	move_and_slide()
 
-	# If the mob is not on the floor, apply gravity
-	if not is_on_floor():
-
-		velocity.y -= fall_acceleration * delta
-
-	# If the mob is within minimum distance of the player, change its movement direction
-	if target_player != null and global_transform.origin.distance_to(target_player.global_transform.origin) < min_distance:
-		
-		direction = (target_player.global_transform.origin - global_transform.origin).normalized()
-		
-		
-		velocity = direction * random_speed
-	else:
-		
-		velocity = velocity.normalized() * random_speed
-
-	# Calculate the players next position to anticipate their movement
-	var new_position = position + direction * random_speed * delta
-
-	# Despawn the mob if the next position reaches edge of the map
-	if new_position.distance_to(Vector3.ZERO) > 25:
-
-		queue_free()
-		
 	find_player()
 
 	direction_management()
-	
+
+	if movementState == "normal":
+
+		var direction = Vector3.ZERO
+
+
+		# If the mob is not on the floor, apply gravity
+		if not is_on_floor():
+
+			velocity.y -= fall_acceleration * delta
+
+		# If the mob is within minimum distance of the player, change its movement direction
+		if target_player != null and global_transform.origin.distance_to(target_player.global_transform.origin) < min_distance:
+			
+			direction = (target_player.global_transform.origin - global_transform.origin).normalized()
+			
+			
+			velocity = direction * random_speed
+		else:
+			
+			velocity = velocity.normalized() * random_speed
+
+		# Calculate the players next position to anticipate their movement
+		var new_position = position + direction * random_speed * delta
+
+		# Despawn the mob if the next position reaches edge of the map
+		if new_position.distance_to(Vector3.ZERO) > 25:
+
+			queue_free()
+			
+
+	elif movementState == "knockback":
+
+		# Apply the knockback force to the mob's velocity
+		velocity += knockback_force
+
+		# Reduce the knockback force by a damping factor
+		var damping_factor = 0.3
+
+		knockback_force *= damping_factor
+
+
+		# Increase the knockback timer
+		knockback_time += delta
+
+		# Reset the state to "normal" after the knockback effect is over
+		if knockback_time >= knockback_timer:
+
+			movementState = "normal"
+
+			# Reset the knockback force
+			knockback_force = Vector3.ZERO
+
+			knockback_time = 0
+
 
 # This function will be called from the Main scene.
 func initialize(start_position, player_position):
@@ -98,13 +137,14 @@ func take_damage(damage_amount):
 		# increment the number of mobs killed
 		GlobalVars.mobsKilled += 1
 
-func take_knockback(knockback_amount : float):
-
-	var knockback_direction = (target_player.global_transform.origin - global_transform.origin).normalized()
-	var knockback_force = knockback_direction * knockback_amount
+func take_knockback(force : Vector3):
 
 	# Apply the knockback force to the mob's velocity
+	knockback_force = force
 	velocity += knockback_force
+
+	# Set the movement state to "knockback"
+	movementState = "knockback"
 	
 func find_player():
 
@@ -135,7 +175,7 @@ func direction_management():
 		
 		if look_direction != Vector3.ZERO:
 
-			var look_rotation = Basis().looking_at(look_direction, Vector3.UP)
+			var look_transform = Transform3D().looking_at(look_direction, Vector3.UP)
 
 
-			$Pivot.global_transform.basis = look_rotation
+			$Pivot.global_transform.basis = look_transform.basis

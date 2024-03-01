@@ -161,7 +161,7 @@ func _on_damage_timer_timeout():
 
 		take_damage(5)
 
-# Game over function
+# Game over function called when player's health is 0
 func gameOver():
 	
 	$SubViewport/HealthBar3D.value = 100

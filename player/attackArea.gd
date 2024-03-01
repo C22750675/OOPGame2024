@@ -1,15 +1,16 @@
 extends Area3D
 
 var damage_amount = 10
-var knockback_amount = -2
+var knockback_amount = 12 # Mob speed when hit by player
 var attack_visual: MeshInstance3D
 
-var attack_cooldown: float = 0.5
+var attack_cooldown: float = 0.75
 var last_attack_time = 0
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
 	collision_mask = 1
 	attack_visual = $attackArea/attackArea_debug
 	
@@ -47,7 +48,12 @@ func _on_body_exited(body): #func is called when zone detects a body exits it
 		check_enemies_in_zone() # checks if there are no bodies in the zone
 
 func apply_knockback(enemy : CharacterBody3D):
+
 	#Check if enemy has knockback method
 	if enemy.has_method("take_knockback"):
-		enemy.take_knockback(knockback_amount)
+
+		# Calculate knockback direction
+		var knockback_direction = (enemy.global_transform.origin - global_transform.origin).normalized()
+		
+		enemy.take_knockback(knockback_direction * knockback_amount)
 		
