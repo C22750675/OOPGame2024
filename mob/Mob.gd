@@ -13,7 +13,7 @@ var random_speed
 @export var fall_acceleration = 75
 
 var target_player = null
-var min_distance = 10
+var min_distance = 15
 var health = 20
 
 # Add a timer for the knockback effect
@@ -23,6 +23,29 @@ var knockback_time = 0
 var knockback_force = Vector3.ZERO
 
 var movementState = "normal"
+
+func _ready():
+
+	if GlobalVars.currentRound == 1:
+
+		min_speed = 3
+		max_speed = 5
+	
+	elif GlobalVars.currentRound == 2:
+
+		min_speed = 4
+		max_speed = 6
+		
+	elif GlobalVars.currentRound == 3:
+
+		min_speed = 5
+		max_speed = 7
+	
+	elif GlobalVars.currentRound == 4:
+
+		min_speed = 6
+		max_speed = 8
+
 
 
 func _physics_process(delta):

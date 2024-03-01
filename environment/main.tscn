@@ -27,7 +27,20 @@ mob_scene = ExtResource("2_8biir")
 [node name="killCounter" type="Label" parent="."]
 offset_right = 1.0
 offset_bottom = 23.0
-scale = Vector2(5, 5)
+scale = Vector2(3, 3)
+
+[node name="roundTimerDisplay" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+scale = Vector2(3, 3)
+horizontal_alignment = 1
+
+[node name="roundTimer" type="Timer" parent="."]
 
 [node name="Ground" type="Node" parent="."]
 
@@ -74,5 +87,6 @@ curve = SubResource("Curve3D_cvafn")
 [node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 25, 0, 0)
 
+[connection signal="timeout" from="roundTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="timeout" from="Player/damageTimer" to="Player" method="_on_damage_timer_timeout"]
 [connection signal="timeout" from="mobSpawnTimer" to="." method="_on_mob_timer_timeout"]

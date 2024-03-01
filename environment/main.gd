@@ -5,6 +5,11 @@ extends Node
 # Preload the mob script to read its global variables
 var Mob = preload("res://mob/Mob.gd")
 
+func _ready():
+
+	# Start the round timer
+	$roundTimer.start()
+
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -25,3 +30,12 @@ func _on_mob_timer_timeout():
 func _process(_delta):
 
 	$killCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
+	$roundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
+
+
+func _on_round_timer_timeout():
+	
+	if GlobalVars.roundTimer > 0:
+
+		GlobalVars.roundTimer -= 1
+		
