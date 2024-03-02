@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://dyysl1jxckp0j"]
+
+[ext_resource type="Script" path="res://powerUp/powerUp.gd" id="1_4vhiy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x0il7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skl0e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kfk0l"]
+albedo_color = Color(0.894118, 0.92549, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rk4ht"]
+material = SubResource("StandardMaterial3D_kfk0l")
+size = Vector3(2, 2, 2)
+
+[node name="PowerUp" type="CharacterBody3D"]
+script = ExtResource("1_4vhiy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
+shape = SubResource("BoxShape3D_x0il7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.001, 1, -0.002)
+material_override = SubResource("StandardMaterial3D_skl0e")
+mesh = SubResource("BoxMesh_rk4ht")
