@@ -14,6 +14,7 @@ func _ready():
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
+	
 
 	# Choose a random location on the SpawnPath.
 	# We store the reference to the SpawnLocation node.
@@ -26,6 +27,7 @@ func _on_mob_timer_timeout():
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+
 
 func _process(_delta):
 

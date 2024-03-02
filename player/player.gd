@@ -143,7 +143,10 @@ func _on_Mob_body_entered(body):
 
 		take_damage(5)
 
-		damage_timer.start() # Start the timer when the player collides with a mob
+		damage_timer.start()
+		
+	if body.name == "PowerUp":
+		apply_health_power_up(body) 
 
 func _on_Mob_body_exited(body):
 
@@ -161,6 +164,15 @@ func _on_damage_timer_timeout():
 	for mob in colliding_mobs:
 
 		take_damage(5)
+		
+		
+# Function to apply health increase from power-up
+func apply_health_power_up(powerUp):
+	# Increase player's health (you can adjust the amount as needed)
+	health += 20  # For example, adding 20 health points
+   
+	# Remove the power-up from the scene
+	powerUp.queue_free()
 
 # Game over function called when player's health is 0
 func gameOver():
