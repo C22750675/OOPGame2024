@@ -12,7 +12,7 @@ var last_attack_time = 0
 func _ready():
 
 	collision_mask = 1
-	attack_visual = $attackArea/attackArea_debug
+	attack_visual = $AttackAreaPoints/AttackAreaDebug
 	
 	attack_visual.hide()
 	
@@ -24,7 +24,7 @@ func apply_damage(enemy : CharacterBody3D):
 		
 func check_enemies_in_zone():
 	for body in get_overlapping_bodies(): #goes through every body that is in the zone
-		if body.is_in_group("Enemies"):
+		if body.is_in_group("enemies"):
 			return true
 	return false
 
@@ -33,18 +33,18 @@ func _input(event):
 		attack_visual.show() # display attack area
 		if check_enemies_in_zone(): #calls func returns true or false
 			for body in get_overlapping_bodies(): 
-				if body.is_in_group("Enemies"):
+				if body.is_in_group("enemies"):
 					apply_damage(body)#calls func to do damage
 					apply_knockback(body)
 	else:
 		attack_visual.hide()
 
 func _on_body_entered(body): # func is called when zone detects a body enetering it
-	if body.is_in_group("Enemies"):
+	if body.is_in_group("enemies"):
 		check_enemies_in_zone()
 
 func _on_body_exited(body): #func is called when zone detects a body exits it
-	if body.is_in_group("Enemies"):
+	if body.is_in_group("enemies"):
 		check_enemies_in_zone() # checks if there are no bodies in the zone
 
 func apply_knockback(enemy : CharacterBody3D):

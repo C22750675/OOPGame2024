@@ -4,14 +4,40 @@ extends Node
 
 # Preload the mob script to read its global variables
 var Mob = preload("res://mob/Mob.gd")
+var HealthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 
 func _ready():
 
 	# Start the round timer
 	$roundTimer.start()
+	
+	# Start the HealthPowerUpTimer
+	$healthPowerUpTimer.start()
+	
+func _on_healthPowerUpTimer_timeout():
+
+	print("Health Power-Up Timer has expired")
+	
+	var healthPowerUp = HealthPowerUpScene.instantiate()
+	var player_position = $Player.position
+
+	# Add the power-up to the scene
+	add_child(healthPowerUp)
+	
+	# Calculate a random position on top of the ground
+	var ground_radius = 50  # Replace this with the actual radius of your ground
+	var angle = randf_range(0, 2 * PI)
+	var x = ground_radius * cos(angle)
+	var z = ground_radius * sin(angle)
+	var y = player_position.y
+	var position = Vector3(x, y, z)
+	
+	# Set the power-up's position
+	healthPowerUp.global_transform.origin = position
 
 
-func _on_mob_timer_timeout():
+func _on_mobSpawnTimer_timeout():
+
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
 	
@@ -35,7 +61,7 @@ func _process(_delta):
 	$roundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
 
 
-func _on_round_timer_timeout():
+func _on_roundTimer_timeout():
 	
 	if GlobalVars.roundTimer > 0:
 
