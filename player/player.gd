@@ -10,9 +10,9 @@ extends CharacterBody3D
 @onready var sprite_down_left = $crabDownLeft
 @onready var sprite_down_right = $crabDownRight
 
-@onready var damage_timer = $damageTimer # Timer for taking damage
+@onready var damageTimer = $damageTimer # Timer for taking damage
 
-@onready var attackArea = $Pivot/attackArea/attackArea/attackArea_debug
+@onready var attackArea = $Pivot/AttackArea/AttackAreaPoints/AttackAreaDebug
 
 # Player health
 var health = 100
@@ -131,35 +131,51 @@ func take_damage(damage):
 		
 		gameOver()
 	
-	damage_timer.start()
+	damageTimer.start()
 	
 # Take damage on collision with mob
 func _on_Mob_body_entered(body):
 
-	if body.is_in_group("Enemies"):
+	if body.is_in_group("enemies"):
 		# Add the mob to the array when the player collides with it
 		colliding_mobs.append(body)
 
 		take_damage(5)
 
-		damage_timer.start() # Start the timer when the player collides with a mob
+		damageTimer.start()
+
+func _on_HealthPowerUp_body_entered(body):
+
+	if body.is_in_group("powerUp"):
+		
+		apply_HealthPowerUp(body)
 
 func _on_Mob_body_exited(body):
 
-	if body.is_in_group("Enemies"):
+	if body.is_in_group("enemies"):
 
 		# Remove the mob from the array when the player stops colliding with it
 		colliding_mobs.erase(body)
 
 	if colliding_mobs.size() == 0:
 		
-		damage_timer.stop() # Stop the timer when the player is no longer colliding with any mob
+		damageTimer.stop() # Stop the timer when the player is no longer colliding with any mob
 
-func _on_damage_timer_timeout():
+func _on_damageTimer_timeout():
 	
 	for mob in colliding_mobs:
 
 		take_damage(5)
+		
+		
+# Function to apply health increase from power-up
+func apply_HealthPowerUp(body):
+	
+	# Increase player's health (you can adjust the amount as needed)
+	health += 20  # For example, adding 20 health points
+   
+	# Remove the power-up from the scene
+	body.queue_free()
 
 # Game over function called when player's health is 0
 func gameOver():
@@ -176,7 +192,7 @@ func gameOver():
 
 	target_enemy = null # set target enemy to null
 
-	var mobs = get_tree().get_nodes_in_group("Enemies")
+	var mobs = get_tree().get_nodes_in_group("enemies")
 
 	for mob in mobs:
 		
@@ -189,11 +205,22 @@ func gameOver():
 
 func direction_management(direction):
 	var look_direction = direction
-
 	if look_direction == Vector3.ZERO and target_enemy == null:
 		look_direction = fallback_direction
 		rotate_player(look_direction)
 		return
+
+
+	if look_direction == Vector3.ZERO:
+		look_direction = fallback_direction
+		$Pivot.basis = Basis.IDENTITY # reset player's rotation
+		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+		update_sprite_direction(fallback_direction)
+
+	if look_direction != Vector3.ZERO:
+		$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
+		update_sprite_direction(direction)
+	
 
 	if target_enemy != null:
 		look_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
@@ -215,8 +242,9 @@ func rotate_player(target_direction):
 func find_nearest_enemy():
 
 	# Retrieve all nodes tagged as enemies in the scene
-	var enemies = get_tree().get_nodes_in_group("Enemies")
+	var enemies = get_tree().get_nodes_in_group("enemies")
 	
+
 	# If there are no enemies, return early
 	if enemies.size() == 0:
 

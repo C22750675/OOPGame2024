@@ -6,7 +6,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_dhbjf"]
 size = Vector3(3, 1.4444, 2.67419)
 
-[node name="Mob" type="CharacterBody3D" groups=["Enemies"]]
+[node name="Mob" type="CharacterBody3D" groups=["enemies"]]
 script = ExtResource("1_32kma")
 
 [node name="Pivot" type="Node3D" parent="."]
