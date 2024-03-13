@@ -1,32 +1,30 @@
 extends Area3D
 
 var damage_amount = 10
-var knockback_amount = 12 # Mob speed when hit by player
+var knockback_amount = 12
 var attack_visual: MeshInstance3D
-
 var attack_cooldown: float = 0.75
-var last_attack_time = 0
+var time_since_last_attack: float = 0
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-
 	collision_mask = 1
 	attack_visual = $AttackAreaPoints/AttackAreaDebug
 	
+
 	attack_visual.hide()
-	
+
 func apply_damage(enemy : CharacterBody3D):
-	#check if enemy has health component
 	if enemy.has_method("take_damage"):
-		#call take_damage method from mob.gd and pass damage_amount
 		enemy.take_damage(damage_amount)
-		
+
 func check_enemies_in_zone():
 	for body in get_overlapping_bodies(): #goes through every body that is in the zone
 		if body.is_in_group("enemies"):
 			return true
 	return false
+
+func _process(delta):
+	time_since_last_attack += delta
 
 func _input(event):
 	if event.is_action_pressed("attack"):
