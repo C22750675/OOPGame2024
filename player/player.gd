@@ -168,11 +168,20 @@ func _on_damageTimer_timeout():
 		take_damage(5)
 		
 		
-# Function to apply health increase from power-up
+# Function to apply health increase from power up
 func apply_HealthPowerUp(body):
 	
-	# Increase player's health (you can adjust the amount as needed)
-	health += 20  # For example, adding 20 health points
+	var givenHealth = 0
+
+	if $SubViewport/HealthBar3D.value > 80:
+		
+		givenHealth = 100 - $SubViewport/HealthBar3D.value
+
+	elif $SubViewport/HealthBar3D.value <= 80:
+		
+		givenHealth = 20
+
+	$SubViewport/HealthBar3D.value += givenHealth
    
 	# Remove the power-up from the scene
 	body.queue_free()
@@ -192,11 +201,19 @@ func gameOver():
 
 	target_enemy = null # set target enemy to null
 
-	var mobs = get_tree().get_nodes_in_group("enemies")
+	var mobsToFree = get_tree().get_nodes_in_group("enemies")
 
-	for mob in mobs:
+	# Append power ups on screen to enemiesToFree
+	var healthPowerUpsToFree = get_tree().get_nodes_in_group("powerUp")
+
+
+	for mob in mobsToFree:
 		
 		mob.queue_free()
+
+	for powerUp in healthPowerUpsToFree:
+		
+		powerUp.queue_free()
 
 	# reset player's rotation
 	$Pivot.basis = Basis.IDENTITY # reset player's rotation

@@ -13,8 +13,8 @@ var random_speed
 @export var fall_acceleration = 75
 
 var target_player = null
-var min_distance = 15
-var health = 20
+var targetDistance = 50
+@export var health = 20
 
 # Add a timer for the knockback effect
 var knockback_timer = 0.2 # Mob will be knocked back for x seconds
@@ -24,6 +24,7 @@ var knockback_force = Vector3.ZERO
 
 var movementState = "normal"
 
+# Called when the node enters the scene tree for the first time.
 func _ready():
 
 	if GlobalVars.currentRound == 1:
@@ -47,7 +48,6 @@ func _ready():
 		max_speed = 8
 
 
-
 func _physics_process(delta):
 
 	move_and_slide()
@@ -66,13 +66,14 @@ func _physics_process(delta):
 
 			velocity.y -= fall_acceleration * delta
 
-		# If the mob is within minimum distance of the player, change its movement direction
-		if target_player != null and global_transform.origin.distance_to(target_player.global_transform.origin) < min_distance:
+		# If the mob is within target distance of the player, change its movement direction
+		if target_player != null and global_transform.origin.distance_to(target_player.global_transform.origin) < targetDistance:
 			
+			# Set the direction to the player's position
 			direction = (target_player.global_transform.origin - global_transform.origin).normalized()
-			
-			
-			velocity = direction * random_speed
+			velocity = direction
+			velocity = velocity.normalized() * random_speed
+
 		else:
 			
 			velocity = velocity.normalized() * random_speed
@@ -180,7 +181,7 @@ func find_player():
 	var distance_to_player = global_transform.origin.distance_to(player.global_transform.origin)
 
 	# If the current enemy is closer than the previously closest one, update the closest enemy
-	if distance_to_player < min_distance:
+	if distance_to_player < targetDistance:
 
 		target_player = player
 
