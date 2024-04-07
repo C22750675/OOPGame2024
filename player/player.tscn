@@ -34,6 +34,7 @@ shape = SubResource("BoxShape3D_8rgmq")
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="DebugPlayer" parent="Pivot" instance=ExtResource("1_3xpvg")]
+visible = false
 
 [node name="AttackArea" type="Area3D" parent="Pivot"]
 collision_layer = 2
@@ -124,8 +125,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_vi6jk")
 
-[connection signal="body_entered" from="Area3D" to="." method="_on_HealthPowerUp_body_entered"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_Mob_body_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_HealthPowerUp_body_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_Mob_body_exited"]
 [connection signal="body_entered" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_on_body_entered"]
 [connection signal="body_exited" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_on_body_exited"]
