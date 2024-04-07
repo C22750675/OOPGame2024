@@ -15,8 +15,6 @@ func _ready():
 	$healthPowerUpTimer.start()
 	
 func _on_healthPowerUpTimer_timeout():
-
-	print("Health Power-Up Timer has expired")
 	
 	var healthPowerUp = HealthPowerUpScene.instantiate()
 	var player_position = $Player.position
@@ -25,11 +23,12 @@ func _on_healthPowerUpTimer_timeout():
 	add_child(healthPowerUp)
 	
 	# Calculate a random position on top of the ground
-	var ground_radius = 50  # Replace this with the actual radius of your ground
+	var ground_radius = 25
 	var angle = randf_range(0, 2 * PI)
-	var x = ground_radius * cos(angle)
-	var z = ground_radius * sin(angle)
-	var y = player_position.y
+	var radius = sqrt(randf()) * ground_radius
+	var x = radius * cos(angle)
+	var z = radius * sin(angle)
+	var y = player_position.y + 1
 	var position = Vector3(x, y, z)
 	
 	# Set the power-up's position
