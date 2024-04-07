@@ -70,8 +70,6 @@ transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 
 
 [node name="Player" parent="." instance=ExtResource("4_vn7ic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-speed = 14
-fall_acceleration = 75
 
 [node name="Bubbles" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("5_ydbmc")
