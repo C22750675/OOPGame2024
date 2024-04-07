@@ -1,10 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://drfp8737erqji"]
+[gd_scene load_steps=16 format=3 uid="uid://drfp8737erqji"]
 
 [ext_resource type="PackedScene" uid="uid://c80p3jyjyuds8" path="res://player/playerModels/player.glb" id="1_3xpvg"]
 [ext_resource type="Script" path="res://player/Player.gd" id="1_t5iwf"]
 [ext_resource type="Script" path="res://player/AttackArea.gd" id="3_rv3yr"]
-[ext_resource type="Texture2D" uid="uid://cwsmd8eapn0k0" path="res://player/crabTemplate.png" id="3_vmck4"]
-[ext_resource type="PackedScene" uid="uid://boig0cmjnuyvm" path="res://health_bar_3d.tscn" id="5_gfcm2"]
+[ext_resource type="Texture2D" uid="uid://bwk6yvywun1lj" path="res://player/BV_full view.png" id="4_0lm23"]
+[ext_resource type="PackedScene" path="res://health_bar_3d.tscn" id="5_gfcm2"]
+[ext_resource type="Texture2D" uid="uid://bpmucvqn76pup" path="res://player/Front_View_full.png" id="5_v6vl3"]
+[ext_resource type="Texture2D" uid="uid://cn42a8hgnwxiy" path="res://player/SvL_full view.png" id="6_gq3ex"]
+[ext_resource type="Texture2D" uid="uid://by4qgb7mw8a72" path="res://player/SvR_full view.png" id="7_74egb"]
+[ext_resource type="Texture2D" uid="uid://64ef5ie36yjj" path="res://player/3:4BR_full view.png" id="8_heoeq"]
+[ext_resource type="Texture2D" uid="uid://ciigetcsay3dg" path="res://player/3:4BL_full view.png" id="9_ppc64"]
+[ext_resource type="Texture2D" uid="uid://ynt824qox26k" path="res://player/3:4FL_full view.png" id="10_laux1"]
+[ext_resource type="Texture2D" uid="uid://buwxp4b12dsv" path="res://player/3:4FR_fullview.png" id="11_p3nec"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8rgmq"]
 size = Vector3(2.08667, 1, 2.29102)
@@ -30,6 +37,7 @@ shape = SubResource("BoxShape3D_8rgmq")
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="DebugPlayer" parent="Pivot" instance=ExtResource("1_3xpvg")]
+visible = false
 
 [node name="AttackArea" type="Area3D" parent="Pivot"]
 script = ExtResource("3_rv3yr")
@@ -44,67 +52,59 @@ visible = false
 mesh = SubResource("SphereMesh_l328t")
 
 [node name="crabUp" type="Sprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("4_0lm23")
 region_rect = Rect2(152, 392, 112, 72)
 
 [node name="crabDown" type="Sprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("5_v6vl3")
 region_rect = Rect2(160, 160, 112, 88)
 
 [node name="crabLeft" type="Sprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("7_74egb")
 region_rect = Rect2(272, 392, 104, 72)
 
 [node name="crabRight" type="Sprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("6_gq3ex")
 region_rect = Rect2(40, 392, 104, 72)
 
 [node name="crabUpLeft" type="Sprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("9_ppc64")
 region_rect = Rect2(264, 392, 112, 80)
 
 [node name="crabUpRight" type="Sprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("8_heoeq")
 region_rect = Rect2(32, 392, 112, 72)
 
 [node name="crabDownLeft" type="Sprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("11_p3nec")
 region_rect = Rect2(280, 160, 112, 96)
 
 [node name="crabDownRight" type="Sprite3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 1, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 2, 0)
 visible = false
 render_priority = 100
-texture = ExtResource("3_vmck4")
-region_enabled = true
+texture = ExtResource("10_laux1")
 region_rect = Rect2(48, 152, 112, 96)
 
 [node name="SubViewport" type="SubViewport" parent="."]
