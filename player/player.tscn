@@ -15,9 +15,13 @@ size = Vector3(2.08667, 1, 2.29102)
 viewport_path = NodePath("SubViewport")
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_t5iwf")
 
 [node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 13
 
 [node name="MobCollision" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -0.00012207, 0, 0)
@@ -32,6 +36,8 @@ shape = SubResource("BoxShape3D_8rgmq")
 [node name="DebugPlayer" parent="Pivot" instance=ExtResource("1_3xpvg")]
 
 [node name="AttackArea" type="Area3D" parent="Pivot"]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("3_rv3yr")
 
 [node name="AttackAreaPoints" type="CollisionPolygon3D" parent="Pivot/AttackArea"]
