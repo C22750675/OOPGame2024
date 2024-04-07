@@ -14,6 +14,10 @@ func _physics_process(delta):
 
 	velocity = Vector3.ZERO
 
+	# The power up falls to the ground
 	velocity.y -= fallAcceleration * delta
+
+	# Rotate the power up
+	rotate_y(delta)
 
 	move_and_slide()

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bj5s0gijq75ls"
+path="res://.godot/imported/Love.obj-8b397fb1c739ebcee76efbc1b9f01efb.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Love.obj-8b397fb1c739ebcee76efbc1b9f01efb.mesh"]
+
+source_file="res://powerUp/Love.obj"
+dest_files=["res://.godot/imported/Love.obj-8b397fb1c739ebcee76efbc1b9f01efb.mesh", "res://.godot/imported/Love.obj-8b397fb1c739ebcee76efbc1b9f01efb.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

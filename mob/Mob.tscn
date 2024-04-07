@@ -7,6 +7,8 @@
 size = Vector3(3, 1.4444, 2.67419)
 
 [node name="Mob" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 7
 script = ExtResource("1_32kma")
 
 [node name="Pivot" type="Node3D" parent="."]
@@ -18,9 +20,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)
 shape = SubResource("BoxShape3D_dhbjf")
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
-aabb = AABB(-1.23355, -1, -2.00001, 2.4671, 2, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.746156, 0.571149)
+aabb = AABB(-1.2, -1, -2, 2.4, 1.2, 3.4)
 
 [node name="Area3D" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 7
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)

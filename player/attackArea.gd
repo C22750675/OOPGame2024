@@ -7,7 +7,7 @@ var attack_cooldown: float = 0.75
 var time_since_last_attack: float = 0
 
 func _ready():
-	collision_mask = 1
+
 	attack_visual = $AttackAreaPoints/AttackAreaDebug
 	
 

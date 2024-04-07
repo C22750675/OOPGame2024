@@ -55,6 +55,7 @@ autostart = true
 
 [node name="GroundBody" type="StaticBody3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_mask = 0
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Ground/GroundBody"]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)

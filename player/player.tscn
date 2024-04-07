@@ -22,9 +22,13 @@ size = Vector3(2.08667, 1, 2.29102)
 viewport_path = NodePath("SubViewport")
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_t5iwf")
 
 [node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 13
 
 [node name="MobCollision" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -0.00012207, 0, 0)
@@ -40,6 +44,8 @@ shape = SubResource("BoxShape3D_8rgmq")
 visible = false
 
 [node name="AttackArea" type="Area3D" parent="Pivot"]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("3_rv3yr")
 
 [node name="AttackAreaPoints" type="CollisionPolygon3D" parent="Pivot/AttackArea"]
@@ -118,8 +124,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_vi6jk")
 
-[connection signal="body_entered" from="Area3D" to="." method="_on_HealthPowerUp_body_entered"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_Mob_body_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_HealthPowerUp_body_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_Mob_body_exited"]
 [connection signal="body_entered" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_on_body_entered"]
 [connection signal="body_exited" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_on_body_exited"]
