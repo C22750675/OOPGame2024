@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpmucvqn76pup"
-path.s3tc="res://.godot/imported/Front_View_full.png-0798e8d79f5f306128a9c9f3ba187573.s3tc.ctex"
+uid="uid://ct2swx4galfy6"
+path.s3tc="res://.godot/imported/forwardLeft.png-0209ebb64d5e6ed23ffef9d7568997c5.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://player/Front_View_full.png"
-dest_files=["res://.godot/imported/Front_View_full.png-0798e8d79f5f306128a9c9f3ba187573.s3tc.ctex"]
+source_file="res://player/playerSprites/forwardLeft.png"
+dest_files=["res://.godot/imported/forwardLeft.png-0209ebb64d5e6ed23ffef9d7568997c5.s3tc.ctex"]
 
 [params]
 

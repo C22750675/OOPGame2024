@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwsmd8eapn0k0"
-path.s3tc="res://.godot/imported/crabTemplate.png-7ca8484b74b0c2361583ed91af87ac6b.s3tc.ctex"
+uid="uid://bn8ja4nwwxos6"
+path.s3tc="res://.godot/imported/left.png-6cc1fc5e072c3b8287cd6b0a6503623b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://player/crabTemplate.png"
-dest_files=["res://.godot/imported/crabTemplate.png-7ca8484b74b0c2361583ed91af87ac6b.s3tc.ctex"]
+source_file="res://player/playerSprites/left.png"
+dest_files=["res://.godot/imported/left.png-6cc1fc5e072c3b8287cd6b0a6503623b.s3tc.ctex"]
 
 [params]
 

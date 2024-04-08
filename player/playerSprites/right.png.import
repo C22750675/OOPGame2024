@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ynt824qox26k"
-path.s3tc="res://.godot/imported/3_4FL_fullview.png-03efa9657559aebe38e20f4ab3f69be8.s3tc.ctex"
+uid="uid://d4bx07ew1knab"
+path.s3tc="res://.godot/imported/right.png-91e3edbfcf35ca8472eb506f495ded1b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://player/3_4FL_fullview.png"
-dest_files=["res://.godot/imported/3_4FL_fullview.png-03efa9657559aebe38e20f4ab3f69be8.s3tc.ctex"]
+source_file="res://player/playerSprites/right.png"
+dest_files=["res://.godot/imported/right.png-91e3edbfcf35ca8472eb506f495ded1b.s3tc.ctex"]
 
 [params]
 

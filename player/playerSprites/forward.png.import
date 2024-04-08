@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwk6yvywun1lj"
-path.s3tc="res://.godot/imported/BV_full view.png-0b9f67c131f7b15f1fcff68b045c946d.s3tc.ctex"
+uid="uid://1k16e0yorq6r"
+path.s3tc="res://.godot/imported/forward.png-b627c7596ece6e5ae84333da5dcd4e6e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://player/BV_full view.png"
-dest_files=["res://.godot/imported/BV_full view.png-0b9f67c131f7b15f1fcff68b045c946d.s3tc.ctex"]
+source_file="res://player/playerSprites/forward.png"
+dest_files=["res://.godot/imported/forward.png-b627c7596ece6e5ae84333da5dcd4e6e.s3tc.ctex"]
 
 [params]
 
