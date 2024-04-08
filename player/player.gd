@@ -1,14 +1,14 @@
 extends CharacterBody3D
 
 # Define Sprite nodes for each direction
-@onready var sprite_forward = $crabUp
-@onready var sprite_backward = $crabDown
-@onready var sprite_left = $crabLeft
-@onready var sprite_right = $crabRight
-@onready var sprite_up_left = $crabUpLeft
-@onready var sprite_up_right = $crabUpRight
-@onready var sprite_down_left = $crabDownLeft
-@onready var sprite_down_right = $crabDownRight
+@onready var playerForward = $playerForward
+@onready var playerBack = $playerBack
+@onready var playerLeft = $playerLeft
+@onready var playerRight = $playerRight
+@onready var playerForwardLeft = $playerForwardLeft
+@onready var playerForwardRight = $playerForwardRight
+@onready var playerBackLeft = $playerBackLeft
+@onready var playerBackRight = $playerBackRight
 
 @onready var damageTimer = $damageTimer # Timer for taking damage
 
@@ -42,10 +42,11 @@ var camera : Camera3D = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
-	sprite_backward.show()
+	playerBack.show()
 	var cameras = get_tree().get_nodes_in_group("camera")
 	if cameras.size() > 0:
 		camera = cameras[0] # Now you have the reference to the camera
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -257,33 +258,38 @@ func update_sprite_direction():
 
 func sprite_direction(angle_degrees):
 
-	# Determine which sprite to show based on angle
-	if angle_degrees >= 337.5 or angle_degrees < 22.5:
-		sprite_backward.show()
-	elif angle_degrees >= 22.5 and angle_degrees < 67.5:
-		sprite_down_right.show()
-	elif angle_degrees >= 67.5 and angle_degrees < 112.5:
-		sprite_right.show()
-	elif angle_degrees >= 112.5 and angle_degrees < 157.5:
-		sprite_up_right.show()
-	elif angle_degrees >= 157.5 and angle_degrees < 202.5:
-		sprite_forward.show()
-	elif angle_degrees >= 202.5 and angle_degrees < 247.5:
-		sprite_up_left.show()
-	elif angle_degrees >= 247.5 and angle_degrees < 292.5:
-		sprite_left.show() 
-	elif angle_degrees >= 292.5 and angle_degrees < 337.5:
-		sprite_down_left.show()
+  # Adjust angle to be in range 0-360
+	if angle_degrees < 0:
+    angle_degrees += 360
+	
+	# Show the sprite corresponding to the current direction
+	if angle_degrees > 22.5 and angle_degrees <= 67.5:
+		playerBackRight.show()
+	elif angle_degrees > 67.5 and angle_degrees <= 112.5:
+		playerBack.show()
+	elif angle_degrees > 112.5 and angle_degrees <= 157.5:
+		playerBackLeft.show()
+	elif angle_degrees > 157.5 and angle_degrees <= 202.5:
+		playerLeft.show()
+	elif angle_degrees > 202.5 and angle_degrees <= 247.5:
+		playerForwardLeft.show()
+	elif angle_degrees > 247.5 and angle_degrees <= 292.5:
+		playerForward.show()
+	elif angle_degrees > 292.5 and angle_degrees <= 337.5:
+		playerForwardRight.show()
+	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) or angle_degrees == 360:
+		playerRight.show()
+
 	
 func hide_sprites():
 	# Hide all sprites
-	sprite_forward.hide()
-	sprite_backward.hide()
-	sprite_left.hide()
-	sprite_right.hide()
-	sprite_up_left.hide()
-	sprite_up_right.hide()
-	sprite_down_left.hide()
-	sprite_down_right.hide()
+	playerForward.hide()
+	playerBack.hide()
+	playerBackLeft.hide()
+	playerBackRight.hide()
+	playerForwardLeft.hide()
+	playerForwardRight.hide()
+	playerRight.hide()
+	playerLeft.hide()
 	
 	

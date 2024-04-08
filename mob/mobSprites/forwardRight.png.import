@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn42a8hgnwxiy"
-path.s3tc="res://.godot/imported/SvL_full view.png-3a0b1554a86374ae0e1fb930992a64b9.s3tc.ctex"
+uid="uid://de4f0yfw1djde"
+path.s3tc="res://.godot/imported/forwardRight.png-dd2ee55b11aa4f8e5099b19f1fc8488b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://player/SvL_full view.png"
-dest_files=["res://.godot/imported/SvL_full view.png-3a0b1554a86374ae0e1fb930992a64b9.s3tc.ctex"]
+source_file="res://mob/mobSprites/forwardRight.png"
+dest_files=["res://.godot/imported/forwardRight.png-dd2ee55b11aa4f8e5099b19f1fc8488b.s3tc.ctex"]
 
 [params]
 
