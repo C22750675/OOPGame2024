@@ -260,7 +260,7 @@ func sprite_direction(angle_degrees):
 
   # Adjust angle to be in range 0-360
 	if angle_degrees < 0:
-    angle_degrees += 360
+		angle_degrees += 360
 	
 	# Show the sprite corresponding to the current direction
 	if angle_degrees > 22.5 and angle_degrees <= 67.5:

@@ -50,7 +50,6 @@ autostart = true
 
 [node name="mobSpawnTimer" type="Timer" parent="."]
 wait_time = 3.0
-autostart = true
 
 [node name="Ground" type="Node" parent="."]
 
