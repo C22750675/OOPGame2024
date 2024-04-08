@@ -33,14 +33,19 @@ var colliding_mobs = [] # List of mobs the player is currently colliding with
 var fallback_direction = Vector3(0, 0, 1)	
 
 var target_velocity = Vector3.ZERO
-var target_direction = Vector3.ZERO
+var target_pos = Vector3.ZERO
 var target_enemy = null
 var min_distance = 7
+
+var camera : Camera3D = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
 	playerBack.show()
+	var cameras = get_tree().get_nodes_in_group("camera")
+	if cameras.size() > 0:
+		camera = cameras[0] # Now you have the reference to the camera
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -78,9 +83,6 @@ func _physics_process(delta):
 
 		direction = Vector3.ZERO
 	
-	# Find nearest enemy
-	find_nearest_enemy()
-
 	# Ground Velocity
 	target_velocity.x = direction.x * speed
 	target_velocity.z = direction.z * speed
@@ -95,7 +97,9 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-	direction_management(direction)
+	direction_management()
+	update_sprite_direction()
+	
 
 	# If player's y is less than -2, reset player to starting position
 	if global_transform.origin.y < -2:
@@ -108,7 +112,7 @@ func _physics_process(delta):
 
 		direction = Vector3.ZERO # set direction to zero
 
-		target_direction = Vector3.ZERO # set target direction to zero
+		target_pos = Vector3.ZERO # set target direction to zero
 
 		target_enemy = null # set target enemy to null
 
@@ -117,7 +121,6 @@ func _physics_process(delta):
 		# reset player's rotation
 		$Pivot.basis = Basis.IDENTITY
 		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
-		update_sprite_direction(fallback_direction)
 
 func take_damage(damage):
 	
@@ -197,7 +200,7 @@ func gameOver():
 	
 	target_velocity = Vector3.ZERO # set target velocity to zero
 
-	target_direction = Vector3.ZERO # set target direction to zero
+	target_pos = Vector3.ZERO # set target direction to zero
 
 	target_enemy = null # set target enemy to null
 
@@ -218,128 +221,65 @@ func gameOver():
 	# reset player's rotation
 	$Pivot.basis = Basis.IDENTITY # reset player's rotation
 	$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
-	update_sprite_direction(fallback_direction)
 
-func direction_management(direction):
-
-	var look_direction = direction
+func direction_management():
 	
-	if look_direction == Vector3.ZERO and target_enemy == null:
-		look_direction = fallback_direction
-		rotate_player(look_direction)
-		return
-
-
-	if look_direction == Vector3.ZERO:
-		look_direction = fallback_direction
-		$Pivot.basis = Basis.IDENTITY # reset player's rotation
-		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
-		update_sprite_direction(fallback_direction)
-
-	if look_direction != Vector3.ZERO:
-		$Pivot.look_at(global_transform.origin + look_direction, Vector3.UP)
-		update_sprite_direction(direction)
-	
-
-	if target_enemy != null:
-		look_direction = (target_enemy.global_transform.origin - global_transform.origin).normalized()
-		rotate_player(look_direction)
-	elif look_direction != Vector3.ZERO:
-		rotate_player(look_direction)
-
-func rotate_player(target_direction):
-	var target_rotation = Basis().looking_at(target_direction, Vector3.UP)
-	var current_rotation = $Pivot.global_transform.basis
-
-	var new_rotation = current_rotation.slerp(target_rotation, 0.08) # Adjust the interpolation factor (0.1) to control the rotation speed
-
-	$Pivot.global_transform.basis = new_rotation
-
-	update_sprite_direction(target_direction)
-
-
-func find_nearest_enemy():
-
-	# Retrieve all nodes tagged as enemies in the scene
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	
-
-	# If there are no enemies, return early
-	if enemies.size() == 0:
-
-		target_enemy = null
-		return
+	var mouse_pos = get_viewport().get_mouse_position()
+	if camera:
+		var ray_origin = camera.project_ray_origin(mouse_pos)
+		var ray_end = ray_origin + camera.project_ray_normal(mouse_pos) * 1000
 		
-	var closest_distance = float(min_distance)
-	var closest_enemy = null
-	
-
-	# Iterate through each enemy and calculate the distance to the character
-	for enemy in enemies:
+		var space_state = get_world_3d().direct_space_state
+		var ray_query = PhysicsRayQueryParameters3D.new()
+		ray_query.from = ray_origin
+		ray_query.to = ray_end
+		ray_query.exclude = [self]
+		ray_query.collision_mask = 0xFFFFFFFF 
 		
-		var distance_to_enemy = global_transform.origin.distance_to(enemy.global_transform.origin)
-	
-	
-		# If the current enemy is closer than the previously closest one, update the closest enemy
-		if distance_to_enemy < closest_distance:
-			closest_distance = distance_to_enemy
-			closest_enemy = enemy
+		var intersection = space_state.intersect_ray(ray_query)
+		if intersection:
+			target_pos = intersection.position
 			
-	# Update the target_enemy variable with the closest enemy found
-	target_enemy = closest_enemy
+			$Pivot.look_at(target_pos, Vector3.UP)
 	
-func update_sprite_direction(new_target_direction):
 
-	var angle_degrees
+func update_sprite_direction():
 
-	if new_target_direction != Vector3.ZERO:
-
-		angle_degrees = rad_to_deg(atan2(new_target_direction.z, new_target_direction.x))
-
-		hide_sprites()
-
-		# Show the sprite corresponding to the current direction
-		sprite_direction(angle_degrees)
+	var global_facing_direction = -$Pivot.global_transform.basis.z.normalized()
+	var angle_degrees = rad_to_deg(atan2(global_facing_direction.x, global_facing_direction.z))
 	
+	angle_degrees = fmod(angle_degrees, 360)
+	if angle_degrees < 0:
+		angle_degrees += 360
+		
+	hide_sprites()
+	#print_debug(angle_degrees)
+	sprite_direction(angle_degrees)
+
 func sprite_direction(angle_degrees):
 
-	# Adjust angle to be in range 0-360
+  # Adjust angle to be in range 0-360
 	if angle_degrees < 0:
-
-		angle_degrees += 360
+    angle_degrees += 360
 	
 	# Show the sprite corresponding to the current direction
 	if angle_degrees > 22.5 and angle_degrees <= 67.5:
-
 		playerBackRight.show()
-
 	elif angle_degrees > 67.5 and angle_degrees <= 112.5:
-
 		playerBack.show()
-
 	elif angle_degrees > 112.5 and angle_degrees <= 157.5:
-
 		playerBackLeft.show()
-
 	elif angle_degrees > 157.5 and angle_degrees <= 202.5:
-
 		playerLeft.show()
-
 	elif angle_degrees > 202.5 and angle_degrees <= 247.5:
-
 		playerForwardLeft.show()
-
 	elif angle_degrees > 247.5 and angle_degrees <= 292.5:
-
 		playerForward.show()
-
 	elif angle_degrees > 292.5 and angle_degrees <= 337.5:
-
 		playerForwardRight.show()
-
 	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) or angle_degrees == 360:
-		
 		playerRight.show()
+
 	
 func hide_sprites():
 	# Hide all sprites
