@@ -1,7 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bposst2udwsnm"]
+[gd_scene load_steps=11 format=3 uid="uid://bposst2udwsnm"]
 
 [ext_resource type="Script" path="res://mob/Mob.gd" id="1_32kma"]
-[ext_resource type="PackedScene" uid="uid://vvdjfyxqr3cq" path="res://mob/mobModels/mob.glb" id="2_5acdd"]
+[ext_resource type="Texture2D" uid="uid://de605w8ilq4eu" path="res://mob/mobSprites/forward.png" id="3_r0e0b"]
+[ext_resource type="Texture2D" uid="uid://bwhsm0e4wbwqg" path="res://mob/mobSprites/back.png" id="4_oxu25"]
+[ext_resource type="Texture2D" uid="uid://dvowwifu4dk03" path="res://mob/mobSprites/left.png" id="5_3dgw3"]
+[ext_resource type="Texture2D" uid="uid://dep5r7v65lr5v" path="res://mob/mobSprites/right.png" id="6_qe5i2"]
+[ext_resource type="Texture2D" uid="uid://dmicyjuounxw0" path="res://mob/mobSprites/forwardLeft.png" id="7_cd7gq"]
+[ext_resource type="Texture2D" uid="uid://de4f0yfw1djde" path="res://mob/mobSprites/forwardRight.png" id="8_5wbbo"]
+[ext_resource type="Texture2D" uid="uid://dolxqnnuu0bsm" path="res://mob/mobSprites/backLeft.png" id="9_38fd2"]
+[ext_resource type="Texture2D" uid="uid://ce6ace7w0f4rd" path="res://mob/mobSprites/backRight.png" id="10_mt5fx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dhbjf"]
 size = Vector3(3, 1.4444, 2.67419)
@@ -10,10 +17,6 @@ size = Vector3(3, 1.4444, 2.67419)
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_32kma")
-
-[node name="Pivot" type="Node3D" parent="."]
-
-[node name="Character" parent="Pivot" instance=ExtResource("2_5acdd")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)
@@ -30,5 +33,77 @@ collision_mask = 7
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)
 shape = SubResource("BoxShape3D_dhbjf")
+
+[node name="mobForward" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0.5, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("3_r0e0b")
+region_rect = Rect2(152, 392, 112, 72)
+
+[node name="mobBack" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("4_oxu25")
+region_rect = Rect2(160, 160, 112, 88)
+
+[node name="mobLeft" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -1.4, 0.0500001, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("5_3dgw3")
+region_rect = Rect2(272, 392, 104, 72)
+
+[node name="mobRight" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 1, -0.3, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("6_qe5i2")
+region_rect = Rect2(40, 392, 104, 72)
+
+[node name="mobForwardLeft" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0.5, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("7_cd7gq")
+region_rect = Rect2(264, 392, 112, 80)
+
+[node name="mobForwardRight" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0.2, 0.5, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("8_5wbbo")
+region_rect = Rect2(32, 392, 112, 72)
+
+[node name="mobBackLeft" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, -0.1, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("9_38fd2")
+region_rect = Rect2(280, 160, 112, 96)
+
+[node name="mobBackRight" type="Sprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0.5, 0, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+render_priority = 100
+texture = ExtResource("10_mt5fx")
+region_rect = Rect2(48, 152, 112, 96)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

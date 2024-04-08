@@ -52,7 +52,7 @@ polygon = PackedVector2Array(1, 0, 0.985, 0.174, 0.94, 0.342, 0.866, 0.5, 0.707,
 transform = Transform3D(-0.482091, 0, -0.574533, 0.574533, -3.27835e-08, -0.482091, -2.51136e-08, -0.75, 2.10729e-08, 0.383022, 0.321394, -0.125)
 mesh = SubResource("SphereMesh_l328t")
 
-[node name="crabUp" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerForward" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1, 0)
 visible = false
 no_depth_test = true
@@ -60,7 +60,7 @@ render_priority = 100
 texture = ExtResource("3_f3gdw")
 region_rect = Rect2(152, 392, 112, 72)
 
-[node name="crabDown" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerBack" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 visible = false
 no_depth_test = true
@@ -68,7 +68,7 @@ render_priority = 100
 texture = ExtResource("4_c8ckh")
 region_rect = Rect2(160, 160, 112, 88)
 
-[node name="crabLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.4, -0.3, 0)
 visible = false
 no_depth_test = true
@@ -76,7 +76,7 @@ render_priority = 100
 texture = ExtResource("5_l47tp")
 region_rect = Rect2(272, 392, 104, 72)
 
-[node name="crabRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.2, -0.3, 0)
 visible = false
 no_depth_test = true
@@ -84,7 +84,7 @@ render_priority = 100
 texture = ExtResource("6_ip374")
 region_rect = Rect2(40, 392, 104, 72)
 
-[node name="crabUpLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerForwardLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.5, 1, 0)
 visible = false
 no_depth_test = true
@@ -92,7 +92,7 @@ render_priority = 100
 texture = ExtResource("7_6im1w")
 region_rect = Rect2(264, 392, 112, 80)
 
-[node name="crabUpRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerForwardRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.2, 1, 0)
 visible = false
 no_depth_test = true
@@ -100,7 +100,7 @@ render_priority = 100
 texture = ExtResource("8_wtr4l")
 region_rect = Rect2(32, 392, 112, 72)
 
-[node name="crabDownLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerBackLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 visible = false
 no_depth_test = true
@@ -108,7 +108,7 @@ render_priority = 100
 texture = ExtResource("9_juh4w")
 region_rect = Rect2(280, 160, 112, 96)
 
-[node name="crabDownRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="playerBackRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.2, 0.1, 0)
 visible = false
 no_depth_test = true
@@ -125,6 +125,7 @@ transparent_bg = true
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
 billboard = 1
+no_depth_test = true
 texture = SubResource("ViewportTexture_vi6jk")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_Mob_body_entered"]
