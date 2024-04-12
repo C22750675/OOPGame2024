@@ -262,23 +262,23 @@ func sprite_direction(angle_degrees):
 	if angle_degrees < 0:
 		angle_degrees += 360
 	
-	# Show the sprite corresponding to the current direction
-	if angle_degrees > 22.5 and angle_degrees <= 67.5:
-		playerBackRight.show()
-	elif angle_degrees > 67.5 and angle_degrees <= 112.5:
+	# Determine which sprite to show based on angle
+	if angle_degrees >= 337.5 or angle_degrees < 22.5:
 		playerBack.show()
-	elif angle_degrees > 112.5 and angle_degrees <= 157.5:
-		playerBackLeft.show()
-	elif angle_degrees > 157.5 and angle_degrees <= 202.5:
-		playerLeft.show()
-	elif angle_degrees > 202.5 and angle_degrees <= 247.5:
-		playerForwardLeft.show()
-	elif angle_degrees > 247.5 and angle_degrees <= 292.5:
-		playerForward.show()
-	elif angle_degrees > 292.5 and angle_degrees <= 337.5:
-		playerForwardRight.show()
-	elif (angle_degrees > 337.5 or angle_degrees <= 22.5) or angle_degrees == 360:
+	elif angle_degrees >= 22.5 and angle_degrees < 67.5:
+		playerBackRight.show()
+	elif angle_degrees >= 67.5 and angle_degrees < 112.5:
 		playerRight.show()
+	elif angle_degrees >= 112.5 and angle_degrees < 157.5:
+		playerForwardRight.show()
+	elif angle_degrees >= 157.5 and angle_degrees < 202.5:
+		playerForward.show()
+	elif angle_degrees >= 202.5 and angle_degrees < 247.5:
+		playerForwardLeft.show()
+	elif angle_degrees >= 247.5 and angle_degrees < 292.5:
+		playerLeft.show() 
+	elif angle_degrees >= 292.5 and angle_degrees < 337.5:
+		playerBackLeft.show()
 
 	
 func hide_sprites():
