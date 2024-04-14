@@ -15,7 +15,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_8rgmq"]
 size = Vector3(2.08667, 1, 2.29102)
 
-[sub_resource type="SphereMesh" id="SphereMesh_l328t"]
+[sub_resource type="SphereMesh" id="SphereMesh_kn3dw"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_vi6jk"]
 viewport_path = NodePath("SubViewport")
@@ -50,7 +50,7 @@ polygon = PackedVector2Array(1, 0, 0.985, 0.174, 0.94, 0.342, 0.866, 0.5, 0.707,
 
 [node name="AttackAreaDebug" type="MeshInstance3D" parent="Pivot/AttackArea/AttackAreaPoints"]
 transform = Transform3D(-0.482091, 0, -0.574533, 0.574533, -3.27835e-08, -0.482091, -2.51136e-08, -0.75, 2.10729e-08, 0.383022, 0.321394, -0.125)
-mesh = SubResource("SphereMesh_l328t")
+mesh = SubResource("SphereMesh_kn3dw")
 
 [node name="playerForward" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1, 0)
