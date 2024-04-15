@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_bchek"]
 [ext_resource type="PackedScene" uid="uid://bposst2udwsnm" path="res://mob/Mob.tscn" id="2_6n1cb"]
 [ext_resource type="Texture2D" uid="uid://csofvxgx2pp2a" path="res://environment/environmentModels/sandyFloor.jpg" id="3_kclxy"]
-[ext_resource type="PackedScene" uid="uid://drfp8737erqji" path="res://player/player.tscn" id="4_vn7ic"]
+[ext_resource type="PackedScene" uid="uid://drfp8737erqji" path="res://player/Player.tscn" id="4_vn7ic"]
 [ext_resource type="AudioStream" uid="uid://ctehd2aho6vjo" path="res://audio/bubbles.mp3" id="5_ydbmc"]
 [ext_resource type="PackedScene" uid="uid://dr31ll2h5qouk" path="res://environment/environmentModels/Amphitheater.dae" id="6_yk8xf"]
 
