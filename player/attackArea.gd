@@ -7,7 +7,7 @@ var charge_rate = 1.5
 var max_area_scale = 2.0
 var min_area_scale = 1.0
 
-var attack_visual: MeshInstance3D
+var attack_visual: Sprite3D
 var attack_cooldown: float = 0.75
 var time_since_last_attack: float = 0
 var charge_time: float = 0
@@ -17,7 +17,7 @@ var base_scale: Vector3 = Vector3(1, 1, 1) # Initialize base_scale
 var queued_damage_and_knockback: Array = [] # Store damage and knockback for queued enemies
 
 func _ready():
-	attack_visual = $AttackAreaPoints/AttackAreaDebug
+	attack_visual = $AttackAreaPoints/Sprite3D
 	attack_visual.hide()
 
 func apply_damage_and_knockback(charge_factor: float):
