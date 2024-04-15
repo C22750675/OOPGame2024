@@ -1,40 +1,40 @@
 extends CharacterBody3D
 
 # Define Sprite nodes for each direction
-@onready var playerForward = $playerForward
-@onready var playerBack = $playerBack
-@onready var playerLeft = $playerLeft
-@onready var playerRight = $playerRight
-@onready var playerForwardLeft = $playerForwardLeft
-@onready var playerForwardRight = $playerForwardRight
-@onready var playerBackLeft = $playerBackLeft
-@onready var playerBackRight = $playerBackRight
+@onready var playerForward = $PlayerForward
+@onready var playerBack = $PlayerBack
+@onready var playerLeft = $PlayerLeft
+@onready var playerRight = $PlayerRight
+@onready var playerForwardLeft = $PlayerForwardLeft
+@onready var playerForwardRight = $PlayerForwardRight
+@onready var playerBackLeft = $PlayerBackLeft
+@onready var playerBackRight = $PlayerBackRight
 
-@onready var damageTimer = $damageTimer # Timer for taking damage
+@onready var damageTimer = $DamageTimer # Timer for taking damage
 
 
 # Player health
 var health = 100
 
 # Store the player's last position
-var last_position = Vector3.ZERO
+var lastPosition = Vector3.ZERO
 
-var is_colliding_with_mob = false
+var isCollidingWithMob = false
 
-var colliding_mobs = [] # List of mobs the player is currently colliding with
+var collidingMobs = [] # List of mobs the player is currently colliding with
 
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
-@export var fall_acceleration = 75
+@export var fallAcceleration = 75
 
 # The direction the player will fallback to when there is no input
-var fallback_direction = Vector3(0, 0, 1)	
+var fallbackDirection = Vector3(0, 0, 1)	
 
-var target_velocity = Vector3.ZERO
-var target_pos = Vector3.ZERO
-var target_enemy = null
-var min_distance = 7
+var targetVelocity = Vector3.ZERO
+var targetPos = Vector3.ZERO
+var targetEnemy = null
+var minDistance = 7
 
 var camera : Camera3D = null
 
@@ -75,29 +75,29 @@ func _physics_process(delta):
 		direction = direction.normalized()
 
 	# Calculate the players next position
-	var new_position = position + direction * speed * delta
+	var newPosition = position + direction * speed * delta
 
 	# If the next position is outside the floor radius, stop the character
-	if new_position.distance_to(Vector3.ZERO) > 25:
+	if newPosition.distance_to(Vector3.ZERO) > 25:
 
 		direction = Vector3.ZERO
 	
 	# Ground Velocity
-	target_velocity.x = direction.x * speed
-	target_velocity.z = direction.z * speed
+	targetVelocity.x = direction.x * speed
+	targetVelocity.z = direction.z * speed
 
 	# Vertical Velocity
 	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
 
-		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+		targetVelocity.y = targetVelocity.y - (fallAcceleration * delta)
 
 	# Moving the Character
-	velocity = target_velocity
+	velocity = targetVelocity
 
 	move_and_slide()
 
-	direction_management()
-	update_sprite_direction()
+	directionManagement()
+	updateSpriteDirection()
 	
 
 	# If player's y is less than -2, reset player to starting position
@@ -107,21 +107,21 @@ func _physics_process(delta):
 
 		velocity = Vector3.ZERO # stop player from moving
 		
-		target_velocity = Vector3.ZERO # set target velocity to zero
+		targetVelocity = Vector3.ZERO # set target velocity to zero
 
 		direction = Vector3.ZERO # set direction to zero
 
-		target_pos = Vector3.ZERO # set target direction to zero
+		targetPos = Vector3.ZERO # set target direction to zero
 
-		target_enemy = null # set target enemy to null
+		targetEnemy = null # set target enemy to null
 
-		hide_sprites() # hide all sprites
+		hideSprites() # hide all sprites
 
 		# reset player's rotation
 		$Pivot.basis = Basis.IDENTITY
-		$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+		$Pivot.look_at(global_transform.origin + fallbackDirection, Vector3.UP)
 
-func take_damage(damage):
+func takeDamage(damage):
 	
 	if $SubViewport/HealthBar3D.value < damage:
 		
@@ -136,42 +136,42 @@ func take_damage(damage):
 	damageTimer.start()
 	
 # Take damage on collision with mob
-func _on_Mob_body_entered(body):
+func _onMobBodyEntered(body):
 
 	if body.is_in_group("enemies"):
 		# Add the mob to the array when the player collides with it
-		colliding_mobs.append(body)
+		collidingMobs.append(body)
 
-		take_damage(5)
+		takeDamage(5)
 
 		damageTimer.start()
 
-func _on_HealthPowerUp_body_entered(body):
+func _onHealthPowerUpBodyEntered(body):
 
 	if body.is_in_group("powerUp"):
 		
-		apply_HealthPowerUp(body)
+		applyHealthPowerUp(body)
 
-func _on_Mob_body_exited(body):
+func _onMobBodyExited(body):
 
 	if body.is_in_group("enemies"):
 
 		# Remove the mob from the array when the player stops colliding with it
-		colliding_mobs.erase(body)
+		collidingMobs.erase(body)
 
-	if colliding_mobs.size() == 0:
+	if collidingMobs.size() == 0:
 		
 		damageTimer.stop() # Stop the timer when the player is no longer colliding with any mob
 
-func _on_damageTimer_timeout():
+func _onDamageTimerTimeout():
 	
-	for mob in colliding_mobs:
+	for mob in collidingMobs:
 
-		take_damage(5)
+		takeDamage(5)
 		
 		
 # Function to apply health increase from power up
-func apply_HealthPowerUp(body):
+func applyHealthPowerUp(body):
 	
 	var givenHealth = 0
 
@@ -197,11 +197,11 @@ func gameOver():
 
 	velocity = Vector3.ZERO # stop player from moving
 	
-	target_velocity = Vector3.ZERO # set target velocity to zero
+	targetVelocity = Vector3.ZERO # set target velocity to zero
 
-	target_pos = Vector3.ZERO # set target direction to zero
+	targetPos = Vector3.ZERO # set target direction to zero
 
-	target_enemy = null # set target enemy to null
+	targetEnemy = null # set target enemy to null
 
 	var mobsToFree = get_tree().get_nodes_in_group("enemies")
 
@@ -219,68 +219,69 @@ func gameOver():
 
 	# reset player's rotation
 	$Pivot.basis = Basis.IDENTITY # reset player's rotation
-	$Pivot.look_at(global_transform.origin + fallback_direction, Vector3.UP)
+	$Pivot.look_at(global_transform.origin + fallbackDirection, Vector3.UP)
 
-func direction_management():
+func directionManagement():
 	
-	var mouse_pos = get_viewport().get_mouse_position()
+	var mousePos = get_viewport().get_mouse_position()
 	if camera:
-		var ray_origin = camera.project_ray_origin(mouse_pos)
-		var ray_end = ray_origin + camera.project_ray_normal(mouse_pos) * 1000
+		var rayOrigin = camera.project_ray_origin(mousePos)
+		var rayEnd = rayOrigin + camera.project_ray_normal(mousePos) * 1000
 		
-		var space_state = get_world_3d().direct_space_state
-		var ray_query = PhysicsRayQueryParameters3D.new()
-		ray_query.from = ray_origin
-		ray_query.to = ray_end
-		ray_query.exclude = [self]
-		ray_query.collision_mask = 0xFFFFFFFF 
+		var spaceState = get_world_3d().direct_space_state
+		var rayQuery = PhysicsRayQueryParameters3D.new()
+		rayQuery.from = rayOrigin
+		rayQuery.to = rayEnd
+		rayQuery.exclude = [self]
+		rayQuery.collision_mask = 0xFFFFFFFF 
 		
-		var intersection = space_state.intersect_ray(ray_query)
+		var intersection = spaceState.intersect_ray(rayQuery)
 		if intersection:
-			target_pos = intersection.position
+			targetPos = intersection.position
 			
-			$Pivot.look_at(target_pos, Vector3.UP)
+			$Pivot.look_at(targetPos, Vector3.UP)
 	
 
-func update_sprite_direction():
+func updateSpriteDirection():
 
-	var global_facing_direction = -$Pivot.global_transform.basis.z.normalized()
-	var angle_degrees = rad_to_deg(atan2(global_facing_direction.x, global_facing_direction.z))
+	var globalFacingDirection = -$Pivot.global_transform.basis.z.normalized()
+	var angleDegrees = rad_to_deg(atan2(globalFacingDirection.x, globalFacingDirection.z))
 	
-	angle_degrees = fmod(angle_degrees, 360)
-	if angle_degrees < 0:
-		angle_degrees += 360
+	angleDegrees = fmod(angleDegrees, 360)
+
+	if angleDegrees < 0:
+		angleDegrees += 360
 		
-	hide_sprites()
+	hideSprites()
 	#print_debug(angle_degrees)
-	sprite_direction(angle_degrees)
+	spriteDirection(angleDegrees)
 
-func sprite_direction(angle_degrees):
+func spriteDirection(angleDegrees):
 
   # Adjust angle to be in range 0-360
-	if angle_degrees < 0:
-		angle_degrees += 360
+	if angleDegrees < 0:
+		angleDegrees += 360
 	
 	# Determine which sprite to show based on angle
-	if angle_degrees >= 337.5 or angle_degrees < 22.5:
+	if angleDegrees >= 337.5 or angleDegrees < 22.5:
 		playerBack.show()
-	elif angle_degrees >= 22.5 and angle_degrees < 67.5:
+	elif angleDegrees >= 22.5 and angleDegrees < 67.5:
 		playerBackRight.show()
-	elif angle_degrees >= 67.5 and angle_degrees < 112.5:
+	elif angleDegrees >= 67.5 and angleDegrees < 112.5:
 		playerRight.show()
-	elif angle_degrees >= 112.5 and angle_degrees < 157.5:
+	elif angleDegrees >= 112.5 and angleDegrees < 157.5:
 		playerForwardRight.show()
-	elif angle_degrees >= 157.5 and angle_degrees < 202.5:
+	elif angleDegrees >= 157.5 and angleDegrees < 202.5:
 		playerForward.show()
-	elif angle_degrees >= 202.5 and angle_degrees < 247.5:
+	elif angleDegrees >= 202.5 and angleDegrees < 247.5:
 		playerForwardLeft.show()
-	elif angle_degrees >= 247.5 and angle_degrees < 292.5:
+	elif angleDegrees >= 247.5 and angleDegrees < 292.5:
 		playerLeft.show() 
-	elif angle_degrees >= 292.5 and angle_degrees < 337.5:
+	elif angleDegrees >= 292.5 and angleDegrees < 337.5:
 		playerBackLeft.show()
 
 	
-func hide_sprites():
+func hideSprites():
 	# Hide all sprites
 	playerForward.hide()
 	playerBack.hide()

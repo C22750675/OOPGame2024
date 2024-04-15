@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c1v4opul67bvh"]
 
-[ext_resource type="Script" path="res://GUI/Back.gd" id="1_idmls"]
+[ext_resource type="Script" path="res://GUI/Back.gd" id="1_v6we8"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -25,7 +25,7 @@ text = "Volume"
 [node name="Back" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Back"
-script = ExtResource("1_idmls")
+script = ExtResource("1_v6we8")
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Volume" to="MarginContainer/VBoxContainer/Back" method="_on_volume_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="MarginContainer/VBoxContainer/Back" method="_on_back_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Volume" to="MarginContainer/VBoxContainer/Back" method="_onVolumePressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="MarginContainer/VBoxContainer/Back" method="_onBackPressed"]
