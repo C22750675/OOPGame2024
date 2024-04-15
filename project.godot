@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Game Fleadh 2024"
+config/name="OOP Game 2024"
 run/main_scene="res://environment/Main.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://GUI/icon.png"
@@ -21,7 +21,7 @@ GlobalVars="*res://GlobalVars.gd"
 
 [dotnet]
 
-project/assembly_name="Squash the Creeps (3D)"
+project/assembly_name="OOP Game 2024"
 
 [editor]
 

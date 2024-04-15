@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://1k16e0yorq6r" path="res://player/playerSprites/forward.png" id="3_f3gdw"]
 [ext_resource type="Script" path="res://player/AttackArea.gd" id="3_rv3yr"]
 [ext_resource type="Texture2D" uid="uid://dceoqxut4lp84" path="res://player/playerSprites/back.png" id="4_c8ckh"]
-[ext_resource type="PackedScene" uid="uid://boig0cmjnuyvm" path="res://health_bar_3d.tscn" id="5_gfcm2"]
+[ext_resource type="PackedScene" uid="uid://boig0cmjnuyvm" path="res://HealthBar3D.tscn" id="5_gfcm2"]
 [ext_resource type="Texture2D" uid="uid://bn8ja4nwwxos6" path="res://player/playerSprites/left.png" id="5_l47tp"]
 [ext_resource type="Texture2D" uid="uid://d4bx07ew1knab" path="res://player/playerSprites/right.png" id="6_ip374"]
 [ext_resource type="Texture2D" uid="uid://ct2swx4galfy6" path="res://player/playerSprites/forwardLeft.png" id="7_6im1w"]
@@ -39,7 +39,7 @@ shape = SubResource("BoxShape3D_8rgmq")
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="AttackArea" type="Area3D" parent="Pivot"]
-transform = Transform3D(0.990734, 0, 0.135819, 0, 1, 0, -0.135819, 0, 0.990734, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("3_rv3yr")
@@ -49,11 +49,11 @@ transform = Transform3D(-2.57115, 3.06418, -1.33939e-07, 0, -1.74846e-07, -4, -3
 polygon = PackedVector2Array(1, 0, 0.985, 0.174, 0.94, 0.342, 0.866, 0.5, 0.707, 0.707, 0.5, 0.866, 0.342, 0.94, 0.174, 0.985, 0, 1, 0, 0)
 
 [node name="Sprite3D" type="Sprite3D" parent="Pivot/AttackArea/AttackAreaPoints"]
-transform = Transform3D(-0.140751, 0.142089, -1.32674e-09, -0.142089, -0.140751, 1.01261e-10, -8.61761e-10, 1.01383e-09, 0.2, 0.316, 0.323, -0.0125351)
+transform = Transform3D(-0.153209, 0.128558, 0, -0.128558, -0.153209, 0, 0, 0, 0.2, 0.3, 0.3, 0)
 transparency = 0.8
 texture = ExtResource("3_5n6dq")
 
-[node name="playerForward" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerForward" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1, 0)
 visible = false
 no_depth_test = true
@@ -61,7 +61,7 @@ render_priority = 100
 texture = ExtResource("3_f3gdw")
 region_rect = Rect2(152, 392, 112, 72)
 
-[node name="playerBack" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerBack" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 visible = false
 no_depth_test = true
@@ -69,7 +69,7 @@ render_priority = 100
 texture = ExtResource("4_c8ckh")
 region_rect = Rect2(160, 160, 112, 88)
 
-[node name="playerLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.4, -0.3, 0)
 visible = false
 no_depth_test = true
@@ -77,7 +77,7 @@ render_priority = 100
 texture = ExtResource("5_l47tp")
 region_rect = Rect2(272, 392, 104, 72)
 
-[node name="playerRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.2, -0.3, 0)
 visible = false
 no_depth_test = true
@@ -85,7 +85,7 @@ render_priority = 100
 texture = ExtResource("6_ip374")
 region_rect = Rect2(40, 392, 104, 72)
 
-[node name="playerForwardLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerForwardLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.5, 1, 0)
 visible = false
 no_depth_test = true
@@ -93,7 +93,7 @@ render_priority = 100
 texture = ExtResource("7_6im1w")
 region_rect = Rect2(264, 392, 112, 80)
 
-[node name="playerForwardRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerForwardRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.2, 1, 0)
 visible = false
 no_depth_test = true
@@ -101,7 +101,7 @@ render_priority = 100
 texture = ExtResource("8_wtr4l")
 region_rect = Rect2(32, 392, 112, 72)
 
-[node name="playerBackLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerBackLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 visible = false
 no_depth_test = true
@@ -109,7 +109,7 @@ render_priority = 100
 texture = ExtResource("9_juh4w")
 region_rect = Rect2(280, 160, 112, 96)
 
-[node name="playerBackRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="PlayerBackRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.2, 0.1, 0)
 visible = false
 no_depth_test = true
@@ -129,8 +129,8 @@ billboard = 1
 no_depth_test = true
 texture = SubResource("ViewportTexture_vi6jk")
 
-[connection signal="body_entered" from="Area3D" to="." method="_on_Mob_body_entered"]
-[connection signal="body_entered" from="Area3D" to="." method="_on_HealthPowerUp_body_entered"]
-[connection signal="body_exited" from="Area3D" to="." method="_on_Mob_body_exited"]
-[connection signal="body_entered" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_on_body_entered"]
-[connection signal="body_exited" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_on_body_exited"]
+[connection signal="body_entered" from="Area3D" to="." method="_onMobBodyEntered"]
+[connection signal="body_entered" from="Area3D" to="." method="_onHealthPowerUpBodyEntered"]
+[connection signal="body_exited" from="Area3D" to="." method="_onMobBodyExited"]
+[connection signal="body_entered" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_onBodyEntered"]
+[connection signal="body_exited" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_onBodyExited"]
