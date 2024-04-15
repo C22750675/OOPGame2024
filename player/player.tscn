@@ -39,7 +39,7 @@ shape = SubResource("BoxShape3D_8rgmq")
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="AttackArea" type="Area3D" parent="Pivot"]
-transform = Transform3D(0.990734, 0, 0.135819, 0, 1, 0, -0.135819, 0, 0.990734, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("3_rv3yr")
@@ -49,7 +49,7 @@ transform = Transform3D(-2.57115, 3.06418, -1.33939e-07, 0, -1.74846e-07, -4, -3
 polygon = PackedVector2Array(1, 0, 0.985, 0.174, 0.94, 0.342, 0.866, 0.5, 0.707, 0.707, 0.5, 0.866, 0.342, 0.94, 0.174, 0.985, 0, 1, 0, 0)
 
 [node name="Sprite3D" type="Sprite3D" parent="Pivot/AttackArea/AttackAreaPoints"]
-transform = Transform3D(-0.140751, 0.142089, -1.32674e-09, -0.142089, -0.140751, 1.01261e-10, -8.61761e-10, 1.01383e-09, 0.2, 0.316, 0.323, -0.0125351)
+transform = Transform3D(-0.153209, 0.128558, 0, -0.128558, -0.153209, 0, 0, 0, 0.2, 0.3, 0.3, 0)
 transparency = 0.8
 texture = ExtResource("3_5n6dq")
 
@@ -129,8 +129,8 @@ billboard = 1
 no_depth_test = true
 texture = SubResource("ViewportTexture_vi6jk")
 
-[connection signal="body_entered" from="Area3D" to="." method="_onHealthPowerUpBodyEntered"]
 [connection signal="body_entered" from="Area3D" to="." method="_onMobBodyEntered"]
+[connection signal="body_entered" from="Area3D" to="." method="_onHealthPowerUpBodyEntered"]
 [connection signal="body_exited" from="Area3D" to="." method="_onMobBodyExited"]
 [connection signal="body_entered" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_onBodyEntered"]
 [connection signal="body_exited" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_onBodyExited"]

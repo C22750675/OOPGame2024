@@ -224,20 +224,27 @@ func gameOver():
 func directionManagement():
 	
 	var mousePos = get_viewport().get_mouse_position()
+
+
 	if camera:
 		var rayOrigin = camera.project_ray_origin(mousePos)
 		var rayEnd = rayOrigin + camera.project_ray_normal(mousePos) * 1000
 		
 		var spaceState = get_world_3d().direct_space_state
 		var rayQuery = PhysicsRayQueryParameters3D.new()
+
+
 		rayQuery.from = rayOrigin
 		rayQuery.to = rayEnd
 		rayQuery.exclude = [self]
 		rayQuery.collision_mask = 0xFFFFFFFF 
 		
 		var intersection = spaceState.intersect_ray(rayQuery)
+
+
 		if intersection:
-			targetPos = intersection.position
+			
+			targetPos = Vector3(intersection.position.x, global_transform.origin.y, intersection.position.z)
 			
 			$Pivot.look_at(targetPos, Vector3.UP)
 	
@@ -265,18 +272,25 @@ func spriteDirection(angleDegrees):
 	# Determine which sprite to show based on angle
 	if angleDegrees >= 337.5 or angleDegrees < 22.5:
 		playerBack.show()
+
 	elif angleDegrees >= 22.5 and angleDegrees < 67.5:
 		playerBackRight.show()
+
 	elif angleDegrees >= 67.5 and angleDegrees < 112.5:
 		playerRight.show()
+
 	elif angleDegrees >= 112.5 and angleDegrees < 157.5:
 		playerForwardRight.show()
+
 	elif angleDegrees >= 157.5 and angleDegrees < 202.5:
 		playerForward.show()
+
 	elif angleDegrees >= 202.5 and angleDegrees < 247.5:
 		playerForwardLeft.show()
+
 	elif angleDegrees >= 247.5 and angleDegrees < 292.5:
 		playerLeft.show() 
+
 	elif angleDegrees >= 292.5 and angleDegrees < 337.5:
 		playerBackLeft.show()
 
