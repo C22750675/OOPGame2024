@@ -12,7 +12,6 @@ extends CharacterBody3D
 
 @onready var damageTimer = $damageTimer # Timer for taking damage
 
-@onready var attackArea = $Pivot/AttackArea/AttackAreaPoints/AttackAreaDebug
 
 # Player health
 var health = 100
