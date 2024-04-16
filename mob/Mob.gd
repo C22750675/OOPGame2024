@@ -10,6 +10,22 @@ extends CharacterBody3D
 @onready var mobBackLeft = $MobBackLeft
 @onready var mobBackRight = $MobBackRight
 
+# Define sprite nodes for each direction (will implement later)
+"""
+@onready var sprites = {
+
+	"mForward": $MobForward,
+	"mBack": $MobBack,
+	"mLeft": $MobLeft,
+	"mRight": $MobRight,
+	"mForwardLeft": $MobForwardLeft,
+	"mForwardRight": $MobForwardRight,
+	"mBackLeft": $MobBackLeft,
+	"mBackRight": $MobBackRight
+
+}
+"""
+
 # Minimum speed of the mob in meters per second.
 @export var minSpeed = 3
 
@@ -36,16 +52,24 @@ var movementState = "normal"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
 	if GlobalVars.currentRound == 1:
+
 		minSpeed = 3
 		maxSpeed = 5
+
 	elif GlobalVars.currentRound == 2:
+
 		minSpeed = 4
 		maxSpeed = 6
+
 	elif GlobalVars.currentRound == 3:
+
 		minSpeed = 5
 		maxSpeed = 7
+
 	elif GlobalVars.currentRound == 4:
+		
 		minSpeed = 6
 		maxSpeed = 8
 

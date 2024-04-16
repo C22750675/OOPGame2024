@@ -1,14 +1,18 @@
 extends CharacterBody3D
 
-# Define Sprite nodes for each direction
-@onready var playerForward = $PlayerForward
-@onready var playerBack = $PlayerBack
-@onready var playerLeft = $PlayerLeft
-@onready var playerRight = $PlayerRight
-@onready var playerForwardLeft = $PlayerForwardLeft
-@onready var playerForwardRight = $PlayerForwardRight
-@onready var playerBackLeft = $PlayerBackLeft
-@onready var playerBackRight = $PlayerBackRight
+# Define sprite nodes for each direction
+@onready var sprites = {
+
+	"pForward": $PlayerForward,
+	"pBack": $PlayerBack,
+	"pLeft": $PlayerLeft,
+	"pRight": $PlayerRight,
+	"pForwardLeft": $PlayerForwardLeft,
+	"pForwardRight": $PlayerForwardRight,
+	"pBackLeft": $PlayerBackLeft,
+	"pBackRight": $PlayerBackRight
+
+}
 
 @onready var damageTimer = $DamageTimer # Timer for taking damage
 
@@ -41,8 +45,11 @@ var camera : Camera3D = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
-	playerBack.show()
+	sprites["pBack"].show()
+
 	var cameras = get_tree().get_nodes_in_group("camera")
+
+
 	if cameras.size() > 0:
 		camera = cameras[0] # Now you have the reference to the camera
 
@@ -260,50 +267,45 @@ func updateSpriteDirection():
 		angleDegrees += 360
 		
 	hideSprites()
-	#print_debug(angle_degrees)
+
 	spriteDirection(angleDegrees)
 
 func spriteDirection(angleDegrees):
 
-  # Adjust angle to be in range 0-360
+	# List of direction ranges
+	var directions = [
+
+		{"range": [337.5, 360], "sprite": "pBack"},
+		{"range": [0, 22.5], "sprite": "pBack"},
+		{"range": [22.5, 67.5], "sprite": "pBackRight"},
+		{"range": [67.5, 112.5], "sprite": "pRight"},
+		{"range": [112.5, 157.5], "sprite": "pForwardRight"},
+		{"range": [157.5, 202.5], "sprite": "pForward"},
+		{"range": [202.5, 247.5], "sprite": "pForwardLeft"},
+		{"range": [247.5, 292.5], "sprite": "pLeft"},
+		{"range": [292.5, 337.5], "sprite": "pBackLeft"}
+	]
+
+
+	# Adjust angle to be in range 0-360
 	if angleDegrees < 0:
 		angleDegrees += 360
-	
+
 	# Determine which sprite to show based on angle
-	if angleDegrees >= 337.5 or angleDegrees < 22.5:
-		playerBack.show()
+	for direction in directions:
 
-	elif angleDegrees >= 22.5 and angleDegrees < 67.5:
-		playerBackRight.show()
+		var angleRange = direction["range"]
 
-	elif angleDegrees >= 67.5 and angleDegrees < 112.5:
-		playerRight.show()
 
-	elif angleDegrees >= 112.5 and angleDegrees < 157.5:
-		playerForwardRight.show()
-
-	elif angleDegrees >= 157.5 and angleDegrees < 202.5:
-		playerForward.show()
-
-	elif angleDegrees >= 202.5 and angleDegrees < 247.5:
-		playerForwardLeft.show()
-
-	elif angleDegrees >= 247.5 and angleDegrees < 292.5:
-		playerLeft.show() 
-
-	elif angleDegrees >= 292.5 and angleDegrees < 337.5:
-		playerBackLeft.show()
+		if (angleDegrees >= angleRange[0]) and (angleDegrees <= angleRange[1]):
+	
+			sprites[direction["sprite"]].show()
 
 	
 func hideSprites():
+
 	# Hide all sprites
-	playerForward.hide()
-	playerBack.hide()
-	playerBackLeft.hide()
-	playerBackRight.hide()
-	playerForwardLeft.hide()
-	playerForwardRight.hide()
-	playerRight.hide()
-	playerLeft.hide()
+	for sprite in sprites.values():
+		sprite.hide()
 	
 	
