@@ -24,7 +24,7 @@ var randomSpeed
 
 var targetPlayer = null
 var targetDistance = 50
-@export var health = 20
+@export var health = 50
 
 # Add a timer for the knockback effect
 var knockbackTimer = 0.2 # Mob will be knocked back for x seconds
@@ -118,6 +118,33 @@ func _onVisibleOnScreenNotifier3DScreenExited():
 
 	queue_free()
 
+func updateSpriteColor():
+	if health <= 0:
+		return
+
+	# Calculate colour based on health
+	var healthPercentage = health / 50 # 50 is the max health of a mob
+
+	# Increase the red value as the health decreases
+	var greenValue = healthPercentage
+	var blueValue = healthPercentage
+
+
+	greenValue = clamp(greenValue, 0, 0.5)
+	blueValue = clamp(blueValue, 0, 0.5)
+
+	# Set the colour
+	var color = Color(mobForward.modulate.r, greenValue, blueValue)
+	mobForward.modulate = color
+	mobBack.modulate = color
+	mobBackLeft.modulate = color
+	mobBackRight.modulate = color
+	mobForwardLeft.modulate = color
+	mobForwardRight.modulate = color
+	mobRight.modulate = color
+	mobLeft.modulate = color
+
+
 func takeDamage(damageAmount):
 
 	if damageAmount <= 0:
@@ -129,6 +156,9 @@ func takeDamage(damageAmount):
 		return
 		
 	health -= damageAmount
+
+	# Update the sprite color
+	updateSpriteColor()
 
 	if health <= 0:
 
