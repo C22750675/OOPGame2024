@@ -1,149 +1,73 @@
 extends Area3D
 
-var playerNode: CharacterBody3D
-var baseDamageAmount = 10
-var baseKnockbackAmount = 15
-var maxChargeTime = 2.0
-var chargeRate = 1.0
-var maxAreaScale = 2.0
-var minAreaScale = 1.0
+var base_damage_amount = 10
+var base_knockback_amount = 15
+var max_charge_time = 2.0
+var charge_rate = 1.5
+var max_area_scale = 2.0
+var min_area_scale = 1.0
 
-var attackVisual: Sprite3D
-var sheildVisual: MeshInstance3D
-var attackCooldown: float = 0.75
-var timeSinceLastAttack: float = 0
-var chargeTime: float = 0
+var attack_visual: Sprite3D
+var attack_cooldown: float = 0.75
+var time_since_last_attack: float = 0
+var charge_time: float = 0
 var charging: bool = false
-var enemiesInZone: Array = []
-var baseScale: Vector3 = Vector3(1, 1, 1) # Initialize baseScale
-var queuedDamageAndKnockback: Array = [] # Store damage and knockback for queued enemies
-
-var maxSweetSpotBonus: float = 1.5
-var sweetSpotBonus: float = 1 #Initialize
-
-var maxChargeReached: bool = false
+var enemies_in_zone: Array = []
+var base_scale: Vector3 = Vector3(1, 1, 1) # Initialize base_scale
+var queued_damage_and_knockback: Array = [] # Store damage and knockback for queued enemies
 
 func _ready():
+	attack_visual = $AttackAreaPoints/Sprite3D
+	attack_visual.hide()
 
-	var parentNode = find_character_body(get_parent())
-	print(parentNode.get_class()) # Output the class name of the parent node
-	if parentNode and parentNode is CharacterBody3D:
-		playerNode = parentNode
-	else : 
-		print("error")
-	attackVisual = $AttackAreaPoints/Aoe
-	sheildVisual = $Sheild
-	sheildVisual.hide()
-	attackVisual.hide()
+func apply_damage_and_knockback(charge_factor: float):
+	var damage = base_damage_amount * charge_factor
+	var knockback = base_knockback_amount * charge_factor
+	for damage_knockback in queued_damage_and_knockback:
+		var enemy = damage_knockback["enemy"]
+		if enemy.has_method("take_damage"):
+			enemy.take_damage(damage)
+		if enemy.has_method("take_knockback"):
+			var knockback_direction = (enemy.global_transform.origin - global_transform.origin).normalized()
+			enemy.take_knockback(knockback_direction * knockback)
+	queued_damage_and_knockback.clear() # Clear the queued damage and knockback after applying
 
-func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonus: float):
-
-	var damage = baseDamageAmount * chargeFactor * sweetSpotBonus
-	var knockback = baseKnockbackAmount * chargeFactor * sweetSpotBonus
-
-	for damageKnockback in queuedDamageAndKnockback:
-
-		var enemy = damageKnockback["enemy"]
-
-		if enemy.has_method("takeDamage"):
-			enemy.takeDamage(damage)
-		if enemy.has_method("takeKnockback"):
-			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
-			enemy.takeKnockback(knockbackDirection * knockback)
-
-	queuedDamageAndKnockback.clear() # Clear the queued damage and knockback after applying
-
-func areEnemiesInZone():
-
-	return enemiesInZone.size() > 0
-
-func calculateSweetSpotBonus(chargeTime: float, sweetSpotRange: float, sweetSpotWindowSize: float):
-	var randomOffset = randf_range(-sweetSpotRange, sweetSpotRange)
-	var sweetSpotTime = maxChargeTime / 2.0 + randomOffset
-	var sweetSpotStart = sweetSpotTime - sweetSpotWindowSize / 2.0
-	var sweetSpotEnd = sweetSpotTime + sweetSpotWindowSize / 2.0
-	if chargeTime < sweetSpotStart or chargeTime > sweetSpotEnd:
-		return 1.0 # No bonus if not within the sweet spot window
-	else:
-		return lerp(1.0, maxSweetSpotBonus, abs((chargeTime - sweetSpotTime) / sweetSpotRange))
+func are_enemies_in_zone():
+	return enemies_in_zone.size() > 0
 
 func _process(delta):
-
-	timeSinceLastAttack += delta
-
+	time_since_last_attack += delta
 	if charging:
-
-		chargeTime += delta * chargeRate
+		charge_time += delta * charge_rate
 		# Clamp charge time
-		chargeTime = clamp(chargeTime, 0, maxChargeTime)
+		charge_time = clamp(charge_time, 0, max_charge_time)
 		# Calculate scale factor based on charge time
-		var scaleFactor = lerp(minAreaScale, maxAreaScale, chargeTime / maxChargeTime)
-		
-		if chargeTime >= maxChargeTime:
-			maxChargeReached = true
-			if playerNode:
-				playerNode.stop_movement(maxChargeReached)
-				sheildVisual.show()
+		var scale_factor = lerp(min_area_scale, max_area_scale, charge_time / max_charge_time)
 		# Apply scale to the area
-		scale = baseScale * scaleFactor
-		var sweetSpotRange = 0.05
-		var sweetSpotWindowSize = 0.4
-		sweetSpotBonus = calculateSweetSpotBonus(chargeTime, sweetSpotRange, sweetSpotWindowSize)
-		# Check if we are in the sweet spot
-		if sweetSpotBonus > 1.0:
-			attackVisual.modulate = Color(1,0,0)
-		else:
-			attackVisual.modulate = Color(1,1,1)
-		
-func _input(event):
+		scale = base_scale * scale_factor
 
+func _input(event):
 	if event.is_action_pressed("attack"):
 		charging = true
-		attackVisual.show() # Display attack area
-
+		attack_visual.show() # Display attack area
 	elif event.is_action_released("attack"):
-
 		charging = false
-		maxChargeReached = false
-		attackVisual.hide()
-		sheildVisual.hide()
-		if playerNode:
-				playerNode.stop_movement(maxChargeReached)
-		
+		attack_visual.hide()
+		if are_enemies_in_zone():
+			apply_damage_and_knockback(charge_time / max_charge_time)
+		charge_time = 0
 
-		if areEnemiesInZone():
-			applyDamageAndKnockback(chargeTime / maxChargeTime, sweetSpotBonus)
-
-		chargeTime = 0
-
-func _onBodyEntered(body):
-
+func _on_body_entered(body):
 	if body.is_in_group("enemies"):
-		enemiesInZone.append(body)
+		enemies_in_zone.append(body)
+		if attack_visual.visible:
+			queued_damage_and_knockback.append({"enemy": body})
 
-		if attackVisual.visible:
-			queuedDamageAndKnockback.append({"enemy": body})
-
-func _onBodyExited(body):
-
+func _on_body_exited(body):
 	if body.is_in_group("enemies"):
-		enemiesInZone.erase(body)
-
-		for i in range(queuedDamageAndKnockback.size()):
-
-			var damageKnockback = queuedDamageAndKnockback[i]
-
-			if damageKnockback["enemy"] == body:
-
-				queuedDamageAndKnockback.erase(i)
-
+		enemies_in_zone.erase(body)
+		for i in range(queued_damage_and_knockback.size()):
+			var damage_knockback = queued_damage_and_knockback[i]
+			if damage_knockback["enemy"] == body:
+				queued_damage_and_knockback.erase(i)
 				break
-
-# Recursively find the CharacterBody3D parent
-func find_character_body(node):
-	if not node:
-		return null
-	elif node is CharacterBody3D:
-		return node
-	else:
-		return find_character_body(node.get_parent())

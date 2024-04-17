@@ -34,7 +34,7 @@ collision_mask = 7
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)
 shape = SubResource("BoxShape3D_dhbjf")
 
-[node name="MobForward" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobForward" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0.5, 0)
 visible = false
 billboard = 1
@@ -43,7 +43,7 @@ render_priority = 100
 texture = ExtResource("3_r0e0b")
 region_rect = Rect2(152, 392, 112, 72)
 
-[node name="MobBack" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobBack" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
 visible = false
 billboard = 1
@@ -52,7 +52,7 @@ render_priority = 100
 texture = ExtResource("4_oxu25")
 region_rect = Rect2(160, 160, 112, 88)
 
-[node name="MobLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -1.4, 0.0500001, 0)
 visible = false
 billboard = 1
@@ -61,7 +61,7 @@ render_priority = 100
 texture = ExtResource("5_3dgw3")
 region_rect = Rect2(272, 392, 104, 72)
 
-[node name="MobRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 1, -0.3, 0)
 visible = false
 billboard = 1
@@ -70,7 +70,7 @@ render_priority = 100
 texture = ExtResource("6_qe5i2")
 region_rect = Rect2(40, 392, 104, 72)
 
-[node name="MobForwardLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobForwardLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0.5, 0)
 visible = false
 billboard = 1
@@ -79,7 +79,7 @@ render_priority = 100
 texture = ExtResource("7_cd7gq")
 region_rect = Rect2(264, 392, 112, 80)
 
-[node name="MobForwardRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobForwardRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0.2, 0.5, 0)
 visible = false
 billboard = 1
@@ -88,7 +88,7 @@ render_priority = 100
 texture = ExtResource("8_5wbbo")
 region_rect = Rect2(32, 392, 112, 72)
 
-[node name="MobBackLeft" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobBackLeft" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, -0.1, 0)
 visible = false
 billboard = 1
@@ -97,7 +97,7 @@ render_priority = 100
 texture = ExtResource("9_38fd2")
 region_rect = Rect2(280, 160, 112, 96)
 
-[node name="MobBackRight" type="Sprite3D" parent="." groups=["sprite"]]
+[node name="mobBackRight" type="Sprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0.5, 0, 0)
 visible = false
 billboard = 1
@@ -106,4 +106,4 @@ render_priority = 100
 texture = ExtResource("10_mt5fx")
 region_rect = Rect2(48, 152, 112, 96)
 
-[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_onVisibleOnScreenNotifier3DScreenExited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]
