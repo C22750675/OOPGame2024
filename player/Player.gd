@@ -19,6 +19,7 @@ extends CharacterBody3D
 
 # Player health
 var health = 100
+var cantMove: bool = false
 
 # Store the player's last position
 var lastPosition = Vector3.ZERO
@@ -59,22 +60,16 @@ func _physics_process(delta):
 
 	var direction = Vector3.ZERO
 	
-	# Move the character depending on the input
-	if Input.is_action_pressed("move_right"):
-
-		direction.x += 1
-
-	if Input.is_action_pressed("move_left"):
-
-		direction.x -= 1
-
-	if Input.is_action_pressed("move_back"):
-
-		direction.z += 1
-
-	if Input.is_action_pressed("move_forward"):
-
-		direction.z -= 1
+	if cantMove == false:
+		# Move the character depending on the input
+		if Input.is_action_pressed("move_right"):
+			direction.x += 1
+		if Input.is_action_pressed("move_left"):
+			direction.x -= 1
+		if Input.is_action_pressed("move_back"):
+			direction.z += 1
+		if Input.is_action_pressed("move_forward"):
+			direction.z -= 1
 
 	# Normalize the direction vector to ensure constant movement speed in all directions
 	if direction != Vector3.ZERO:
@@ -309,3 +304,5 @@ func hideSprites():
 		sprite.hide()
 	
 	
+func stopMovement(maxChargeReached: bool): #this method is called in the attackArea script
+	cantMove = maxChargeReached

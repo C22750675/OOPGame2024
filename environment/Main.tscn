@@ -1,8 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cce2ofdk2m3j5"]
+[gd_scene load_steps=11 format=3 uid="uid://cvq7p2j13xv8m"]
 
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_a07rh"]
 [ext_resource type="Texture2D" uid="uid://csofvxgx2pp2a" path="res://environment/environmentModels/sandyFloor.jpg" id="3_xakph"]
-[ext_resource type="PackedScene" uid="uid://drfp8737erqji" path="res://player/Player.tscn" id="4_8qp74"]
+[ext_resource type="PackedScene" uid="uid://ckj1v2hd8f5ju" path="res://player/Player.tscn" id="4_8qp74"]
 [ext_resource type="AudioStream" uid="uid://ctehd2aho6vjo" path="res://audio/bubbles.mp3" id="5_bil11"]
 [ext_resource type="Script" path="res://environment/Camera3D.gd" id="6_qikrg"]
 [ext_resource type="PackedScene" uid="uid://dr31ll2h5qouk" path="res://environment/environmentModels/Amphitheater.dae" id="7_61eal"]
