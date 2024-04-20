@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bcma4vwrm71tq"]
+
+[ext_resource type="FontFile" uid="uid://314wor8xmooq" path="res://fonts/Early GameBoy.ttf" id="1_f75k0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mei5y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l2jq8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j6yqo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nldvr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u4gco"]
+
+[resource]
+default_font = ExtResource("1_f75k0")
+default_font_size = 16
+Button/colors/font_focus_color = Color(0.321556, 0.101408, 0.8658, 1)
+Button/colors/font_hover_color = Color(0.505875, 0.470314, 0.994023, 1)
+Button/colors/font_pressed_color = Color(0.185971, 0.0376928, 0.534215, 1)
+Button/styles/disabled = SubResource("StyleBoxEmpty_mei5y")
+Button/styles/focus = SubResource("StyleBoxEmpty_l2jq8")
+Button/styles/hover = SubResource("StyleBoxEmpty_j6yqo")
+Button/styles/normal = SubResource("StyleBoxEmpty_nldvr")
+Button/styles/pressed = SubResource("StyleBoxEmpty_u4gco")
