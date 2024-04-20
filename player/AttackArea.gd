@@ -47,8 +47,12 @@ func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
 
 		var enemy = damageKnockback["enemy"]
 
+		if enemy == null or !enemy.is_inside_tree() :
+			return
+
 		if enemy.has_method("takeDamage"):
 			enemy.takeDamage(damage)
+			
 		if enemy.has_method("takeKnockback"):
 			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
 			enemy.takeKnockback(knockbackDirection * knockback)

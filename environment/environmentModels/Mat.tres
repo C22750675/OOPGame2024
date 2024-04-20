@@ -3,6 +3,6 @@
 [resource]
 resource_name = "Mat"
 cull_mode = 2
-albedo_color = Color(0.87451, 0.796078, 0.580392, 1)
+albedo_color = Color(0.930615, 0.780904, 0.540254, 1)
 metallic_specular = 0.0
 roughness = 0.55
