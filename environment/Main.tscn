@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cce2ofdk2m3j5"]
+[gd_scene load_steps=12 format=3 uid="uid://cce2ofdk2m3j5"]
 
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_a07rh"]
 [ext_resource type="Texture2D" uid="uid://csofvxgx2pp2a" path="res://environment/environmentModels/sandyFloor.jpg" id="3_xakph"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://ctehd2aho6vjo" path="res://audio/bubbles.mp3" id="5_bil11"]
 [ext_resource type="Script" path="res://environment/Camera3D.gd" id="6_qikrg"]
 [ext_resource type="PackedScene" uid="uid://dr31ll2h5qouk" path="res://environment/environmentModels/Amphitheater.dae" id="7_61eal"]
+[ext_resource type="PackedScene" uid="uid://duheykag2eaul" path="res://GUI/main_menu.tscn" id="7_bt8nm"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_42cdm"]
 
@@ -97,7 +98,11 @@ transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107
 [node name="Amphitheater" parent="." instance=ExtResource("7_61eal")]
 transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, -5, 0)
 
+[node name="MainMenu" parent="." instance=ExtResource("7_bt8nm")]
+unique_name_in_owner = true
+
 [connection signal="timeout" from="HealthPowerUpTimer" to="." method="_onHealthPowerUpTimerTimeout"]
 [connection signal="timeout" from="RoundTimer" to="." method="_onRoundTimerTimeout"]
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_onMobSpawnTimerTimeout"]
 [connection signal="timeout" from="Player/DamageTimer" to="Player" method="_onDamageTimerTimeout"]
+[connection signal="start_game" from="MainMenu" to="." method="_on_main_menu_start_game"]

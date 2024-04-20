@@ -8,7 +8,7 @@ func _ready() -> void:
 	focus_button()
 
 
-func _on_start_game_button_pressed() -> void:
+func _on_start_button_pressed() -> void:
 	start_game.emit()
 	hide()
 	
