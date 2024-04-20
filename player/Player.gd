@@ -78,6 +78,10 @@ func getInputDirection() -> Vector3:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 
+	# Return early if the player can't move
+	if cantMove:
+		return
+
 	var direction = getInputDirection()  # Get the movement direction based on player input
 
 	# Calculate the players next position
@@ -309,4 +313,5 @@ func hideSprites():
 	
 	
 func stopMovement(maxChargeReached: bool): #this method is called in the attackArea script
+
 	cantMove = maxChargeReached
