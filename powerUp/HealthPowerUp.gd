@@ -19,5 +19,3 @@ func _physics_process(delta):
 
 	# Rotate the power up
 	rotate_y(delta)
-
-	move_and_slide()
