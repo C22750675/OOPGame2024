@@ -169,13 +169,14 @@ func _onMobBodyExited(body):
 		
 		damageTimer.stop() # Stop the timer when the player is no longer colliding with any mob
 
+
 func _onDamageTimerTimeout():
 	
 	for mob in collidingMobs:
 
 		takeDamage(5)
 		
-		
+
 # Function to apply health increase from power up
 func applyHealthPowerUp(body):
 	
@@ -209,9 +210,8 @@ func gameOver():
 
 	targetEnemy = null # set target enemy to null
 
+	# Clear all mobs and power-ups from the scene
 	var mobsToFree = get_tree().get_nodes_in_group("enemies")
-
-	# Append power ups on screen to enemiesToFree
 	var healthPowerUpsToFree = get_tree().get_nodes_in_group("powerUp")
 
 
