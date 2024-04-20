@@ -1,5 +1,9 @@
 extends Node
 
+signal start_game()
+
+@onready var main_menu = %MainMenu
+
 
 # Preload the mob script to read its global variables
 var mobScene = preload("res://mob/Mob.tscn")
@@ -64,4 +68,8 @@ func _onRoundTimerTimeout():
 	if GlobalVars.roundTimer > 0:
 
 		GlobalVars.roundTimer -= 1
+		
+		
+func _on_main_menu_start_game() -> void:
+	start_game.emit()
 		
