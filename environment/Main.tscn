@@ -1,12 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://cvq7p2j13xv8m"]
+[gd_scene load_steps=13 format=3 uid="uid://cvq7p2j13xv8m"]
 
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_a07rh"]
 [ext_resource type="Texture2D" uid="uid://csofvxgx2pp2a" path="res://environment/environmentModels/sandyFloor.jpg" id="3_xakph"]
 [ext_resource type="PackedScene" uid="uid://ckj1v2hd8f5ju" path="res://player/Player.tscn" id="4_8qp74"]
-[ext_resource type="AudioStream" uid="uid://ctehd2aho6vjo" path="res://audio/bubbles.mp3" id="5_bil11"]
+[ext_resource type="AudioStream" path="res://audio/sfx/bubbles.mp3" id="5_bil11"]
 [ext_resource type="Script" path="res://environment/Camera3D.gd" id="6_qikrg"]
 [ext_resource type="PackedScene" uid="uid://dr31ll2h5qouk" path="res://environment/environmentModels/Amphitheater.dae" id="7_61eal"]
 [ext_resource type="PackedScene" uid="uid://dajjalm37no8a" path="res://ui/main_menu.tscn" id="7_hw2rg"]
+[ext_resource type="AudioStream" uid="uid://is0beh04icp1" path="res://audio/music/Music.mp3" id="8_h3a5k"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_42cdm"]
 
@@ -100,6 +101,12 @@ transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, -5, 0)
 
 [node name="MainMenu" parent="." instance=ExtResource("7_hw2rg")]
 unique_name_in_owner = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_h3a5k")
+volume_db = -20.0
+autoplay = true
+bus = &"Music"
 
 [connection signal="timeout" from="HealthPowerUpTimer" to="." method="_onHealthPowerUpTimerTimeout"]
 [connection signal="timeout" from="RoundTimer" to="." method="_onRoundTimerTimeout"]

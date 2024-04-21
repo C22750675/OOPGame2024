@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bposst2udwsnm"]
+[gd_scene load_steps=13 format=3 uid="uid://bposst2udwsnm"]
 
 [ext_resource type="Script" path="res://mob/Mob.gd" id="1_32kma"]
 [ext_resource type="Texture2D" uid="uid://de605w8ilq4eu" path="res://mob/mobSprites/forward.png" id="3_r0e0b"]
@@ -8,7 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://dmicyjuounxw0" path="res://mob/mobSprites/forwardLeft.png" id="7_cd7gq"]
 [ext_resource type="Texture2D" uid="uid://de4f0yfw1djde" path="res://mob/mobSprites/forwardRight.png" id="8_5wbbo"]
 [ext_resource type="Texture2D" uid="uid://dolxqnnuu0bsm" path="res://mob/mobSprites/backLeft.png" id="9_38fd2"]
+[ext_resource type="AudioStream" uid="uid://d00ja1lm3fuxo" path="res://audio/sfx/mob_dies.wav" id="10_eymkj"]
 [ext_resource type="Texture2D" uid="uid://ce6ace7w0f4rd" path="res://mob/mobSprites/backRight.png" id="10_mt5fx"]
+[ext_resource type="AudioStream" uid="uid://bukync7rco42u" path="res://audio/sfx/mob_knockback.wav" id="11_r8yhf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dhbjf"]
 size = Vector3(3, 1.4444, 2.67419)
@@ -105,5 +107,13 @@ no_depth_test = true
 render_priority = 100
 texture = ExtResource("10_mt5fx")
 region_rect = Rect2(48, 152, 112, 96)
+
+[node name="MobDies" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_eymkj")
+bus = &"SFX"
+
+[node name="MobKnockback" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_r8yhf")
+bus = &"SFX"
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_onVisibleOnScreenNotifier3DScreenExited"]

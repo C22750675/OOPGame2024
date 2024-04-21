@@ -15,6 +15,9 @@ extends CharacterBody3D
 }
 
 @onready var damageTimer = $DamageTimer # Timer for taking damage
+@onready var player_takes_damage = $PlayerTakesDamage
+@onready var health_power_up = $HealthPowerUp
+
 
 
 # Player health
@@ -145,6 +148,7 @@ func _onMobBodyEntered(body):
 		collidingMobs.append(body)
 
 		takeDamage(5)
+		player_takes_damage.play()
 
 		damageTimer.start()
 
@@ -168,7 +172,8 @@ func _onMobBodyExited(body):
 func _onDamageTimerTimeout():
 	
 	for mob in collidingMobs:
-
+		
+		player_takes_damage.play()
 		takeDamage(5)
 		
 		
@@ -186,6 +191,8 @@ func applyHealthPowerUp(body):
 		givenHealth = 20
 
 	$SubViewport/HealthBar3D.value += givenHealth
+	
+	health_power_up.play()
    
 	# Remove the power-up from the scene
 	body.queue_free()
