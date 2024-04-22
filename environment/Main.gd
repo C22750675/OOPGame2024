@@ -81,8 +81,3 @@ func _onOneSecondTimout():
 	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
 	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
 	$RoundNumber.text = "Round: " + str(GlobalVars.currentRound)
-
-func _on_main_menu_start_game() -> void:
-
-	start_game.emit()
-	
