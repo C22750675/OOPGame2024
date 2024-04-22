@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cvq7p2j13xv8m"]
+[gd_scene load_steps=17 format=3 uid="uid://cvq7p2j13xv8m"]
 
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_a07rh"]
 [ext_resource type="Texture2D" uid="uid://qyituie2u1m" path="res://environment/environmentModels/778185.jpg" id="2_6cgew"]
@@ -9,6 +9,28 @@
 [ext_resource type="PackedScene" uid="uid://dajjalm37no8a" path="res://ui/main_menu.tscn" id="7_hw2rg"]
 [ext_resource type="AudioStream" uid="uid://is0beh04icp1" path="res://audio/music/Music.mp3" id="8_h3a5k"]
 [ext_resource type="Script" path="res://environment/waterReflections.gd" id="17_hbvyi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_67181"]
+
+[sub_resource type="FontFile" id="FontFile_klhv0"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/50/0 = Vector2(0, 0)
+cache/0/50/0/ascent = 0.0
+cache/0/50/0/descent = 0.0
+cache/0/50/0/underline_position = 0.0
+cache/0/50/0/underline_thickness = 0.0
+cache/0/50/0/scale = 1.0
+cache/0/50/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/50/0/kerning_overrides/50/0 = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_snghf"]
+font = SubResource("FontFile_klhv0")
+font_size = 50
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_42cdm"]
 
@@ -42,12 +64,17 @@ offset_right = 0.5
 offset_bottom = 23.0
 grow_horizontal = 2
 scale = Vector2(3, 3)
+label_settings = SubResource("LabelSettings_67181")
 horizontal_alignment = 1
 
 [node name="RoundNo" type="Label" parent="."]
 offset_left = 1149.0
+offset_top = 544.0
 offset_right = 1150.0
-offset_bottom = 73.0
+offset_bottom = 640.0
+label_settings = SubResource("LabelSettings_snghf")
+horizontal_alignment = 2
+vertical_alignment = 2
 
 [node name="WaterFrameChange" type="Timer" parent="."]
 wait_time = 0.1
@@ -122,10 +149,9 @@ script = ExtResource("17_hbvyi")
 
 [node name="MainMenu" parent="." instance=ExtResource("7_hw2rg")]
 unique_name_in_owner = true
-offset_left = -1.0
-offset_top = -2.0
+offset_left = 3.0
+offset_top = 1.0
 offset_right = -1.0
-offset_bottom = -2.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_h3a5k")
