@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cvq7p2j13xv8m"]
+[gd_scene load_steps=16 format=3 uid="uid://cvq7p2j13xv8m"]
 
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_a07rh"]
 [ext_resource type="Texture2D" uid="uid://qyituie2u1m" path="res://environment/environmentModels/778185.jpg" id="2_6cgew"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dffvde4m8jce7" path="res://environment/environmentArt/waterFrames/water0.png" id="7_d07ed"]
 [ext_resource type="PackedScene" uid="uid://dajjalm37no8a" path="res://ui/main_menu.tscn" id="7_hw2rg"]
 [ext_resource type="AudioStream" uid="uid://is0beh04icp1" path="res://audio/music/Music.mp3" id="8_h3a5k"]
+[ext_resource type="FontFile" uid="uid://314wor8xmooq" path="res://fonts/Early GameBoy.ttf" id="8_x8h64"]
 [ext_resource type="Script" path="res://environment/waterReflections.gd" id="17_hbvyi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_67181"]
@@ -121,6 +122,71 @@ spot_angle = 48.63
 spot_angle_attenuation = 1e-05
 script = ExtResource("17_hbvyi")
 
+[node name="InGameMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="InGameMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0823529, 0.00784314, 0.270588, 0.85098)
+
+[node name="MarginContainer" type="MarginContainer" parent="InGameMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 256
+theme_override_constants/margin_right = 256
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InGameMenu/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="InGameMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 32
+columns = 2
+
+[node name="MusicLabel" type="Label" parent="InGameMenu/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_x8h64")
+theme_override_font_sizes/font_size = 32
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="InGameMenu/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SFXLabel" type="Label" parent="InGameMenu/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_x8h64")
+theme_override_font_sizes/font_size = 32
+text = "Sound Effects"
+
+[node name="SFXSlider" type="HSlider" parent="InGameMenu/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 1.0
+
 [node name="MainMenu" parent="." instance=ExtResource("7_hw2rg")]
 unique_name_in_owner = true
 offset_left = 3.0
@@ -138,4 +204,6 @@ bus = &"Music"
 [connection signal="timeout" from="OneSecond" to="." method="_onOneSecondTimout"]
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_onMobSpawnTimerTimeout"]
 [connection signal="timeout" from="Player/DamageTimer" to="Player" method="_onDamageTimerTimeout"]
+[connection signal="value_changed" from="InGameMenu/MarginContainer/VBoxContainer/GridContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="InGameMenu/MarginContainer/VBoxContainer/GridContainer/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
 [connection signal="start_game" from="MainMenu" to="." method="_on_main_menu_start_game"]
