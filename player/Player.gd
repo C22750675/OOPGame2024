@@ -155,7 +155,7 @@ func _onMobBodyEntered(body):
 		# Add the mob to the array when the player collides with it
 		collidingMobs.append(body)
 
-		takeDamage(5)
+		
 		player_takes_damage.play()
 
 		damageTimer.start()
@@ -180,11 +180,28 @@ func _onMobBodyExited(body):
 
 func _onDamageTimerTimeout():
 	
+	
+	var baseDamage = 5  # Define a base damage amount
+	var scalingFactor = 1.0  # Default scaling factor
+
+	# Adjust scaling factor based on the current round
+	match GlobalVars.currentRound:
+		1:
+			scalingFactor = 1.0
+		2:
+			scalingFactor = 1.5
+		3:
+			scalingFactor = 2.0
+		4:
+			scalingFactor = 2.5
+		_:
+			scalingFactor = 3.0
+
+	var scaledDamage = baseDamage * scalingFactor  # Calculate scaled damage
+
 	for mob in collidingMobs:
-		
 		player_takes_damage.play()
-		takeDamage(5)
-		
+		takeDamage(scaledDamage)
 
 # Function to apply health increase from power up
 func applyHealthPowerUp(body):

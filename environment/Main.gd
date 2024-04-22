@@ -85,7 +85,8 @@ func _onRoundTimerTimeout():
 
 	else:
 		startNextRound()
-		GlobalVars.roundTimer = 60
+		GlobalVars.roundTimer = 10
+		GlobalVars.currentRound +=1
 
 
 # Function to start the next round
