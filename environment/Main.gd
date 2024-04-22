@@ -2,7 +2,6 @@ extends Node
 
 signal start_game()
 
-var roundNumber = 0
 
 @onready var main_menu = %MainMenu
 
@@ -14,12 +13,11 @@ var healthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 func _ready():
 
 	# Start the round timer
-	$RoundTimer.start()
+	$OneSecond.start()
 	
 	# Start the HealthPowerUpTimer
 	$HealthPowerUpTimer.start()
 	
-	startNextRound()
 	
 func _onHealthPowerUpTimerTimeout():
 	
@@ -64,30 +62,24 @@ func _onMobSpawnTimerTimeout():
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
 
-
-func _process(_delta):
-
-	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
-	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
-	
-
-func updateRoundCounterLabel():
-	$RoundNo.text = "Round: " + str(roundNumber)
-
-func _onRoundTimerTimeout():
+func _onOneSecondTimout():
 	
 	if GlobalVars.roundTimer > 0:
 
 		GlobalVars.roundTimer -= 1
+
 	else:
-		startNextRound()
+		# Increment currentRound
+		GlobalVars.currentRound += 1
+
 		GlobalVars.roundTimer = 60
 
+	# Update the UI labels once per second
+	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
+	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
+	$RoundNumber.text = "Round: " + str(GlobalVars.currentRound)
+
 func _on_main_menu_start_game() -> void:
+
 	start_game.emit()
 	
-# Function to start the next round
-func startNextRound():
-	roundNumber += 1
-	updateRoundCounterLabel()  # Update the round counter label
-

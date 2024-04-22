@@ -107,7 +107,7 @@ func _physics_process(delta):
 
 		var newPosition = position + direction * randomSpeed * delta
 
-
+		# If the mob is too far from the player, kill it
 		if newPosition.distance_to(Vector3.ZERO) > 25:
 
 			queue_free()
@@ -148,23 +148,18 @@ func takeDamage(damageAmount):
 
 	if damageAmount <= 0:
 		
-		mobDies.play()
 		return
 
-	if health <= 0:
-
-		mobDies.play()
-		return
 		
 	health -= damageAmount
 
 	if health <= 0:
-		
-		mobDies.play()
-		await mobDies.finished
-		queue_free()
 
-		GlobalVars.mobsKilled += 1
+		mobDies.play() # Play the death audio
+
+		GlobalVars.mobsKilled += 1 # Increment the number of mobs killed
+
+		queue_free() # Kill the mob
 
 func takeKnockback(force : Vector3):
 	

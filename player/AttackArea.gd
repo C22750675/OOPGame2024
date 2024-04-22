@@ -5,43 +5,43 @@ extends Area3D
 var playerNode: CharacterBody3D
 var baseDamageAmount = 10
 var baseKnockbackAmount = 15
+
+# Charge attack variables
 var maxChargeTime = 2.0
 var chargeRate = 1.0
+var chargeTime: float = 0
+var charging: bool = false
+var maxChargeReached: bool = false
+
+# Area scaling variables
 var maxAreaScale = 2.0
 var minAreaScale = 1.0
 
+# Attack variables
 var attackVisual: Sprite3D
-var sheildVisual: MeshInstance3D
 var attackCooldown: float = 0.75
 var timeSinceLastAttack: float = 0
-var chargeTime: float = 0
-var charging: bool = false
 var enemiesInZone: Array = []
 var baseScale: Vector3 = Vector3(1, 1, 1) # Initialize baseScale
 var queuedDamageAndKnockback: Array = [] # Store damage and knockback for queued enemies
 
+# Sweet spot variables
 var maxSweetSpotBonus: float = 1.5
 var sweetSpotRange: float = 0.05
 var sweetSpotBonus: float = 1.0 #initialize
 var sweetSpotWindowSize: float = 0.4
 
-var maxChargeReached: bool = false
-
 func _ready():
 
 	var parentNode = find_character_body(get_parent())
 	
-	
-	print(parentNode.get_class()) # Output the class name of the parent node
-	
+		
 	if parentNode and parentNode is CharacterBody3D:
 		playerNode = parentNode
 	else : 
 		print("error")
 		
 	attackVisual = $AttackAreaPoints/Aoe
-	sheildVisual = $Shield
-	sheildVisual.hide()
 	attackVisual.hide()
 
 func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
@@ -58,16 +58,18 @@ func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
 
 		if enemy.has_method("takeDamage"):
 			enemy.takeDamage(damage)
+
+		if enemy == null or !enemy.is_inside_tree() :
+			continue
 			
 		if enemy.has_method("takeKnockback"):
 			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
 			enemy.takeKnockback(knockbackDirection * knockback)
-			
-	mobKnockback.play()
-	await mobKnockback.finished
-			
 
 	queuedDamageAndKnockback.clear() # Clear the queued damage and knockback after applying
+
+	# Play the knockback sound
+	mobKnockback.play()
 
 func areEnemiesInZone():
 
@@ -101,7 +103,7 @@ func _process(delta):
 			maxChargeReached = true
 			if playerNode:
 				playerNode.stopMovement(maxChargeReached)
-				sheildVisual.show()
+
 		# Apply scale to the area
 		scale = baseScale * scaleFactor
 		sweetSpotBonus = calculateSweetSpotBonus(chargeTime)
@@ -122,7 +124,7 @@ func _input(event):
 		charging = false
 		maxChargeReached = false
 		attackVisual.hide()
-		sheildVisual.hide()
+
 		if playerNode:
 				playerNode.stopMovement(maxChargeReached)
 		
