@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ca0bpnnqfsl3w"
+path="res://.godot/imported/Bomberman Hero_ Redial HD.mp3-ebf7459a323554cc12d8a427bc0d861f.mp3str"
+
+[deps]
+
+source_file="res://audio/music/Bomberman Hero_ Redial HD.mp3"
+dest_files=["res://.godot/imported/Bomberman Hero_ Redial HD.mp3-ebf7459a323554cc12d8a427bc0d861f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

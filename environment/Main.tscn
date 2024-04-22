@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_a07rh"]
 [ext_resource type="Texture2D" uid="uid://qyituie2u1m" path="res://environment/environmentModels/778185.jpg" id="2_6cgew"]
 [ext_resource type="PackedScene" uid="uid://ckj1v2hd8f5ju" path="res://player/Player.tscn" id="4_8qp74"]
-[ext_resource type="AudioStream" uid="uid://ctehd2aho6vjo" path="res://audio/bubbles.mp3" id="5_bil11"]
 [ext_resource type="Script" path="res://environment/Camera3D.gd" id="6_qikrg"]
 [ext_resource type="PackedScene" uid="uid://dr31ll2h5qouk" path="res://environment/environmentModels/Amphitheater.dae" id="7_61eal"]
 [ext_resource type="Texture2D" uid="uid://dffvde4m8jce7" path="res://environment/environmentArt/waterFrames/water0.png" id="7_d07ed"]
 [ext_resource type="PackedScene" uid="uid://dajjalm37no8a" path="res://ui/main_menu.tscn" id="7_hw2rg"]
+[ext_resource type="AudioStream" uid="uid://is0beh04icp1" path="res://audio/music/Music.mp3" id="8_h3a5k"]
 [ext_resource type="Script" path="res://environment/waterReflections.gd" id="17_hbvyi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_67181"]
@@ -112,9 +112,6 @@ light_color = Color(0.945098, 1, 1, 1)
 [node name="Player" parent="." instance=ExtResource("4_8qp74")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="Bubbles" type="AudioStreamPlayer" parent="Player"]
-stream = ExtResource("5_bil11")
-
 [node name="DamageTimer" type="Timer" parent="Player"]
 wait_time = 0.5
 one_shot = true
@@ -155,6 +152,12 @@ unique_name_in_owner = true
 offset_left = 3.0
 offset_top = 1.0
 offset_right = -1.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_h3a5k")
+volume_db = -20.0
+autoplay = true
+bus = &"Music"
 
 [connection signal="timeout" from="WaterFrameChange" to="waterReflections" method="_OnWaterFramechangeTimeout"]
 [connection signal="timeout" from="HealthPowerUpTimer" to="." method="_onHealthPowerUpTimerTimeout"]
