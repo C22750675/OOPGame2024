@@ -12,21 +12,8 @@ extends CharacterBody3D
 
 @onready var mobDies = $MobDies
 
-# Define sprite nodes for each direction (will implement later)
-"""
-@onready var sprites = {
+@onready var deathAnimation = $DeathAnimation
 
-	"mForward": $MobForward,
-	"mBack": $MobBack,
-	"mLeft": $MobLeft,
-	"mRight": $MobRight,
-	"mForwardLeft": $MobForwardLeft,
-	"mForwardRight": $MobForwardRight,
-	"mBackLeft": $MobBackLeft,
-	"mBackRight": $MobBackRight
-
-}
-"""
 
 # Minimum speed of the mob in meters per second.
 @export var minSpeed = 3
@@ -128,6 +115,18 @@ func _physics_process(delta):
 			knockbackForce = Vector3.ZERO
 			knockbackTime = 0
 
+	elif movementState == "dead":
+
+		# Mob faces forward and doesn't move
+		
+		velocity = Vector3.ZERO
+
+		hideSprites()
+
+		# Animate the death of the mob and pass current position to the function
+		animateDeath()
+
+
 func initialize(startPosition, playerPosition):
 	
 	var playerPositionXZ = Vector3(playerPosition.x, startPosition.y, playerPosition.z)
@@ -144,6 +143,25 @@ func _onVisibleOnScreenNotifier3DScreenExited():
 
 	queue_free()
 
+
+func updateSpriteColour():
+
+	# Calculate the saturation based on the current health
+	var saturation = (health / 20.0) + 0.5  # Assuming the initial health is 20
+
+	# Create a new colour with the calculated saturation
+	var colour = Color(saturation, saturation, saturation, 1)
+
+	# Update the colour of the sprites
+	mobForward.modulate = colour
+	mobBack.modulate = colour
+	mobLeft.modulate = colour
+	mobRight.modulate = colour
+	mobForwardLeft.modulate = colour
+	mobForwardRight.modulate = colour
+	mobBackLeft.modulate = colour
+	mobBackRight.modulate = colour
+
 func takeDamage(damageAmount):
 
 	if damageAmount <= 0:
@@ -155,14 +173,26 @@ func takeDamage(damageAmount):
 
 	if health <= 0:
 
-		mobDies.play() # Play the death audio
+		# Set the movement state to dead
+		movementState = "dead"
 
-		GlobalVars.mobsKilled += 1 # Increment the number of mobs killed
+	 	# Increment the number of mobs killed
+		GlobalVars.mobsKilled += 1
 
-		queue_free() # Kill the mob
+	else:
+
+		updateSpriteColour()
+
+
 
 func takeKnockback(force : Vector3):
 	
+	# If health is less than or equal to 0, don't apply knockback
+	if health <= 0:
+		
+		return
+
+	# Apply the knockback force to the mob
 	knockbackForce = force
 	velocity += knockbackForce
 	movementState = "knockback"
@@ -244,3 +274,15 @@ func hideSprites():
 	mobForwardRight.hide()
 	mobRight.hide()
 	mobLeft.hide()
+
+func animateDeath():
+
+	# Show the death sprite
+	deathAnimation.show()
+
+	# Play the death animation
+	deathAnimation.play("Smoke")
+
+func killMob():
+
+	queue_free()
