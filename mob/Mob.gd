@@ -9,7 +9,7 @@ extends CharacterBody3D
 @onready var mobForwardRight = $MobForwardRight
 @onready var mobBackLeft = $MobBackLeft
 @onready var mobBackRight = $MobBackRight
-
+@onready var mob_dies = $MobDies
 # Define sprite nodes for each direction (will implement later)
 """
 @onready var sprites = {
@@ -145,26 +145,31 @@ func _onVisibleOnScreenNotifier3DScreenExited():
 func takeDamage(damageAmount):
 
 	if damageAmount <= 0:
-
+		
+		mob_dies.play()
 		return
 
 	if health <= 0:
 
+		mob_dies.play()
 		return
 		
 	health -= damageAmount
 
 	if health <= 0:
-
+		
+		mob_dies.play()
+		await mob_dies.finished
 		queue_free()
 
 		GlobalVars.mobsKilled += 1
 
 func takeKnockback(force : Vector3):
-
+	
 	knockbackForce = force
 	velocity += knockbackForce
 	movementState = "knockback"
+	
 
 func findPlayer():
 

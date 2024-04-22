@@ -1,5 +1,7 @@
 extends Area3D
 
+@onready var mob_knockback = $"../../MobKnockback"
+
 var playerNode: CharacterBody3D
 var baseDamageAmount = 10
 var baseKnockbackAmount = 15
@@ -52,6 +54,11 @@ func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
 		if enemy.has_method("takeKnockback"):
 			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
 			enemy.takeKnockback(knockbackDirection * knockback)
+			
+	mob_knockback.play()
+	await mob_knockback.finished
+			
+
 
 	queuedDamageAndKnockback.clear() # Clear the queued damage and knockback after applying
 
