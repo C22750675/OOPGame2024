@@ -2,6 +2,8 @@ extends Node
 
 signal start_game()
 
+var roundNumber = 0
+
 @onready var main_menu = %MainMenu
 
 
@@ -16,6 +18,8 @@ func _ready():
 	
 	# Start the HealthPowerUpTimer
 	$HealthPowerUpTimer.start()
+	
+	startNextRound()
 	
 func _onHealthPowerUpTimerTimeout():
 	
@@ -61,15 +65,25 @@ func _process(_delta):
 
 	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
 	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
+	
 
+func updateRoundCounterLabel():
+	$RoundNo.text = "Round: " + str(roundNumber)
 
 func _onRoundTimerTimeout():
 	
 	if GlobalVars.roundTimer > 0:
 
 		GlobalVars.roundTimer -= 1
-		
-		
+	else:
+		startNextRound()
+		GlobalVars.roundTimer = 60
+
 func _on_main_menu_start_game() -> void:
 	start_game.emit()
-		
+	
+# Function to start the next round
+func startNextRound():
+	roundNumber += 1
+	updateRoundCounterLabel()  # Update the round counter label
+
