@@ -9,7 +9,7 @@ var maxAreaScale = 2.0
 var minAreaScale = 1.0
 
 var attackVisual: Sprite3D
-var shieldVisual: MeshInstance3D
+var sheildVisual: MeshInstance3D
 var attackCooldown: float = 0.75
 var timeSinceLastAttack: float = 0
 var chargeTime: float = 0
@@ -28,15 +28,14 @@ var maxChargeReached: bool = false
 func _ready():
 
 	var parentNode = find_character_body(get_parent())
-	
+	print(parentNode.get_class()) # Output the class name of the parent node
 	if parentNode and parentNode is CharacterBody3D:
 		playerNode = parentNode
 	else : 
 		print("error")
-
 	attackVisual = $AttackAreaPoints/Aoe
-	shieldVisual = $Shield
-	shieldVisual.hide()
+	sheildVisual = $Shield
+	sheildVisual.hide()
 	attackVisual.hide()
 
 func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
@@ -48,12 +47,8 @@ func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
 
 		var enemy = damageKnockback["enemy"]
 
-		if enemy == null or !enemy.is_inside_tree() :
-			continue
-
 		if enemy.has_method("takeDamage"):
 			enemy.takeDamage(damage)
-
 		if enemy.has_method("takeKnockback"):
 			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
 			enemy.takeKnockback(knockbackDirection * knockback)
@@ -81,24 +76,19 @@ func _process(delta):
 	if charging:
 
 		chargeTime += delta * chargeRate
-
 		# Clamp charge time
 		chargeTime = clamp(chargeTime, 0, maxChargeTime)
-
 		# Calculate scale factor based on charge time
 		var scaleFactor = lerp(minAreaScale, maxAreaScale, chargeTime / maxChargeTime)
-		
 		
 		if chargeTime >= maxChargeTime:
 			maxChargeReached = true
 			if playerNode:
 				playerNode.stopMovement(maxChargeReached)
-				shieldVisual.show()
-
+				sheildVisual.show()
 		# Apply scale to the area
 		scale = baseScale * scaleFactor
 		sweetSpotBonus = calculateSweetSpotBonus(chargeTime)
-
 		# Check if we are in the sweet spot
 		if sweetSpotBonus > 1.0:
 			attackVisual.modulate = Color(1,0,0)
@@ -106,6 +96,7 @@ func _process(delta):
 			attackVisual.modulate = Color(1,1,1)
 		
 func _input(event):
+
 
 	if event.is_action_pressed("attack"):
 		charging = true
@@ -116,8 +107,7 @@ func _input(event):
 		charging = false
 		maxChargeReached = false
 		attackVisual.hide()
-		shieldVisual.hide()
-
+		sheildVisual.hide()
 		if playerNode:
 				playerNode.stopMovement(maxChargeReached)
 		
