@@ -10,6 +10,9 @@ signal start_game()
 var mobScene = preload("res://mob/Mob.tscn")
 var healthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 
+func _on_main_menu_start_game() -> void:
+	start_game.emit()
+
 func _ready():
 
 	# Start the round timer
