@@ -1,0 +1,179 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2pak7ahkloaq"]
+
+[ext_resource type="FontFile" uid="uid://314wor8xmooq" path="res://fonts/Early GameBoy.ttf" id="1_1aa1e"]
+[ext_resource type="Theme" uid="uid://dkbhvgd8fqume" path="res://themes/default_theme.tres" id="1_ay55a"]
+
+[sub_resource type="GDScript" id="GDScript_3r727"]
+script/source = "extends Control
+
+signal return_to_game()
+signal main_menu()
+
+
+@onready var Music_Bus_ID = AudioServer.get_bus_index(\"Music\")
+@onready var MobDies_Bus_ID = AudioServer.get_bus_index(\"MobDies\")
+@onready var MobKnockback_Bus_ID = AudioServer.get_bus_index(\"MobKnockback\")
+@onready var HealthPowerUp_Bus_ID = AudioServer.get_bus_index(\"HealthPowerUp\")
+@onready var PlayerDamage_Bus_ID = AudioServer.get_bus_index(\"PlayerDamage\")
+@onready var buttons_v_box = %ButtonsVBox
+
+# Function to operate the slider vlaues for Music
+func _on_music_slider_value_changed(value):
+	
+	AudioServer.set_bus_volume_db(Music_Bus_ID, linear_to_db(value))
+	AudioServer.set_bus_mute(Music_Bus_ID, value < 0.05)
+
+# Function to operate the slider vlaues for SFX
+func _on_sfx_slider_value_changed(value):
+	
+	AudioServer.set_bus_volume_db(MobDies_Bus_ID, linear_to_db(value))
+	AudioServer.set_bus_volume_db(MobKnockback_Bus_ID, linear_to_db(value))
+	AudioServer.set_bus_volume_db(HealthPowerUp_Bus_ID, linear_to_db(value))
+	AudioServer.set_bus_volume_db(PlayerDamage_Bus_ID, linear_to_db(value))
+	AudioServer.set_bus_mute(MobDies_Bus_ID, value < 0.05)
+	AudioServer.set_bus_mute(MobKnockback_Bus_ID, value < 0.05)
+	AudioServer.set_bus_mute(HealthPowerUp_Bus_ID, value < 0.05)
+	AudioServer.set_bus_mute(PlayerDamage_Bus_ID, value < 0.05)
+	
+	
+func focus_button() -> void:
+	
+	if buttons_v_box:
+		var button: Button = buttons_v_box.get_child(0)
+		if button is Button:
+			button.grab_focus()
+
+
+func _on_visibility_changed():
+	if visible:
+		focus_button()
+
+
+func _on_return_to_game_button_pressed():
+
+	return_to_game.emit()
+
+
+func _on_main_menu_button_pressed():
+	
+	main_menu.emit()
+	
+
+
+func _on_quit_button_pressed():
+	
+	get_tree().quit()
+"
+
+[node name="InGameMenu" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ay55a")
+script = SubResource("GDScript_3r727")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0823529, 0.00784314, 0.270588, 0.85098)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 256
+theme_override_constants/margin_right = 256
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="ReturnToGameButton" type="Button" parent="MarginContainer/ButtonsVBox"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../QuitButton")
+focus_neighbor_bottom = NodePath("../GridContainer/MusicSlider")
+focus_next = NodePath("../GridContainer/MusicSlider")
+focus_previous = NodePath("../QuitButton")
+theme_override_font_sizes/font_size = 32
+text = "Continue Game"
+alignment = 0
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/ButtonsVBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 32
+columns = 2
+
+[node name="MusicLabel" type="Label" parent="MarginContainer/ButtonsVBox/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_1aa1e")
+theme_override_font_sizes/font_size = 32
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="MarginContainer/ButtonsVBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../../ReturnToGameButton")
+focus_neighbor_bottom = NodePath("../SFXSlider")
+focus_next = NodePath("../../ReturnToGameButton")
+focus_previous = NodePath("../SFXSlider")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SFXLabel" type="Label" parent="MarginContainer/ButtonsVBox/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_1aa1e")
+theme_override_font_sizes/font_size = 32
+text = "Sound Effects"
+
+[node name="SFXSlider" type="HSlider" parent="MarginContainer/ButtonsVBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../MusicSlider")
+focus_neighbor_bottom = NodePath("../../MainMenuButton")
+focus_next = NodePath("../MusicSlider")
+focus_previous = NodePath("../../MainMenuButton")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="MainMenuButton" type="Button" parent="MarginContainer/ButtonsVBox"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../GridContainer/SFXSlider")
+focus_neighbor_bottom = NodePath("../QuitButton")
+focus_next = NodePath("../GridContainer/SFXSlider")
+focus_previous = NodePath("../QuitButton")
+theme_override_font_sizes/font_size = 32
+text = "Return to Menu"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="MarginContainer/ButtonsVBox"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../MainMenuButton")
+focus_neighbor_bottom = NodePath("../ReturnToGameButton")
+focus_next = NodePath("../ReturnToGameButton")
+focus_previous = NodePath("../MainMenuButton")
+theme_override_font_sizes/font_size = 32
+text = "Quit Game"
+alignment = 0
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="MarginContainer/ButtonsVBox/ReturnToGameButton" to="." method="_on_return_to_game_button_pressed"]
+[connection signal="value_changed" from="MarginContainer/ButtonsVBox/GridContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/ButtonsVBox/GridContainer/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="MarginContainer/ButtonsVBox/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="MarginContainer/ButtonsVBox/QuitButton" to="." method="_on_quit_button_pressed"]
