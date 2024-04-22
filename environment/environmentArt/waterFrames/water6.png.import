@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csofvxgx2pp2a"
-path.s3tc="res://.godot/imported/sandyFloor.jpg-45ed41707163792324ec74c6ebd1de2b.s3tc.ctex"
+uid="uid://byeo0nojg7oji"
+path.s3tc="res://.godot/imported/water6.png-b9369fa96b5fe2c99987cd7748cbd939.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://environment/environmentModels/sandyFloor.jpg"
-dest_files=["res://.godot/imported/sandyFloor.jpg-45ed41707163792324ec74c6ebd1de2b.s3tc.ctex"]
+source_file="res://environment/environmentArt/waterFrames/water6.png"
+dest_files=["res://.godot/imported/water6.png-b9369fa96b5fe2c99987cd7748cbd939.s3tc.ctex"]
 
 [params]
 
