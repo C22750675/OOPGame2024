@@ -57,10 +57,8 @@ func _ready():
 	if cameras.size() > 0:
 		camera = cameras[0] # Now you have the reference to the camera
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
-
+func getInputDirection() -> Vector3:
+	
 	var direction = Vector3.ZERO
 	
 	if cantMove == false:
@@ -74,10 +72,20 @@ func _physics_process(delta):
 		if Input.is_action_pressed("move_forward"):
 			direction.z -= 1
 
-	# Normalize the direction vector to ensure constant movement speed in all directions
 	if direction != Vector3.ZERO:
+		return direction.normalized() # Normalize the direction vector to ensure constant movement speed in all directions
+	else:
+		return direction
 
-		direction = direction.normalized()
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta):
+
+	# Return early if the player can't move
+	if cantMove:
+		return
+
+	var direction = getInputDirection()  # Get the movement direction based on player input
 
 	# Calculate the players next position
 	var newPosition = position + direction * speed * delta
@@ -92,7 +100,7 @@ func _physics_process(delta):
 	targetVelocity.z = direction.z * speed
 
 	# Vertical Velocity
-	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
+	if not is_on_floor(): # If in the air, fall towards the floor
 
 		targetVelocity.y = targetVelocity.y - (fallAcceleration * delta)
 
@@ -169,6 +177,7 @@ func _onMobBodyExited(body):
 		
 		damageTimer.stop() # Stop the timer when the player is no longer colliding with any mob
 
+
 func _onDamageTimerTimeout():
 	
 	for mob in collidingMobs:
@@ -176,7 +185,7 @@ func _onDamageTimerTimeout():
 		player_takes_damage.play()
 		takeDamage(5)
 		
-		
+
 # Function to apply health increase from power up
 func applyHealthPowerUp(body):
 	
@@ -212,9 +221,8 @@ func gameOver():
 
 	targetEnemy = null # set target enemy to null
 
+	# Clear all mobs and power-ups from the scene
 	var mobsToFree = get_tree().get_nodes_in_group("enemies")
-
-	# Append power ups on screen to enemiesToFree
 	var healthPowerUpsToFree = get_tree().get_nodes_in_group("powerUp")
 
 
@@ -312,4 +320,5 @@ func hideSprites():
 	
 	
 func stopMovement(maxChargeReached: bool): #this method is called in the attackArea script
+
 	cantMove = maxChargeReached

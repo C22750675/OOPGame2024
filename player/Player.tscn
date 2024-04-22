@@ -136,6 +136,7 @@ billboard = 1
 no_depth_test = true
 texture = SubResource("ViewportTexture_vi6jk")
 
+
 [node name="PlayerTakesDamage" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_1yiut")
 bus = &"SFX"
