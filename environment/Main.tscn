@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dffvde4m8jce7" path="res://environment/environmentArt/waterFrames/water0.png" id="7_d07ed"]
 [ext_resource type="PackedScene" uid="uid://dajjalm37no8a" path="res://ui/main_menu.tscn" id="7_hw2rg"]
 [ext_resource type="AudioStream" uid="uid://is0beh04icp1" path="res://audio/music/Music.mp3" id="8_h3a5k"]
-[ext_resource type="PackedScene" uid="uid://d2pak7ahkloaq" path="res://ui/in_game_menu.tscn" id="8_tahh5"]
+[ext_resource type="PackedScene" path="res://ui/in_game_menu.tscn" id="8_tahh5"]
 [ext_resource type="Script" path="res://environment/waterReflections.gd" id="17_hbvyi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_67181"]
