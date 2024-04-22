@@ -99,6 +99,10 @@ collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_32kma")
 
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)
 shape = SubResource("BoxShape3D_dhbjf")
@@ -205,5 +209,6 @@ animation = &"Smoke"
 frame = 5
 frame_progress = 0.231929
 
+[connection signal="timeout" from="KnockbackTimer" to="." method="_onKnockbackTimerTimeout"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_onVisibleOnScreenNotifier3DScreenExited"]
 [connection signal="animation_finished" from="DeathAnimation" to="." method="killMob"]

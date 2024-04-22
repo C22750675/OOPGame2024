@@ -4,7 +4,7 @@ extends Area3D
 
 var playerNode: CharacterBody3D
 var baseDamageAmount = 10
-var baseKnockbackAmount = 15
+var baseKnockbackAmount = 50
 
 # Charge attack variables
 var maxChargeTime = 2.0
@@ -28,7 +28,7 @@ var queuedDamageAndKnockback: Array = [] # Store damage and knockback for queued
 # Sweet spot variables
 var maxSweetSpotBonus: float = 1.5
 var sweetSpotRange: float = 0.05
-var sweetSpotBonus: float = 1.0 #initialize
+var sweetSpotBonus: float = 1.0
 var sweetSpotWindowSize: float = 0.4
 
 func _ready():

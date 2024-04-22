@@ -31,16 +31,16 @@ var targetPlayer = null
 var targetDistance = 50
 @export var health = 20
 
-# Add a timer for the knockback effect
-var knockbackTimer = 0.2 # Mob will be knocked back for x seconds
-var knockbackTime = 0
-
 var knockbackForce = Vector3.ZERO
 
-var movementState = "normal"
+var movementState
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
+	movementState = "normal"
+
 
 	if GlobalVars.currentRound == 1:
 
@@ -101,19 +101,7 @@ func _physics_process(delta):
 
 	elif movementState == "knockback":
 
-		velocity += knockbackForce
-
-		var dampingFactor = 0.3
-
-
-		knockbackForce *= dampingFactor
-		knockbackTime += delta
-
-		if knockbackTime >= knockbackTimer:
-
-			movementState = "normal"
-			knockbackForce = Vector3.ZERO
-			knockbackTime = 0
+		velocity = velocity.lerp(Vector3.ZERO, 0.1)  # Dampen the knockback force
 
 	elif movementState == "dead":
 
@@ -192,11 +180,16 @@ func takeKnockback(force : Vector3):
 		
 		return
 
-	# Apply the knockback force to the mob
+
 	knockbackForce = force
+
+	# Apply the knockback force to the mob
 	velocity += knockbackForce
-	movementState = "knockback"
+
 	
+	movementState = "knockback"
+	$KnockbackTimer.start()  # Start knockback timer
+
 
 func findPlayer():
 
@@ -286,3 +279,8 @@ func animateDeath():
 func killMob():
 
 	queue_free()
+
+func _onKnockbackTimerTimeout():
+
+	movementState = "normal"  # Set the movement state back to normal
+	velocity = Vector3.ZERO  # Reset velocity after knockback

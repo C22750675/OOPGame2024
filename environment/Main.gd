@@ -96,11 +96,13 @@ func _onOneSecondTimout():
 
 
 func _on_music_slider_value_changed(value):
+
 	AudioServer.set_bus_volume_db(Music_Bus_ID, linear_to_db(value))
 	AudioServer.set_bus_mute(Music_Bus_ID, value < 0.05)
 
 
 func _on_sfx_slider_value_changed(value):
+	
 	AudioServer.set_bus_volume_db(MobDies_Bus_ID, linear_to_db(value))
 	AudioServer.set_bus_volume_db(MobKnockback_Bus_ID, linear_to_db(value))
 	AudioServer.set_bus_volume_db(HealthPowerUp_Bus_ID, linear_to_db(value))
