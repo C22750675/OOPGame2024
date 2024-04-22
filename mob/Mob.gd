@@ -9,7 +9,9 @@ extends CharacterBody3D
 @onready var mobForwardRight = $MobForwardRight
 @onready var mobBackLeft = $MobBackLeft
 @onready var mobBackRight = $MobBackRight
-@onready var mob_dies = $MobDies
+
+@onready var mobDies = $MobDies
+
 # Define sprite nodes for each direction (will implement later)
 """
 @onready var sprites = {
@@ -146,20 +148,20 @@ func takeDamage(damageAmount):
 
 	if damageAmount <= 0:
 		
-		mob_dies.play()
+		mobDies.play()
 		return
 
 	if health <= 0:
 
-		mob_dies.play()
+		mobDies.play()
 		return
 		
 	health -= damageAmount
 
 	if health <= 0:
 		
-		mob_dies.play()
-		await mob_dies.finished
+		mobDies.play()
+		await mobDies.finished
 		queue_free()
 
 		GlobalVars.mobsKilled += 1

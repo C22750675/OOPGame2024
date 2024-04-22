@@ -12,9 +12,9 @@
 [ext_resource type="Texture2D" uid="uid://bwam3rmyyyel3" path="res://player/playerSprites/forwardRight.png" id="8_wtr4l"]
 [ext_resource type="Texture2D" uid="uid://cktt2ar8w6hy3" path="res://player/playerSprites/backLeft.png" id="9_juh4w"]
 [ext_resource type="Texture2D" uid="uid://dlk4l268clptp" path="res://player/playerSprites/backRight.png" id="10_b13fb"]
-[ext_resource type="AudioStream" uid="uid://bu6w7b4hbr5u8" path="res://audio/sfx/player_takes_damage.wav" id="13_1yiut"]
+[ext_resource type="AudioStream" uid="uid://bu6w7b4hbr5u8" path="res://audio/sfx/playerTakesDamage.wav" id="13_1yiut"]
 [ext_resource type="AudioStream" uid="uid://wyrfqgjhn1ll" path="res://audio/sfx/1up.wav" id="14_dqhsp"]
-[ext_resource type="AudioStream" uid="uid://bukync7rco42u" path="res://audio/sfx/mob_knockback.wav" id="15_jlak6"]
+[ext_resource type="AudioStream" uid="uid://bukync7rco42u" path="res://audio/sfx/mobKnockback.wav" id="15_jlak6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8rgmq"]
 size = Vector3(2.08667, 1, 2.29102)
@@ -138,15 +138,15 @@ texture = SubResource("ViewportTexture_vi6jk")
 
 [node name="PlayerTakesDamage" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_1yiut")
-bus = &"SFX"
+bus = &"PlayerDamage"
 
 [node name="HealthPowerUp" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("14_dqhsp")
-bus = &"SFX"
+bus = &"HealthPowerUp"
 
 [node name="MobKnockback" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_jlak6")
-bus = &"SFX"
+bus = &"MobKnockback"
 
 [connection signal="body_entered" from="Area3D" to="." method="_onHealthPowerUpBodyEntered"]
 [connection signal="body_entered" from="Area3D" to="." method="_onMobBodyEntered"]

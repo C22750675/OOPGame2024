@@ -13,7 +13,6 @@ config_version=5
 config/name="OOP Game 2024"
 run/main_scene="res://environment/Main.tscn"
 config/features=PackedStringArray("4.2")
-config/icon="res://GUI/icon.png"
 
 [autoload]
 

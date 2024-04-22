@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bukync7rco42u"
-path="res://.godot/imported/mob_knockback.wav-c77712c72ff0914c90d53737cfcd36c7.sample"
+path="res://.godot/imported/mobKnockback.wav-9a8a138e5ec4ab996281ce612221ca94.sample"
 
 [deps]
 
-source_file="res://audio/sfx/mob_knockback.wav"
-dest_files=["res://.godot/imported/mob_knockback.wav-c77712c72ff0914c90d53737cfcd36c7.sample"]
+source_file="res://audio/sfx/mobKnockback.wav"
+dest_files=["res://.godot/imported/mobKnockback.wav-9a8a138e5ec4ab996281ce612221ca94.sample"]
 
 [params]
 
