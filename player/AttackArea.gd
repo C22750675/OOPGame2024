@@ -1,6 +1,6 @@
 extends Area3D
 
-@onready var mob_knockback = $"../../MobKnockback"
+@onready var mobKnockback = $"../../MobKnockback"
 
 var playerNode: CharacterBody3D
 var baseDamageAmount = 10
@@ -30,11 +30,15 @@ var maxChargeReached: bool = false
 func _ready():
 
 	var parentNode = find_character_body(get_parent())
+	
+	
 	print(parentNode.get_class()) # Output the class name of the parent node
+	
 	if parentNode and parentNode is CharacterBody3D:
 		playerNode = parentNode
 	else : 
 		print("error")
+		
 	attackVisual = $AttackAreaPoints/Aoe
 	sheildVisual = $Shield
 	sheildVisual.hide()
@@ -51,14 +55,14 @@ func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
 
 		if enemy.has_method("takeDamage"):
 			enemy.takeDamage(damage)
+			
 		if enemy.has_method("takeKnockback"):
 			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
 			enemy.takeKnockback(knockbackDirection * knockback)
 			
-	mob_knockback.play()
-	await mob_knockback.finished
+	mobKnockback.play()
+	await mobKnockback.finished
 			
-
 
 	queuedDamageAndKnockback.clear() # Clear the queued damage and knockback after applying
 
@@ -71,8 +75,10 @@ func calculateSweetSpotBonus(chargeTimeValue: float):
 	var sweetSpotTime = maxChargeTime / 2.0 + randomOffset
 	var sweetSpotStart = sweetSpotTime - sweetSpotWindowSize / 2.0
 	var sweetSpotEnd = sweetSpotTime + sweetSpotWindowSize / 2.0
+	
 	if chargeTimeValue < sweetSpotStart or chargeTimeValue > sweetSpotEnd:
 		return 1.0 # No bonus if not within the sweet spot window
+		
 	else:
 		return lerp(1.0, maxSweetSpotBonus, abs((chargeTime - sweetSpotTime) / sweetSpotRange))
 
@@ -104,7 +110,6 @@ func _process(delta):
 		
 func _input(event):
 
-
 	if event.is_action_pressed("attack"):
 		charging = true
 		attackVisual.show() # Display attack area
@@ -134,7 +139,6 @@ func _onBodyEntered(body):
 
 func _onBodyExited(body):
 
-
 	if body.is_in_group("enemies"):
 		enemiesInZone.erase(body)
 
@@ -150,9 +154,12 @@ func _onBodyExited(body):
 
 # Recursively find the CharacterBody3D parent
 func find_character_body(node):
+	
 	if not node:
 		return null
+		
 	elif node is CharacterBody3D:
 		return node
+		
 	else:
 		return find_character_body(node.get_parent())
