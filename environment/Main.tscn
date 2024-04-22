@@ -56,7 +56,7 @@ wait_time = 0.1
 autostart = true
 
 [node name="HealthPowerUpTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 15.0
 autostart = true
 
 [node name="OneSecond" type="Timer" parent="."]
