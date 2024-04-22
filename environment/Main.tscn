@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://environment/Main.gd" id="1_a07rh"]
 [ext_resource type="Texture2D" uid="uid://qyituie2u1m" path="res://environment/environmentModels/778185.jpg" id="2_6cgew"]
 [ext_resource type="PackedScene" uid="uid://ckj1v2hd8f5ju" path="res://player/Player.tscn" id="4_8qp74"]
-[ext_resource type="AudioStream" path="res://audio/sfx/bubbles.mp3" id="5_bil11"]
 [ext_resource type="Script" path="res://environment/Camera3D.gd" id="6_qikrg"]
 [ext_resource type="PackedScene" uid="uid://dr31ll2h5qouk" path="res://environment/environmentModels/Amphitheater.dae" id="7_61eal"]
 [ext_resource type="Texture2D" uid="uid://dffvde4m8jce7" path="res://environment/environmentArt/waterFrames/water0.png" id="7_d07ed"]
