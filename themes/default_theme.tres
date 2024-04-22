@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=7 format=3 uid="uid://dkbhvgd8fqume"]
 
-[ext_resource type="FontFile" path="res://fonts/Early GameBoy.ttf" id="1_4lcso"]
+[ext_resource type="FontFile" uid="uid://314wor8xmooq" path="res://fonts/Early GameBoy.ttf" id="1_4lcso"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pw7h2"]
 
@@ -15,7 +15,7 @@
 [resource]
 default_font = ExtResource("1_4lcso")
 Button/colors/font_focus_color = Color(0.271566, 0.0728312, 0.714419, 1)
-Button/colors/font_hover_color = Color(0.206271, 0.0446116, 0.561381, 1)
+Button/colors/font_hover_color = Color(0.494118, 0.431373, 0.992157, 1)
 Button/colors/font_pressed_color = Color(0.568908, 0.53974, 0.9952, 1)
 Button/styles/disabled = SubResource("StyleBoxEmpty_pw7h2")
 Button/styles/focus = SubResource("StyleBoxEmpty_s84nw")

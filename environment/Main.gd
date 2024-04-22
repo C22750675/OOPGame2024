@@ -1,6 +1,9 @@
 extends Node
 
 signal start_game()
+signal menu_opened()
+signal menu_closed()
+signal quit_to_menu()
 
 
 @onready var main_menu = %MainMenu
@@ -17,6 +20,7 @@ var mobScene = preload("res://mob/Mob.tscn")
 var healthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 
 func _on_main_menu_start_game() -> void:
+	
 	start_game.emit()
 
 func _ready():
@@ -30,8 +34,12 @@ func _ready():
 
 func _input(event):
 	
-	if event.is_action_pressed("ui_cancel"):
+	if !main_menu.visible and event.is_action_pressed("ui_cancel"):
 		in_game_menu.visible = !in_game_menu.visible
+		if in_game_menu.visible:
+			menu_opened.emit()
+		else:
+			menu_closed.emit()
 	
 	
 func _onHealthPowerUpTimerTimeout():
@@ -94,13 +102,15 @@ func _onOneSecondTimout():
 	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
 	$RoundNumber.text = "Round: " + str(GlobalVars.currentRound)
 
-
+# Function to operate the slider vlaues for Music
 func _on_music_slider_value_changed(value):
+	
 	AudioServer.set_bus_volume_db(Music_Bus_ID, linear_to_db(value))
 	AudioServer.set_bus_mute(Music_Bus_ID, value < 0.05)
 
-
+# Function to operate the slider vlaues for SFX
 func _on_sfx_slider_value_changed(value):
+	
 	AudioServer.set_bus_volume_db(MobDies_Bus_ID, linear_to_db(value))
 	AudioServer.set_bus_volume_db(MobKnockback_Bus_ID, linear_to_db(value))
 	AudioServer.set_bus_volume_db(HealthPowerUp_Bus_ID, linear_to_db(value))
@@ -111,3 +121,16 @@ func _on_sfx_slider_value_changed(value):
 	AudioServer.set_bus_mute(PlayerDamage_Bus_ID, value < 0.05)
 	
 	
+
+
+func _on_in_game_menu_main_menu():
+	
+	in_game_menu.hide()
+	quit_to_menu.emit()
+	main_menu.show()
+
+
+func _on_in_game_menu_return_to_game():
+	
+	in_game_menu.hide()
+	menu_closed.emit()
