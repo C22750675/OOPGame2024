@@ -110,10 +110,8 @@ region_rect = Rect2(48, 152, 112, 96)
 
 [node name="MobDies" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_0hnyu")
-bus = &"SFX"
 
 [node name="MobKnockback" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_grnqj")
-bus = &"SFX"
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_onVisibleOnScreenNotifier3DScreenExited"]

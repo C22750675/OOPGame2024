@@ -53,6 +53,9 @@ func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
 
 		var enemy = damageKnockback["enemy"]
 
+		if enemy == null or !enemy.is_inside_tree() :
+			continue
+
 		if enemy.has_method("takeDamage"):
 			enemy.takeDamage(damage)
 			

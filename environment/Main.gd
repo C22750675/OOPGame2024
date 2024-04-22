@@ -23,24 +23,28 @@ func _ready():
 	
 func _onHealthPowerUpTimerTimeout():
 	
-	var healthPowerUp = healthPowerUpScene.instantiate()
-	var playerPosition = $Player.position
-
-	# Add the power-up to the scene
-	add_child(healthPowerUp)
-	
 	# Calculate a random position on top of the ground
 	var groundRadius = 25
 	var angle = randf_range(0, 2 * PI)
 	var radius = sqrt(randf()) * groundRadius
-	var x = radius * cos(angle)
-	var z = radius * sin(angle)
-	var y = playerPosition.y + 1
-	var position = Vector3(x, y, z)
-	
-	# Set the power-up's position
-	healthPowerUp.global_transform.origin = position
 
+	#Calculate the x, y and z coordinates of the power-up
+	var x = radius * cos(angle)
+	var y = $Player.position.y + 1  # Add 1 to the player's y position
+	var z = radius * sin(angle)
+
+	# Create a position Vector3 with the x, y and z coordinates
+	var position = Vector3(x, y, z)
+
+	# Create a new instance of the HealthPowerUp scene
+	var healthPowerUp = healthPowerUpScene.instantiate()
+
+	# Add the power-up to the scene
+	add_child(healthPowerUp)
+
+	# Set the power-up's position to the calculated position
+	healthPowerUp.global_transform.origin = position
+	
 
 func _onMobSpawnTimerTimeout():
 

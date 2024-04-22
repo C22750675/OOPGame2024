@@ -60,7 +60,7 @@ autostart = true
 [node name="RoundTimer" type="Timer" parent="."]
 
 [node name="MobSpawnTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 5.0
 autostart = true
 
 [node name="Ground" type="Node" parent="."]
