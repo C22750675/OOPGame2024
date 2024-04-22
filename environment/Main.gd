@@ -104,8 +104,8 @@ func _onOneSecondTimout():
 
 # Function to operate the slider vlaues for Music
 func _on_music_slider_value_changed(value):
-	
-	AudioServer.set_bus_volume_db(Music_Bus_ID, linear_to_db(value))
+
+  AudioServer.set_bus_volume_db(Music_Bus_ID, linear_to_db(value))
 	AudioServer.set_bus_mute(Music_Bus_ID, value < 0.05)
 
 # Function to operate the slider vlaues for SFX

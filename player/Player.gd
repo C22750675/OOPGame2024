@@ -87,8 +87,14 @@ func _physics_process(delta):
 
 	var direction = getInputDirection()  # Get the movement direction based on player input
 
+	var currentSpeed = speed  # Set the current speed to the default speed
+
+
+	if Input.is_action_pressed("boost"):
+		currentSpeed *= 1.5  # Double the speed
+
 	# Calculate the players next position
-	var newPosition = position + direction * speed * delta
+	var newPosition = position + direction * currentSpeed * delta
 
 	# If the next position is outside the floor radius, stop the character
 	if newPosition.distance_to(Vector3.ZERO) > 25:
@@ -96,8 +102,8 @@ func _physics_process(delta):
 		direction = Vector3.ZERO
 	
 	# Ground Velocity
-	targetVelocity.x = direction.x * speed
-	targetVelocity.z = direction.z * speed
+	targetVelocity.x = direction.x * currentSpeed
+	targetVelocity.z = direction.z * currentSpeed
 
 	# Vertical Velocity
 	if not is_on_floor(): # If in the air, fall towards the floor

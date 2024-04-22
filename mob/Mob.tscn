@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bposst2udwsnm"]
+[gd_scene load_steps=25 format=3 uid="uid://bposst2udwsnm"]
 
 [ext_resource type="Script" path="res://mob/Mob.gd" id="1_32kma"]
 [ext_resource type="Texture2D" uid="uid://de605w8ilq4eu" path="res://mob/mobSprites/forward.png" id="3_r0e0b"]
@@ -11,14 +11,97 @@
 [ext_resource type="AudioStream" uid="uid://d00ja1lm3fuxo" path="res://audio/sfx/mobDies.wav" id="10_0hnyu"]
 [ext_resource type="Texture2D" uid="uid://ce6ace7w0f4rd" path="res://mob/mobSprites/backRight.png" id="10_mt5fx"]
 [ext_resource type="AudioStream" uid="uid://bukync7rco42u" path="res://audio/sfx/mobKnockback.wav" id="11_grnqj"]
+[ext_resource type="Texture2D" uid="uid://c63f02g6he35p" path="res://environment/environmentArt/dcd199_f1e940a65f034490b39a2e216b1549ff-366756277-ezgif.com-gif-to-sprite-converter.png" id="12_uyyji"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dhbjf"]
 size = Vector3(3, 1.4444, 2.67419)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8ji6"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(0, 0, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f81x4"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(985, 0, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5bqg"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(1970, 0, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4om1"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(2955, 0, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c844f"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(3940, 0, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7gnq"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(0, 1024, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jghl"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(985, 1024, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pisll"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(1970, 1024, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rldp"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(2955, 1024, 985, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1py5"]
+atlas = ExtResource("12_uyyji")
+region = Rect2(3940, 1024, 985, 1024)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xj5c6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8ji6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f81x4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5bqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p4om1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c844f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7gnq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jghl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pisll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3rldp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1py5")
+}],
+"loop": false,
+"name": &"Smoke",
+"speed": 10.0
+}]
 
 [node name="Mob" type="CharacterBody3D" groups=["enemies"]]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_32kma")
+
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)
@@ -116,4 +199,16 @@ bus = &"MobDies"
 stream = ExtResource("11_grnqj")
 bus = &"MobKnockback"
 
+[node name="DeathAnimation" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, -0.5)
+visible = false
+billboard = 1
+render_priority = 101
+sprite_frames = SubResource("SpriteFrames_xj5c6")
+animation = &"Smoke"
+frame = 5
+frame_progress = 0.231929
+
+[connection signal="timeout" from="KnockbackTimer" to="." method="_onKnockbackTimerTimeout"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_onVisibleOnScreenNotifier3DScreenExited"]
+[connection signal="animation_finished" from="DeathAnimation" to="." method="killMob"]
