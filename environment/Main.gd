@@ -11,6 +11,9 @@ var roundNumber = 0
 var mobScene = preload("res://mob/Mob.tscn")
 var healthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 
+func _on_main_menu_start_game() -> void:
+	start_game.emit()
+
 func _ready():
 
 	# Start the round timer
@@ -79,13 +82,12 @@ func _onRoundTimerTimeout():
 	if GlobalVars.roundTimer > 0:
 
 		GlobalVars.roundTimer -= 1
+
 	else:
 		startNextRound()
 		GlobalVars.roundTimer = 60
 
-func _on_main_menu_start_game() -> void:
-	start_game.emit()
-	
+
 # Function to start the next round
 func startNextRound():
 	roundNumber += 1

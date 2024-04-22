@@ -1,6 +1,7 @@
 extends Control
 
 signal start_game()
+
 @onready var buttons_v_box = %ButtonsVBox
 
 func _ready() -> void:

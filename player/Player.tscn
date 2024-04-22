@@ -148,8 +148,8 @@ bus = &"HealthPowerUp"
 stream = ExtResource("15_jlak6")
 bus = &"MobKnockback"
 
-[connection signal="body_entered" from="Area3D" to="." method="_onMobBodyEntered"]
 [connection signal="body_entered" from="Area3D" to="." method="_onHealthPowerUpBodyEntered"]
+[connection signal="body_entered" from="Area3D" to="." method="_onMobBodyEntered"]
 [connection signal="body_exited" from="Area3D" to="." method="_onMobBodyExited"]
 [connection signal="body_entered" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_onBodyEntered"]
 [connection signal="body_exited" from="Pivot/AttackArea" to="Pivot/AttackArea" method="_onBodyExited"]
