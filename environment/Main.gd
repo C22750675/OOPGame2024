@@ -147,9 +147,6 @@ func _on_sfx_slider_value_changed(value):
 	AudioServer.set_bus_mute(HealthPowerUp_Bus_ID, value < 0.05)
 	AudioServer.set_bus_mute(PlayerDamage_Bus_ID, value < 0.05)
 	
-	
-	
-
 
 func _on_in_game_menu_main_menu():
 	

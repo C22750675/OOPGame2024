@@ -11,7 +11,7 @@ func _ready():
 
 # Called every frame
 func _physics_process(delta):
-
+	
 	velocity = Vector3.ZERO
 
 	# The power up falls to the ground

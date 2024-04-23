@@ -20,7 +20,6 @@ var minAreaScale = 1.0
 # Attack variables
 var attackVisual: Sprite3D
 var attackCooldown: float = 0.75
-var timeSinceLastAttack: float = 0
 var enemiesInZone: Array = []
 var baseScale: Vector3 = Vector3(1, 1, 1) # Initialize baseScale
 var queuedDamageAndKnockback: Array = [] # Store damage and knockback for queued enemies
@@ -88,8 +87,6 @@ func calculateSweetSpotBonus(chargeTimeValue: float):
 		return lerp(1.0, maxSweetSpotBonus, abs((chargeTime - sweetSpotTime) / sweetSpotRange))
 
 func _process(delta):
-
-	timeSinceLastAttack += delta
 
 	if charging:
 
