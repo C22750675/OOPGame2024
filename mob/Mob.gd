@@ -39,29 +39,21 @@ var movementState
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
-	movementState = "normal"
+	var speedRanges = {
+		1: [3, 5],
+		2: [4, 6],
+		3: [5, 7],
+		4: [6, 8]
+	}
+	if GlobalVars.currentRound in speedRanges:
+		minSpeed = speedRanges[GlobalVars.currentRound][0]
+		maxSpeed = speedRanges[GlobalVars.currentRound][1]
+	else:
+		# Default speed range for rounds beyond 4
+		minSpeed = 9
+		maxSpeed = 10
 
-
-	if GlobalVars.currentRound == 1:
-
-		minSpeed = 3
-		maxSpeed = 5
-
-	elif GlobalVars.currentRound == 2:
-
-		minSpeed = 4
-		maxSpeed = 6
-
-	elif GlobalVars.currentRound == 3:
-
-		minSpeed = 5
-		maxSpeed = 7
-
-	elif GlobalVars.currentRound == 4:
 		
-		minSpeed = 6
-		maxSpeed = 8
-
 func _physics_process(delta):
 
 	move_and_slide()
