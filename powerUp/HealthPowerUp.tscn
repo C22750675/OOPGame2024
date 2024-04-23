@@ -9,7 +9,6 @@
 albedo_color = Color(1, 0.435294, 0.27451, 1)
 
 [node name="HealthPowerUp" type="CharacterBody3D" groups=["powerUp"]]
-process_mode = 1
 collision_layer = 8
 collision_mask = 3
 script = ExtResource("1_xbt5d")

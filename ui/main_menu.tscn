@@ -42,7 +42,7 @@ alignment = 1
 [node name="Title" type="Label" parent="MarginContainer/TitleVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 80
 text = "Crab Claw"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -60,7 +60,7 @@ focus_neighbor_top = NodePath("../QuitButton")
 focus_neighbor_bottom = NodePath("../QuitButton")
 focus_next = NodePath("../QuitButton")
 focus_previous = NodePath("../QuitButton")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 50
 text = "Start Game"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/TitleVBox/ButtonsVBox"]
@@ -72,7 +72,7 @@ focus_neighbor_bottom = NodePath("../StartButton")
 focus_next = NodePath("../StartButton")
 focus_previous = NodePath("../StartButton")
 theme = ExtResource("1_ks0tg")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 40
 text = "Quit"
 
 [connection signal="start_game" from="." to="." method="_on_main_menu_start_game"]

@@ -127,28 +127,12 @@ func initialize(startPosition, playerPosition):
 	velocity = Vector3.FORWARD * randomSpeed
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 
+	
+
 func _onVisibleOnScreenNotifier3DScreenExited():
 
 	queue_free()
 
-
-func updateSpriteColour():
-
-	# Calculate the saturation based on the current health
-	var saturation = (health / 20.0) + 0.5  # Assuming the initial health is 20
-
-	# Create a new colour with the calculated saturation
-	var colour = Color(saturation, saturation, saturation, 1)
-
-	# Update the colour of the sprites
-	mobForward.modulate = colour
-	mobBack.modulate = colour
-	mobLeft.modulate = colour
-	mobRight.modulate = colour
-	mobForwardLeft.modulate = colour
-	mobForwardRight.modulate = colour
-	mobBackLeft.modulate = colour
-	mobBackRight.modulate = colour
 
 func takeDamage(damageAmount):
 
@@ -168,11 +152,6 @@ func takeDamage(damageAmount):
 
 	 	# Increment the number of mobs killed
 		GlobalVars.mobsKilled += 1
-
-	else:
-
-		updateSpriteColour()
-
 
 
 func takeKnockback(force : Vector3):

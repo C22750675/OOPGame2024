@@ -71,21 +71,43 @@ func _onHealthPowerUpTimerTimeout():
 
 func _onMobSpawnTimerTimeout():
 
+	var playerPosition = $Player.position
+
 	# Create a new instance of the Mob scene.
 	var mob = mobScene.instantiate()
 	
 
-	# Choose a random location on the SpawnPath.
-	# We store the reference to the SpawnLocation node.
-	var mobSpawnLocation = get_node("SpawnPath/SpawnLocation")
-	# And give it a random offset
-	mobSpawnLocation.progress_ratio = randf()
-
-	var playerPosition = $Player.position
-	mob.initialize(mobSpawnLocation.position, playerPosition)
+	mob.initialize(calculateMobSpawn(), playerPosition)
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+
+func calculateMobSpawn():
+
+	var playerPosition = $Player.position
+
+	# Calculate a random position on top of the ground
+	var groundRadius = 25
+	var spawnPosition = Vector3.ZERO
+
+	while true:
+
+		var angle = randf_range(0, 2 * PI)
+		var radius = sqrt(randf()) * groundRadius
+
+		# Calculate the x, y and z coordinates of the power-up
+		var x = radius * cos(angle)
+		var y = $Player.position.y + 1  # Add 1 to the player's y position
+		var z = radius * sin(angle)
+
+		spawnPosition = Vector3(x, y, z)
+
+		# If the spawn position is not too close to the player, break the loop
+		if spawnPosition.distance_to(playerPosition) >= 10:
+			
+			break
+
+	return spawnPosition
 
 func _onOneSecondTimout():
 	
@@ -101,8 +123,11 @@ func _onOneSecondTimout():
 
 	# Update the UI labels once per second
 	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
-	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + " seconds"
+
+	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + "s"
+
 	$RoundNumber.text = "Round: " + str(GlobalVars.currentRound)
+
 
 # Function to operate the slider vlaues for Music
 func _on_music_slider_value_changed(value):
