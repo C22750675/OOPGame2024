@@ -117,7 +117,20 @@ func _physics_process(delta):
 
 	directionManagement()
 	updateSpriteDirection()
-	
+
+
+	if direction == Vector3.ZERO:
+		
+		for sprite in sprites.values():
+
+			sprite.stop()
+			
+	else:
+
+		for sprite in sprites.values():
+
+			sprite.play("Walk")
+
 
 	# If player's y is less than -2, reset player to starting position
 	if global_transform.origin.y < -2:
@@ -334,7 +347,7 @@ func spriteDirection(angleDegrees):
 	
 			sprites[direction["sprite"]].show()
 
-	
+
 func hideSprites():
 
 	# Hide all sprites
