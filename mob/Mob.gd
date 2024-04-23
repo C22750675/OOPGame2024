@@ -163,6 +163,8 @@ func takeDamage(damageAmount):
 
 		# Set the movement state to dead
 		movementState = "dead"
+		
+		mobDies.play()
 
 	 	# Increment the number of mobs killed
 		GlobalVars.mobsKilled += 1
