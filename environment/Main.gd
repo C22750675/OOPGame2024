@@ -53,11 +53,11 @@ func _onHealthPowerUpTimerTimeout():
 
 	#Calculate the x, y and z coordinates of the power-up
 	var x = radius * cos(angle)
-	var y = $Player.position.y + 1  # Add 1 to the player's y position
+	var y = 1
 	var z = radius * sin(angle)
 
 	# Create a position Vector3 with the x, y and z coordinates
-	var position = Vector3(x, y, z)
+	var spawnPosition = Vector3(x, y, z)
 
 	# Create a new instance of the HealthPowerUp scene
 	var healthPowerUp = healthPowerUpScene.instantiate()
@@ -66,7 +66,7 @@ func _onHealthPowerUpTimerTimeout():
 	add_child(healthPowerUp)
 
 	# Set the power-up's position to the calculated position
-	healthPowerUp.global_transform.origin = position
+	healthPowerUp.global_transform.origin = spawnPosition
 	
 
 func _onMobSpawnTimerTimeout():

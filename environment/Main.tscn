@@ -132,7 +132,6 @@ process_mode = 3
 stream = ExtResource("8_h3a5k")
 volume_db = -20.0
 autoplay = true
-bus = &"Music"
 
 [connection signal="menu_closed" from="." to="." method="_on_menu_closed"]
 [connection signal="menu_opened" from="." to="." method="_on_menu_opened"]
