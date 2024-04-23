@@ -511,6 +511,7 @@ frame_progress = 0.294136
 speed_scale = 2.0
 
 [node name="PlayerForwardRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 visible = false
 billboard = 1
 no_depth_test = true
@@ -521,7 +522,7 @@ frame_progress = 0.914716
 speed_scale = 2.0
 
 [node name="PlayerBackLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, 0.5)
 visible = false
 billboard = 1
 no_depth_test = true
@@ -532,6 +533,7 @@ frame_progress = 0.033609
 speed_scale = 2.0
 
 [node name="PlayerBackRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 visible = false
 billboard = 1
 no_depth_test = true

@@ -520,90 +520,92 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.1)
 shape = SubResource("BoxShape3D_dhbjf")
 
 [node name="MobForward" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 1, 0)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_qw4bo")
 animation = &"Walk"
-frame_progress = 0.488155
+frame_progress = 0.459737
 speed_scale = 2.5
 
 [node name="MobBack" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 1, 1)
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 1.5)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_nw2b3")
 animation = &"Walk"
-frame_progress = 0.443571
+frame_progress = 0.415149
 speed_scale = 2.5
 
 [node name="MobLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.3, 1, 0.5)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.3, 0, 0.5)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_iitp0")
 animation = &"Walk"
-frame_progress = 0.529274
+frame_progress = 0.50086
 speed_scale = 2.5
 
 [node name="MobRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.1, 1, 0.5)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.1, 0, 1)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_dntce")
 animation = &"Walk"
-frame_progress = 0.735461
+frame_progress = 0.707045
 speed_scale = 2.5
 
 [node name="MobForwardLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.2, 1, 0)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.5, 0, 0)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_rcati")
 animation = &"Walk"
-frame_progress = 0.28137
+frame_progress = 0.252944
 speed_scale = 2.5
 
 [node name="MobForwardRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 2, 1, 1)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_n0vi8")
 animation = &"Walk"
-frame_progress = 0.188586
+frame_progress = 0.160165
 speed_scale = 2.5
 
 [node name="MobBackLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 1, 0)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.8, 0, 1)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_1hdj7")
 animation = &"Walk"
-frame_progress = 0.0221457
+frame_progress = 0.818391
+speed_scale = 2.5
 
 [node name="MobBackRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 1, 0)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 1)
 visible = false
 billboard = 1
 no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_7tepw")
 animation = &"Walk"
-frame_progress = 0.393589
+frame_progress = 0.865365
+speed_scale = 2.5
 
 [node name="MobDies" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_0hnyu")

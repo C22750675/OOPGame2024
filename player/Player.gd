@@ -21,7 +21,7 @@ extends CharacterBody3D
 
 
 # Player health
-var health = 100
+var health = 75
 var cantMove: bool = false
 
 # Store the player's last position
@@ -85,13 +85,26 @@ func _physics_process(delta):
 	if cantMove:
 		return
 
+	# Set default animation speed
+	for sprite in sprites.values():
+
+		sprite.speed_scale = 2
+
 	var direction = getInputDirection()  # Get the movement direction based on player input
 
 	var currentSpeed = speed  # Set the current speed to the default speed
 
 
 	if Input.is_action_pressed("boost"):
+
 		currentSpeed *= 1.5  # Double the speed
+
+		# Increase the animation speed
+		for sprite in sprites.values():
+
+			sprite.speed_scale = 3
+
+
 
 	# Calculate the players next position
 	var newPosition = position + direction * currentSpeed * delta
@@ -229,11 +242,11 @@ func applyHealthPowerUp(body):
 
 	if $SubViewport/HealthBar3D.value > 80:
 		
-		givenHealth = 100 - $SubViewport/HealthBar3D.value
+		givenHealth = 75 - $SubViewport/HealthBar3D.value
 
-	elif $SubViewport/HealthBar3D.value <= 80:
+	elif $SubViewport/HealthBar3D.value <= 65:
 		
-		givenHealth = 20
+		givenHealth = 10
 
 	$SubViewport/HealthBar3D.value += givenHealth
 	
@@ -245,7 +258,7 @@ func applyHealthPowerUp(body):
 # Game over function called when player's health is 0
 func gameOver():
 	
-	$SubViewport/HealthBar3D.value = 100
+	$SubViewport/HealthBar3D.value = 75
 		
 	global_transform.origin = Vector3(0, 0, 0) # reset player to starting position
 
