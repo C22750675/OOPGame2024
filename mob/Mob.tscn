@@ -527,7 +527,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_qw4bo")
 animation = &"Walk"
-frame_progress = 0.506658
+frame_progress = 0.488155
 speed_scale = 2.5
 
 [node name="MobBack" type="AnimatedSprite3D" parent="." groups=["sprite"]]
@@ -538,7 +538,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_nw2b3")
 animation = &"Walk"
-frame_progress = 0.462075
+frame_progress = 0.443571
 speed_scale = 2.5
 
 [node name="MobLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
@@ -549,7 +549,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_iitp0")
 animation = &"Walk"
-frame_progress = 0.547777
+frame_progress = 0.529274
 speed_scale = 2.5
 
 [node name="MobRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
@@ -560,7 +560,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_dntce")
 animation = &"Walk"
-frame_progress = 0.753964
+frame_progress = 0.735461
 speed_scale = 2.5
 
 [node name="MobForwardLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
@@ -571,7 +571,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_rcati")
 animation = &"Walk"
-frame_progress = 0.299874
+frame_progress = 0.28137
 speed_scale = 2.5
 
 [node name="MobForwardRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
@@ -582,7 +582,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_n0vi8")
 animation = &"Walk"
-frame_progress = 0.20709
+frame_progress = 0.188586
 speed_scale = 2.5
 
 [node name="MobBackLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
@@ -593,7 +593,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_1hdj7")
 animation = &"Walk"
-frame_progress = 0.229546
+frame_progress = 0.0221457
 
 [node name="MobBackRight" type="AnimatedSprite3D" parent="." groups=["sprite"]]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 1, 0)
@@ -603,7 +603,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_7tepw")
 animation = &"Walk"
-frame_progress = 0.60099
+frame_progress = 0.393589
 
 [node name="MobDies" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_0hnyu")

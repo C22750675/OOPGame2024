@@ -39,7 +39,10 @@ var movementState
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
+	movementState = "normal"
+
 	var speedRanges = {
+		
 		1: [3, 5],
 		2: [4, 6],
 		3: [5, 7],
@@ -64,8 +67,6 @@ func _ready():
 
 		
 func _physics_process(delta):
-
-	push_error("Mob position: " + str(position))
 
 	move_and_slide()
 	findPlayer()
