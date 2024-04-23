@@ -10,31 +10,22 @@ signal return_to_game()
 signal main_menu()
 
 
-@onready var Music_Bus_ID = AudioServer.get_bus_index(\"Music\")
-@onready var MobDies_Bus_ID = AudioServer.get_bus_index(\"MobDies\")
-@onready var MobKnockback_Bus_ID = AudioServer.get_bus_index(\"MobKnockback\")
-@onready var HealthPowerUp_Bus_ID = AudioServer.get_bus_index(\"HealthPowerUp\")
-@onready var PlayerDamage_Bus_ID = AudioServer.get_bus_index(\"PlayerDamage\")
+@onready var musicBusID = AudioServer.get_bus_index(\"Music\")
+@onready var SFXBusID = AudioServer.get_bus_index(\"SFX\")
+
 @onready var buttons_v_box = %ButtonsVBox
 
 # Function to operate the slider vlaues for Music
 func _on_music_slider_value_changed(value):
 	
-	AudioServer.set_bus_volume_db(Music_Bus_ID, linear_to_db(value))
-	AudioServer.set_bus_mute(Music_Bus_ID, value < 0.05)
+	AudioServer.set_bus_volume_db(musicBusID, linear_to_db(value))
+	AudioServer.set_bus_mute(musicBusID, value < 0.05)
 
 # Function to operate the slider vlaues for SFX
 func _on_sfx_slider_value_changed(value):
 	
-	AudioServer.set_bus_volume_db(MobDies_Bus_ID, linear_to_db(value))
-	AudioServer.set_bus_volume_db(MobKnockback_Bus_ID, linear_to_db(value))
-	AudioServer.set_bus_volume_db(HealthPowerUp_Bus_ID, linear_to_db(value))
-	AudioServer.set_bus_volume_db(PlayerDamage_Bus_ID, linear_to_db(value))
-	AudioServer.set_bus_mute(MobDies_Bus_ID, value < 0.05)
-	AudioServer.set_bus_mute(MobKnockback_Bus_ID, value < 0.05)
-	AudioServer.set_bus_mute(HealthPowerUp_Bus_ID, value < 0.05)
-	AudioServer.set_bus_mute(PlayerDamage_Bus_ID, value < 0.05)
-	
+	AudioServer.set_bus_volume_db(SFXBusID, linear_to_db(value))
+	AudioServer.set_bus_mute(SFXBusID, value < 0.05)
 	
 func focus_button() -> void:
 	
