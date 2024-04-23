@@ -97,13 +97,13 @@ func calculateMobSpawn():
 
 		# Calculate the x, y and z coordinates of the power-up
 		var x = radius * cos(angle)
-		var y = $Player.position.y + 1  # Add 1 to the player's y position
+		var y = $Player.position.y
 		var z = radius * sin(angle)
 
 		spawnPosition = Vector3(x, y, z)
 
 		# If the spawn position is not too close to the player, break the loop
-		if spawnPosition.distance_to(playerPosition) >= 10:
+		if spawnPosition.distance_to(playerPosition) >= 5:
 			
 			break
 
