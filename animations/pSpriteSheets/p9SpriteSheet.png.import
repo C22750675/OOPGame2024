@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e5n6n818ag18"
-path.s3tc="res://.godot/imported/p1SpriteSheet.png-dc0700a5d8604f441e9d4f4163fc13ea.s3tc.ctex"
+uid="uid://6vgvfk4nsvr4"
+path.s3tc="res://.godot/imported/p9SpriteSheet.png-648fde61177acb3acea2f0948dad975e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://animations/spriteSheets/p1SpriteSheet.png"
-dest_files=["res://.godot/imported/p1SpriteSheet.png-dc0700a5d8604f441e9d4f4163fc13ea.s3tc.ctex"]
+source_file="res://animations/pSpriteSheets/p9SpriteSheet.png"
+dest_files=["res://.godot/imported/p9SpriteSheet.png-648fde61177acb3acea2f0948dad975e.s3tc.ctex"]
 
 [params]
 

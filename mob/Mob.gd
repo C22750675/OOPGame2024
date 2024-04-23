@@ -28,7 +28,7 @@ var randomSpeed
 @export var fallAcceleration = 75
 
 var targetPlayer = null
-var targetDistance = 50
+
 @export var health = 20
 
 var knockbackForce = Vector3.ZERO
@@ -53,8 +53,19 @@ func _ready():
 		minSpeed = 9
 		maxSpeed = 10
 
+	mobForward.play("Walk")
+	mobBack.play("Walk")
+	mobLeft.play("Walk")
+	mobRight.play("Walk")
+	mobForwardLeft.play("Walk")
+	mobForwardRight.play("Walk")
+	mobBackLeft.play("Walk")
+	mobBackRight.play("Walk")
+
 		
 func _physics_process(delta):
+
+	push_error("Mob position: " + str(position))
 
 	move_and_slide()
 	findPlayer()
@@ -68,7 +79,7 @@ func _physics_process(delta):
 
 			velocity.y -= fallAcceleration * delta
 
-		if targetPlayer != null and global_transform.origin.distance_to(targetPlayer.global_transform.origin) < targetDistance:
+		if targetPlayer != null:
 
 			direction = (targetPlayer.global_transform.origin - global_transform.origin).normalized()
 			velocity = direction
@@ -119,7 +130,6 @@ func initialize(startPosition, playerPosition):
 	velocity = Vector3.FORWARD * randomSpeed
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 
-	
 
 func _onVisibleOnScreenNotifier3DScreenExited():
 
@@ -168,16 +178,9 @@ func findPlayer():
 
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
-	var distanceToPlayer = global_transform.origin.distance_to(player.global_transform.origin)
 
+	targetPlayer = player
 
-	if distanceToPlayer < targetDistance:
-
-		targetPlayer = player
-
-	else:
-
-		targetPlayer = null
 
 func directionManagement():
 
@@ -189,6 +192,10 @@ func directionManagement():
 
 
 		updateSpriteDirection(directionToPlayer)
+	
+	else:
+
+		push_error("No player found")
 
 func updateSpriteDirection(newTargetDirection):
 
