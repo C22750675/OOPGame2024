@@ -538,7 +538,7 @@ no_depth_test = true
 render_priority = 100
 sprite_frames = SubResource("SpriteFrames_nw2b3")
 animation = &"Walk"
-frame_progress = 0.0698896
+frame_progress = 0.78489
 speed_scale = 2.5
 
 [node name="MobLeft" type="AnimatedSprite3D" parent="." groups=["sprite"]]
