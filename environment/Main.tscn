@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dffvde4m8jce7" path="res://environment/environmentArt/waterFrames/water0.png" id="7_d07ed"]
 [ext_resource type="PackedScene" uid="uid://dajjalm37no8a" path="res://ui/main_menu.tscn" id="7_hw2rg"]
 [ext_resource type="AudioStream" uid="uid://is0beh04icp1" path="res://audio/music/Music.mp3" id="8_h3a5k"]
-[ext_resource type="PackedScene" path="res://ui/in_game_menu.tscn" id="8_tahh5"]
+[ext_resource type="PackedScene" uid="uid://d2pak7ahkloaq" path="res://ui/in_game_menu.tscn" id="8_tahh5"]
 [ext_resource type="Script" path="res://environment/waterReflections.gd" id="17_hbvyi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_67181"]
@@ -28,6 +28,7 @@ _data = {
 point_count = 5
 
 [node name="Main" type="Node"]
+process_mode = 3
 script = ExtResource("1_a07rh")
 
 [node name="KillCounter" type="Label" parent="."]
@@ -56,12 +57,15 @@ wait_time = 0.1
 autostart = true
 
 [node name="HealthPowerUpTimer" type="Timer" parent="."]
+process_mode = 1
 wait_time = 15.0
 autostart = true
 
 [node name="OneSecond" type="Timer" parent="."]
+process_mode = 1
 
 [node name="MobSpawnTimer" type="Timer" parent="."]
+process_mode = 1
 wait_time = 5.0
 autostart = true
 
@@ -101,10 +105,12 @@ size = 26.662
 script = ExtResource("6_qikrg")
 
 [node name="SpawnPath" type="Path3D" parent="."]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 curve = SubResource("Curve3D_cvafn")
 
 [node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
+process_mode = 1
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 25, 0, 0)
 
 [node name="Amphitheater" parent="." instance=ExtResource("7_61eal")]
@@ -131,11 +137,14 @@ offset_top = 1.0
 offset_right = -1.0
 
 [node name="BackGroundMusic" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("8_h3a5k")
 volume_db = -20.0
 autoplay = true
 bus = &"Music"
 
+[connection signal="menu_closed" from="." to="." method="_on_menu_closed"]
+[connection signal="menu_opened" from="." to="." method="_on_menu_opened"]
 [connection signal="timeout" from="WaterFrameChange" to="waterReflections" method="_OnWaterFramechangeTimeout"]
 [connection signal="timeout" from="HealthPowerUpTimer" to="." method="_onHealthPowerUpTimerTimeout"]
 [connection signal="timeout" from="OneSecond" to="." method="_onOneSecondTimout"]

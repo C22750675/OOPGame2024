@@ -22,6 +22,8 @@ var healthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 func _on_main_menu_start_game() -> void:
 	
 	start_game.emit()
+	
+	get_tree().paused = false
 
 func _ready():
 
@@ -121,6 +123,7 @@ func _on_sfx_slider_value_changed(value):
 	AudioServer.set_bus_mute(PlayerDamage_Bus_ID, value < 0.05)
 	
 	
+	
 
 
 func _on_in_game_menu_main_menu():
@@ -134,3 +137,12 @@ func _on_in_game_menu_return_to_game():
 	
 	in_game_menu.hide()
 	menu_closed.emit()
+	
+
+func _on_menu_closed():
+	get_tree().paused = false
+
+
+func _on_menu_opened():
+	
+	get_tree().paused = true
