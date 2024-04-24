@@ -3,15 +3,16 @@ extends Area3D
 @onready var mobKnockback = $"../../MobKnockback"
 
 var playerNode: CharacterBody3D
-var baseDamageAmount = 10
-var baseKnockbackAmount = 50
+
+const BASE_DAMAGE = 10
+const BASE_KNOCKBACK_AMOUNT = 50
+const MAX_CHARGE_TIME = 1.5
 
 # Charge attack variables
-var maxChargeTime = 2.0
 var chargeRate = 1.0
 var chargeTime: float = 0
 var charging: bool = false
-var maxChargeReached: bool = false
+var sweetSpotTime: float = 0
 
 # Area scaling variables
 var maxAreaScale = 2.0
@@ -32,7 +33,7 @@ var sweetSpotWindowSize: float = 0.4
 
 func _ready():
 
-	var parentNode = find_character_body(get_parent())
+	var parentNode = findCharacterBody(get_parent())
 	
 		
 	if parentNode and parentNode is CharacterBody3D:
@@ -43,91 +44,157 @@ func _ready():
 	attackVisual = $AttackAreaPoints/Aoe
 	attackVisual.hide()
 
-func applyDamageAndKnockback(chargeFactor: float, sweetSpotBonusFactor: float):
+func _process(delta):
 
-	var damage = baseDamageAmount * chargeFactor * sweetSpotBonusFactor
-	var knockback = baseKnockbackAmount * chargeFactor * sweetSpotBonusFactor
+	if charging:
 
-	for damageKnockback in queuedDamageAndKnockback:
+		updateCharging(delta)
 
-		var enemy = damageKnockback["enemy"]
+	else:
+		
+		attackRelease()
 
-		if enemy == null or !enemy.is_inside_tree() :
-			continue
 
-		if enemy.has_method("takeDamage"):
+# Updates charging status and calculates scale based on charge time
+func updateCharging(delta):
+
+	if charging:
+
+		chargeTime += delta
+
+		chargeTime = min(chargeTime, MAX_CHARGE_TIME)  # Clamps the charge time to maximum
+
+		updateAttackAreaScale()
+
+	else:
+
+		attackRelease()
+
+# Handles releasing the attack and applying damage
+func attackRelease():
+
+	if playerNode and chargeTime > 0:
+
+		applyDamageKnockback()
+
+		resetAttack()
+
+# Updates the visual and actual scale of the attack area based on charge time
+func updateAttackAreaScale():
+
+	var scaleFactor = lerp(minAreaScale, maxAreaScale, chargeTime / MAX_CHARGE_TIME)
+
+
+	scale = baseScale * scaleFactor
+
+	sweetSpotBonus = calculateSweetSpotBonus(chargeTime)
+
+
+	if sweetSpotBonus > 1.0 :
+
+		attackVisual.modulate = Color(1, 0, 0)
+		
+	else:
+		
+		attackVisual.modulate = Color(1, 1, 1)
+
+
+# Applies damage to all enemies currently in the zone
+func applyDamageKnockback():
+
+	sweetSpotBonus = calculateSweetSpotBonus(chargeTime)
+
+	var damage = calculateDamage(sweetSpotBonus)
+	var knockback = BASE_KNOCKBACK_AMOUNT
+
+
+	for enemy in enemiesInZone:
+
+		if validateEnemy(enemy):
+
 			enemy.takeDamage(damage)
+			push_error("Damage: " + str(damage))
 
-		if enemy == null or !enemy.is_inside_tree() :
-			continue
-			
-		if enemy.has_method("takeKnockback"):
 			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
+
 			enemy.takeKnockback(knockbackDirection * knockback)
+			
+			mobKnockback.play()  # Play knockback sound
 
-	queuedDamageAndKnockback.clear() # Clear the queued damage and knockback after applying
 
-	# Play the knockback sound
-	mobKnockback.play()
+# Calculates damage based on charge time
+func calculateDamage(sweetSpotBonusFactor):
+
+	return (BASE_DAMAGE * (chargeTime / MAX_CHARGE_TIME) * sweetSpotBonusFactor)
+
+
+# Calculates sweet spot bonus based on timing precision
+func calculateSweetSpotBonus(chargeTimeValue: float):
+
+	var sweetSpotStart = sweetSpotTime - sweetSpotWindowSize / 2.0
+	var sweetSpotEnd = sweetSpotTime + sweetSpotWindowSize / 2.0
+	
+	if chargeTimeValue < sweetSpotStart or chargeTimeValue > sweetSpotEnd:
+
+		return 1.0 # No bonus if not within the sweet spot window
+		
+	else:
+
+		return lerp(1.0, maxSweetSpotBonus, abs((chargeTime - sweetSpotTime) / sweetSpotRange))
+
+
+# Checks if an enemy is still valid for interaction
+func validateEnemy(enemy):
+
+	return enemy and enemy.is_inside_tree()
+
+# Resets attack parameters after release
+func resetAttack():
+
+	chargeTime = 0
+
+	attackVisual.hide()
+
+	charging = false
+
+# Utility function to find the CharacterBody3D parent
+func findCharacterBody(node):
+
+	if node is CharacterBody3D:
+
+		return node
+
+	elif node:
+
+		return findCharacterBody(node.get_parent())
+		
+	return null
+
 
 func areEnemiesInZone():
 
 	return enemiesInZone.size() > 0
 
-func calculateSweetSpotBonus(chargeTimeValue: float):
-	var randomOffset = randf_range(-sweetSpotRange, sweetSpotRange)
-	var sweetSpotTime = maxChargeTime / 2.0 + randomOffset
-	var sweetSpotStart = sweetSpotTime - sweetSpotWindowSize / 2.0
-	var sweetSpotEnd = sweetSpotTime + sweetSpotWindowSize / 2.0
-	
-	if chargeTimeValue < sweetSpotStart or chargeTimeValue > sweetSpotEnd:
-		return 1.0 # No bonus if not within the sweet spot window
-		
-	else:
-		return lerp(1.0, maxSweetSpotBonus, abs((chargeTime - sweetSpotTime) / sweetSpotRange))
 
-func _process(delta):
-
-	if charging:
-
-		chargeTime += delta * chargeRate
-		# Clamp charge time
-		chargeTime = clamp(chargeTime, 0, maxChargeTime)
-		# Calculate scale factor based on charge time
-		var scaleFactor = lerp(minAreaScale, maxAreaScale, chargeTime / maxChargeTime)
-		
-		if chargeTime >= maxChargeTime:
-			maxChargeReached = true
-			if playerNode:
-				playerNode.stopMovement(maxChargeReached)
-
-		# Apply scale to the area
-		scale = baseScale * scaleFactor
-		sweetSpotBonus = calculateSweetSpotBonus(chargeTime)
-		# Check if we are in the sweet spot
-		if sweetSpotBonus > 1.0:
-			attackVisual.modulate = Color(1,0,0)
-		else:
-			attackVisual.modulate = Color(1,1,1)
-		
 func _input(event):
 
 	if event.is_action_pressed("attack"):
+
 		charging = true
 		attackVisual.show() # Display attack area
+
+		var randomOffset = randf_range(-sweetSpotRange, sweetSpotRange)
+		sweetSpotTime = MAX_CHARGE_TIME / 2.0 + randomOffset
 
 	elif event.is_action_released("attack"):
 
 		charging = false
-		maxChargeReached = false
+
 		attackVisual.hide()
-
-		if playerNode:
-				playerNode.stopMovement(maxChargeReached)
 		
-
 		if areEnemiesInZone():
-			applyDamageAndKnockback(chargeTime / maxChargeTime, sweetSpotBonus)
+			
+			applyDamageKnockback()
 
 		chargeTime = 0
 
@@ -153,15 +220,3 @@ func _onBodyExited(body):
 				queuedDamageAndKnockback.erase(i)
 
 				break
-
-# Recursively find the CharacterBody3D parent
-func find_character_body(node):
-	
-	if not node:
-		return null
-		
-	elif node is CharacterBody3D:
-		return node
-		
-	else:
-		return find_character_body(node.get_parent())
