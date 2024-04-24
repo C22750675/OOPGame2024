@@ -13,6 +13,8 @@ signal quit_to_menu()
 @onready var HealthPowerUp_Bus_ID = AudioServer.get_bus_index("HealthPowerUp")
 @onready var PlayerDamage_Bus_ID = AudioServer.get_bus_index("PlayerDamage")
 @onready var in_game_menu = $InGameMenu
+@onready var animation_player = $AnimationPlayer
+@onready var transition = %Transition
 
 var countdownValue = 3
 
@@ -24,6 +26,11 @@ var healthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 func _on_main_menu_start_game() -> void:
 	
 	start_game.emit()
+	transition.show()
+	animation_player.play("Screen_Transition")
+	await animation_player.animation_finished()
+	transition.hide()
+	
 	
 
 func _onCountdownTimerTimeout():
@@ -225,7 +232,13 @@ func _on_sfx_slider_value_changed(value):
 
 func _on_in_game_menu_main_menu():
 	
+	if animation_player.is_playing():
+		await animation_player.animation_finished
 	in_game_menu.hide()
+	transition.show()
+	animation_player.play_backwards("Screen_Transition")
+	await animation_player.animation_finished
+	transition.hide()
 
 	# Call gameOver in main
 
@@ -234,6 +247,9 @@ func _on_in_game_menu_main_menu():
 
 
 func _on_in_game_menu_return_to_game():
+	
+	if animation_player.is_playing():
+		await animation_player.animation_finished
 	
 	in_game_menu.hide()
 	menu_closed.emit()
