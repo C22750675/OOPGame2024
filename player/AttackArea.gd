@@ -113,12 +113,12 @@ func applyDamageKnockback():
 		if validateEnemy(enemy):
 
 			enemy.takeDamage(damage)
-			push_error("Damage: " + str(damage))
 
 			var knockbackDirection = (enemy.global_transform.origin - global_transform.origin).normalized()
 
+
 			enemy.takeKnockback(knockbackDirection * knockback)
-			
+
 			mobKnockback.play()  # Play knockback sound
 
 
