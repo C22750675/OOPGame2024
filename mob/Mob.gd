@@ -185,18 +185,13 @@ func findPlayer():
 
 func directionManagement():
 
-	if targetPlayer != null:
+	look_at(targetPlayer.global_transform.origin, Vector3.UP)
 
-		look_at(targetPlayer.global_transform.origin, Vector3.UP)
-
-		var directionToPlayer = (targetPlayer.global_transform.origin - global_transform.origin).normalized()
+	var directionToPlayer = (targetPlayer.global_transform.origin - global_transform.origin).normalized()
 
 
-		updateSpriteDirection(directionToPlayer)
-	
-	else:
+	updateSpriteDirection(directionToPlayer)
 
-		push_error("No player found")
 
 func updateSpriteDirection(newTargetDirection):
 

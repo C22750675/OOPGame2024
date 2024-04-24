@@ -353,6 +353,3 @@ func hideSprites():
 		sprite.hide()
 	
 	
-func stopMovement(maxChargeReached: bool): #this method is called in the attackArea script
-
-	canMove = !maxChargeReached
