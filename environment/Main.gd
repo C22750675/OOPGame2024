@@ -25,13 +25,51 @@ func _on_main_menu_start_game() -> void:
 	
 	get_tree().paused = false
 
+func gameStart():
+
+	# Unpause game
+	get_tree().paused = false
+
+	# Set global variables
+	GlobalVars.currentRound = 1
+	GlobalVars.roundTimer = 60
+	GlobalVars.mobsKilled = 0
+
+	# Start timers
+	$MobSpawnTimer.start()
+	$OneSecond.start()
+	$HealthPowerUpTimer.start()
+
+	# Allow player to move
+	$Player.canMove = true
+
+func gameOver():
+
+	# Stop timers
+	$MobSpawnTimer.stop()
+	$OneSecond.stop()
+	$HealthPowerUpTimer.stop()
+
+	# Clear all mobs and power-ups from the scene
+	var mobsToFree = get_tree().get_nodes_in_group("enemies")
+	var healthPowerUpsToFree = get_tree().get_nodes_in_group("powerUp")
+
+
+	for mob in mobsToFree:
+		
+		mob.queue_free()
+
+	for powerUp in healthPowerUpsToFree:
+		
+		powerUp.queue_free()
+
+	# Show the main menu
+	$MainMenu.show()
+
+
 func _ready():
 
-	# Start the round timer
-	$OneSecond.start()
-	
-	# Start the HealthPowerUpTimer
-	$HealthPowerUpTimer.start()
+	pass
 	
 
 func _input(event):
@@ -151,7 +189,10 @@ func _on_sfx_slider_value_changed(value):
 func _on_in_game_menu_main_menu():
 	
 	in_game_menu.hide()
-	quit_to_menu.emit()
+
+	# Call gameOver in main
+
+	
 	main_menu.show()
 
 

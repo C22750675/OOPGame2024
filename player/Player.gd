@@ -22,7 +22,7 @@ extends CharacterBody3D
 
 # Player health
 var health = 75
-var cantMove: bool = false
+var canMove: bool = false
 
 # Store the player's last position
 var lastPosition = Vector3.ZERO
@@ -41,7 +41,6 @@ var fallbackDirection = Vector3(0, 0, 1)
 
 var targetVelocity = Vector3.ZERO
 var targetPos = Vector3.ZERO
-var targetEnemy = null
 var minDistance = 7
 
 var camera : Camera3D = null
@@ -61,7 +60,7 @@ func getInputDirection() -> Vector3:
 	
 	var direction = Vector3.ZERO
 	
-	if cantMove == false:
+	if canMove == true:
 		# Move the character depending on the input
 		if Input.is_action_pressed("move_right"):
 			direction.x += 1
@@ -82,7 +81,7 @@ func getInputDirection() -> Vector3:
 func _physics_process(delta):
 
 	# Return early if the player can't move
-	if cantMove:
+	if canMove == false:
 		return
 
 	# Set default animation speed
@@ -158,8 +157,6 @@ func _physics_process(delta):
 
 		targetPos = Vector3.ZERO # set target direction to zero
 
-		targetEnemy = null # set target enemy to null
-
 		hideSprites() # hide all sprites
 
 		# reset player's rotation
@@ -176,7 +173,7 @@ func takeDamage(damage):
 
 	if $SubViewport/HealthBar3D.value == 0:
 		
-		gameOver()
+		playerReset()
 	
 	damageTimer.start()
 	
@@ -256,7 +253,7 @@ func applyHealthPowerUp(body):
 	body.queue_free()
 
 # Game over function called when player's health is 0
-func gameOver():
+func playerReset():
 	
 	$SubViewport/HealthBar3D.value = 75
 		
@@ -268,24 +265,12 @@ func gameOver():
 
 	targetPos = Vector3.ZERO # set target direction to zero
 
-	targetEnemy = null # set target enemy to null
-
-	# Clear all mobs and power-ups from the scene
-	var mobsToFree = get_tree().get_nodes_in_group("enemies")
-	var healthPowerUpsToFree = get_tree().get_nodes_in_group("powerUp")
-
-
-	for mob in mobsToFree:
-		
-		mob.queue_free()
-
-	for powerUp in healthPowerUpsToFree:
-		
-		powerUp.queue_free()
-
 	# reset player's rotation
 	$Pivot.basis = Basis.IDENTITY # reset player's rotation
 	$Pivot.look_at(global_transform.origin + fallbackDirection, Vector3.UP)
+
+	# Call gameOver in the main script
+	get_tree().get_root().get_node("Main").gameOver()
 
 func directionManagement():
 	
@@ -370,4 +355,4 @@ func hideSprites():
 	
 func stopMovement(maxChargeReached: bool): #this method is called in the attackArea script
 
-	cantMove = maxChargeReached
+	canMove = !maxChargeReached

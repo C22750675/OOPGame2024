@@ -9,10 +9,13 @@ func _ready() -> void:
 	focus_button()
 	
 
-func _on_start_button_pressed() -> void:
+func _onstartButtonPressed():
 	
-	start_game.emit()
+	# Hide main menu
 	hide()
+
+	# Call gameStart in main
+	get_tree().get_root().get_node("Main").gameStart()
 
 
 func _on_quit_button_pressed() -> void:

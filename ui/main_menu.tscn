@@ -77,5 +77,5 @@ text = "Quit"
 
 [connection signal="start_game" from="." to="." method="_on_main_menu_start_game"]
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="MarginContainer/TitleVBox/ButtonsVBox/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MarginContainer/TitleVBox/ButtonsVBox/StartButton" to="." method="_onstartButtonPressed"]
 [connection signal="pressed" from="MarginContainer/TitleVBox/ButtonsVBox/QuitButton" to="." method="_on_quit_button_pressed"]

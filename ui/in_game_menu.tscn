@@ -2,60 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://314wor8xmooq" path="res://fonts/Early GameBoy.ttf" id="1_1aa1e"]
 [ext_resource type="Theme" uid="uid://dkbhvgd8fqume" path="res://themes/default_theme.tres" id="1_ay55a"]
-
-[sub_resource type="GDScript" id="GDScript_3r727"]
-script/source = "extends Control
-
-signal return_to_game()
-signal main_menu()
-
-
-@onready var musicBusID = AudioServer.get_bus_index(\"Music\")
-@onready var SFXBusID = AudioServer.get_bus_index(\"SFX\")
-
-@onready var buttons_v_box = %ButtonsVBox
-
-# Function to operate the slider vlaues for Music
-func _on_music_slider_value_changed(value):
-	
-	AudioServer.set_bus_volume_db(musicBusID, linear_to_db(value))
-	AudioServer.set_bus_mute(musicBusID, value < 0.05)
-
-# Function to operate the slider vlaues for SFX
-func _on_sfx_slider_value_changed(value):
-	
-	AudioServer.set_bus_volume_db(SFXBusID, linear_to_db(value))
-	AudioServer.set_bus_mute(SFXBusID, value < 0.05)
-	
-func focus_button() -> void:
-	
-	if buttons_v_box:
-		var button: Button = buttons_v_box.get_child(0)
-		if button is Button:
-			button.grab_focus()
-
-
-func _on_visibility_changed():
-	
-	if visible:
-		focus_button()
-
-
-func _on_return_to_game_button_pressed():
-
-	return_to_game.emit()
-
-
-func _on_main_menu_button_pressed():
-	
-	main_menu.emit()
-	
-
-
-func _on_quit_button_pressed():
-	
-	get_tree().quit()
-"
+[ext_resource type="Script" path="res://ui/in_game_menu.gd" id="2_ki26t"]
 
 [node name="InGameMenu" type="Control"]
 visible = false
@@ -66,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ay55a")
-script = SubResource("GDScript_3r727")
+script = ExtResource("2_ki26t")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
