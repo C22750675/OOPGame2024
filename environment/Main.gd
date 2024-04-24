@@ -14,6 +14,8 @@ signal quit_to_menu()
 @onready var PlayerDamage_Bus_ID = AudioServer.get_bus_index("PlayerDamage")
 @onready var in_game_menu = $InGameMenu
 
+var countdownValue = 3
+
 
 # Preload the mob script to read its global variables
 var mobScene = preload("res://mob/Mob.tscn")
@@ -23,17 +25,52 @@ func _on_main_menu_start_game() -> void:
 	
 	start_game.emit()
 	
-	get_tree().paused = false
+
+func _onCountdownTimerTimeout():
+
+	if countdownValue > 0:
+
+		countdownValue -= 1
+		$Countdown.text = str(countdownValue)
+
+	else:
+
+		$CountdownTimer.stop()
+
+		$Countdown.hide()
+		countdownValue = 3  # Reset for next use
+
+		gameStart()
+
+func startCountdown():
+
+	# Set global variables
+	GlobalVars.currentRound = 1
+	GlobalVars.roundTimer = 60
+	GlobalVars.mobsKilled = 0
+
+	# Update the UI labels at start
+	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
+
+	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + "s"
+
+	$RoundNumber.text = "Round: " + str(GlobalVars.currentRound)
+
+	# Pause game
+	get_tree().paused = true
+
+	countdownValue = 3
+
+	$Countdown.text = str(countdownValue)
+	$Countdown.show()
+	$CountdownTimer.start()
+
 
 func gameStart():
 
 	# Unpause game
 	get_tree().paused = false
 
-	# Set global variables
-	GlobalVars.currentRound = 1
-	GlobalVars.roundTimer = 60
-	GlobalVars.mobsKilled = 0
 
 	# Start timers
 	$MobSpawnTimer.start()
@@ -141,7 +178,7 @@ func calculateMobSpawn():
 		spawnPosition = Vector3(x, y, z)
 
 		# If the spawn position is not too close to the player, break the loop
-		if spawnPosition.distance_to(playerPosition) >= 5:
+		if spawnPosition.distance_to(playerPosition) >= 10:
 			
 			break
 

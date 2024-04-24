@@ -14,8 +14,8 @@ func _onstartButtonPressed():
 	# Hide main menu
 	hide()
 
-	# Call gameStart in main
-	get_tree().get_root().get_node("Main").gameStart()
+	# Call startCountdown in main
+	get_tree().get_root().get_node("Main").startCountdown()
 
 
 func _on_quit_button_pressed() -> void:
