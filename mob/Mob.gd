@@ -48,13 +48,14 @@ func _ready():
 		3: [5, 7],
 		4: [6, 8]
 	}
+
 	if GlobalVars.currentRound in speedRanges:
 		minSpeed = speedRanges[GlobalVars.currentRound][0]
 		maxSpeed = speedRanges[GlobalVars.currentRound][1]
 	else:
 		# Default speed range for rounds beyond 4
 		minSpeed = 9
-		maxSpeed = 10
+		maxSpeed = 15
 
 	mobForward.play("Walk")
 	mobBack.play("Walk")
@@ -98,10 +99,12 @@ func _physics_process(delta):
 
 		var newPosition = position + direction * randomSpeed * delta
 
-		# If the mob is too far from the player, kill it
-		if newPosition.distance_to(Vector3.ZERO) > 25:
+		if newPosition.length() > 25:
 
-			queue_free()
+			newPosition = newPosition.normalized() * 25
+
+			position = newPosition  # Update the position to keep the mob within bounds
+
 
 	elif movementState == "knockback":
 
@@ -114,6 +117,12 @@ func _physics_process(delta):
 		velocity = Vector3.ZERO
 
 		hideSprites()
+
+		var collisionShape = $CollisionShape3D
+		var collisionShape1 = $Area3D/CollisionShape3D2
+		
+		collisionShape.disabled = true  # Disable the collision shape
+		collisionShape1.disabled = true  # Disable the collision shape
 
 		# Animate the death of the mob and pass current position to the function
 		animateDeath()

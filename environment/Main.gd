@@ -44,6 +44,12 @@ func _onCountdownTimerTimeout():
 
 func startCountdown():
 
+	# Position player at the center of the scene
+	$Player.position = Vector3(0, 1, 0)
+
+	# Player direction forward
+	
+
 	# Set global variables
 	GlobalVars.currentRound = 1
 	GlobalVars.roundTimer = 60
@@ -227,9 +233,6 @@ func _on_in_game_menu_main_menu():
 	
 	in_game_menu.hide()
 
-	# Call gameOver in main
-
-	
 	main_menu.show()
 
 

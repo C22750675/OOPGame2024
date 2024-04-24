@@ -174,6 +174,8 @@ func takeDamage(damage):
 	if $SubViewport/HealthBar3D.value == 0:
 		
 		playerReset()
+
+		return
 	
 	damageTimer.start()
 	
@@ -184,7 +186,7 @@ func _onMobBodyEntered(body):
 		# Add the mob to the array when the player collides with it
 		collidingMobs.append(body)
 
-		
+		takeDamage(10)
 		player_takes_damage.play()
 
 		damageTimer.start()
@@ -237,7 +239,7 @@ func applyHealthPowerUp(body):
 	
 	var givenHealth = 0
 
-	if $SubViewport/HealthBar3D.value > 80:
+	if $SubViewport/HealthBar3D.value > 65:
 		
 		givenHealth = 75 - $SubViewport/HealthBar3D.value
 
@@ -256,8 +258,6 @@ func applyHealthPowerUp(body):
 func playerReset():
 	
 	$SubViewport/HealthBar3D.value = 75
-		
-	global_transform.origin = Vector3(0, 0, 0) # reset player to starting position
 
 	velocity = Vector3.ZERO # stop player from moving
 	
