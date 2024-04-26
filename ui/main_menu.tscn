@@ -46,6 +46,9 @@ alignment = 1
 [node name="Title" type="Label" parent="MarginContainer/TitleVBox"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/font_shadow_color = Color(0.188235, 0.188235, 0.188235, 1)
+theme_override_constants/shadow_offset_x = 20
+theme_override_constants/shadow_offset_y = 15
 theme_override_font_sizes/font_size = 80
 text = "Crab Claw"
 horizontal_alignment = 1
