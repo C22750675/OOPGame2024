@@ -13,12 +13,12 @@
 [ext_resource type="AudioStream" uid="uid://d2nreo06o1e86" path="res://audio/sfx/negative_beeps-6008 (mp3cut.net).mp3" id="11_jhduq"]
 [ext_resource type="Script" path="res://environment/waterReflections.gd" id="17_hbvyi"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_42cdm"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2jdvs"]
 albedo_texture = ExtResource("2_6cgew")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_u4oyr"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_42cdm"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -88,12 +88,19 @@ wait_time = 3.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_mask = 0
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ground/GroundBody"]
+transform = Transform3D(80, 0, 0, 0, 1, 0, 0, 0, 80, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_2jdvs")
+mesh = SubResource("CylinderMesh_u4oyr")
+skeleton = NodePath("../MeshInstance3D")
+
 [node name="CollisionShape" type="CollisionShape3D" parent="Ground/GroundBody"]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
 shape = SubResource("CylinderShape3D_42cdm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/GroundBody"]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
+visible = false
 material_override = SubResource("StandardMaterial3D_2jdvs")
 mesh = SubResource("CylinderMesh_u4oyr")
 
