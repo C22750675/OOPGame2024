@@ -7,7 +7,15 @@ signal start_game()
 func _ready() -> void:
 	
 	focus_button()
+
 	
+	
+func updateKillRecord(killRecord):
+	
+	# Set kill record label value from main
+	$KillRecord.text = "Kill Record: " + str(killRecord)
+	print("Just updated the kill record as " + str(killRecord))
+
 
 func _onstartButtonPressed():
 	

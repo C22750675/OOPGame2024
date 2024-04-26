@@ -12,9 +12,14 @@ signal quit_to_menu()
 @onready var MobKnockback_Bus_ID = AudioServer.get_bus_index("MobKnockback")
 @onready var HealthPowerUp_Bus_ID = AudioServer.get_bus_index("HealthPowerUp")
 @onready var PlayerDamage_Bus_ID = AudioServer.get_bus_index("PlayerDamage")
+@onready var gameOverSound = $GameOverSound
 @onready var in_game_menu = $InGameMenu
 
 var countdownValue = 3
+var killRecord = 0
+var saveFile = ConfigFile.new()
+
+
 
 
 # Preload the mob script to read its global variables
@@ -24,6 +29,19 @@ var healthPowerUpScene = preload("res://powerUp/HealthPowerUp.tscn")
 func _on_main_menu_start_game() -> void:
 	
 	start_game.emit()
+	
+func _ready():
+
+	var err = saveFile.load("user://killRecord.ini")
+
+	if err == OK:
+
+		killRecord = saveFile.get_value("records", "killRecord", 0)
+		print("Just read the kill record as " + str(killRecord))
+
+	# Call the updateKillRecord function in the main menu script
+	$MainMenu.updateKillRecord(killRecord)
+
 	
 
 func _onCountdownTimerTimeout():
@@ -47,8 +65,6 @@ func startCountdown():
 	# Position player at the center of the scene
 	$Player.position = Vector3(0, 1, 0)
 
-	# Player direction forward
-	
 
 	# Set global variables
 	GlobalVars.currentRound = 1
@@ -58,7 +74,7 @@ func startCountdown():
 	# Update the UI labels at start
 	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
 
-	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + "s"
+	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer)
 
 	$RoundNumber.text = "Round: " + str(GlobalVars.currentRound)
 
@@ -106,15 +122,23 @@ func gameOver():
 		
 		powerUp.queue_free()
 
+	# Play game over sound
+	gameOverSound.play()
+
+	# Check if the player has a new kill record
+	if GlobalVars.mobsKilled > killRecord:
+		# Save the new kill record
+		saveFile.set_value("records", "killRecord", GlobalVars.mobsKilled)
+		print("Just set the kill record as " + str(killRecord))
+		saveFile.save("user://killRecord.ini")
+
+	# Call the updateKillRecord function in the main menu script
+	$MainMenu.updateKillRecord(GlobalVars.mobsKilled)
+
 	# Show the main menu
 	$MainMenu.show()
 
-
-func _ready():
-
-	pass
 	
-
 func _input(event):
 	
 	if !main_menu.visible and event.is_action_pressed("ui_cancel"):
@@ -205,7 +229,7 @@ func _onOneSecondTimout():
 	# Update the UI labels once per second
 	$KillCounter.text = "Mobs Killed: " + str(GlobalVars.mobsKilled)
 
-	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer) + "s"
+	$RoundTimerDisplay.text = "Time Left: " + str(GlobalVars.roundTimer)
 
 	$RoundNumber.text = "Round: " + str(GlobalVars.currentRound)
 

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d2nreo06o1e86"
+path="res://.godot/imported/negative_beeps-6008 (mp3cut.net).mp3-c01eeaa77bd9458b6455db8a7dbb4ee8.mp3str"
+
+[deps]
+
+source_file="res://audio/sfx/negative_beeps-6008 (mp3cut.net).mp3"
+dest_files=["res://.godot/imported/negative_beeps-6008 (mp3cut.net).mp3-c01eeaa77bd9458b6455db8a7dbb4ee8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
