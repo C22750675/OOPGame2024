@@ -269,6 +269,7 @@ func playerReset():
 	$Pivot.basis = Basis.IDENTITY # reset player's rotation
 	$Pivot.look_at(global_transform.origin + fallbackDirection, Vector3.UP)
 
+	#get_tree().change_scene_to_file("res://ui/end_menu.tscn")
 	# Call gameOver in the main script
 	get_tree().get_root().get_node("Main").gameOver()
 
