@@ -9,7 +9,26 @@ Neal Zheng - C22524393
 -----------------------------------------------------
 Hugh Garry - C22750675:
 
+- Player/Mob Mechanics:
+  - States, Physics, Health, Initiation/Reset, Pathfinding, Collision
 
+- Player/Mob Appearance:
+  - Applying 2D Art To 3D models
+    
+- Game Environment/Map:
+  - Camera, Lighting Effects, Boundaries
+    
+- Power Ups:
+  - Spawning, Effects
+  
+- Stats Persistence:
+  - Kill Record
+
+- In-Game Tracker:
+  - Kill Counter, Round Counter, Round Timer
+  
+- Game Performance
+  - Function Call Optimisation
 
 -----------------------------------------------------
 
