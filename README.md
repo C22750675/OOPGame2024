@@ -7,6 +7,24 @@ Conor Egan - C22466756,
 Neal Zheng - C22524393
 
 -----------------------------------------------------
+Photos:
+-----------------------------------------------------
+
+Main Menu:
+![mainMenu](https://github.com/C22750675/OOPGame2024/assets/124152492/2cbf8284-0039-4cb2-a85c-ed1cf62d06c3)
+
+
+Gameplay:
+![inGame](https://github.com/C22750675/OOPGame2024/assets/124152492/4c5d0b35-77ae-4232-9b6b-5eb18e34108d)
+
+
+In-Game Menu:
+![inGameMenu](https://github.com/C22750675/OOPGame2024/assets/124152492/38b255f6-bac9-4d9c-86b4-31740bf98a88)
+
+-----------------------------------------------------
+Contributions:
+-----------------------------------------------------
+
 Hugh Garry - C22750675:
 
 - Player/Mob Mechanics:
@@ -53,6 +71,7 @@ Neal Zheng - C22524393:
 
 -----------------------------------------------------
 References:
+-----------------------------------------------------
 
   - SFX: created using: https://sfbgames.itch.io/chiptone
   - Music: Bomberman Hero Music
