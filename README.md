@@ -4,7 +4,7 @@ Developed by:
 Hugh Garry - C22750675,
 Franz Liquit - C22304141,
 Conor Egan - C22466756,
-Neal Zheng - C22524393,
+Neal Zheng - C22524393
 
 -----------------------------------------------------
 Hugh Garry - C22750675:
