@@ -35,8 +35,8 @@ Neal Zheng - C22524393:
 -----------------------------------------------------
 References:
 
-  - SFX created using: https://sfbgames.itch.io/chiptone
-  - Music Bomberman Hero Music
+  - SFX: created using: https://sfbgames.itch.io/chiptone
+  - Music: Bomberman Hero Music
 
 -----------------------------------------------------
 
