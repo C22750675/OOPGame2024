@@ -52,7 +52,18 @@ Hugh Garry - C22750675:
 
 Franz Liquit - C22304141:
 
+-Player/ Mob Mechanics :
+  - Player looking at mouse, Mobs looking at player
+  - Attack logic, "sweet spot" damage multiplier, Knockback, Charge attack.
 
+Player/ Mob Sprite logic:
+  - How different sprites are displayed depending on the oirientation of its facing direction.
+
+Player/ Mob Sprites of animation:
+  - The rigging and animation of original sprites for player and Mobs.
+
+Player/ Mob Optimization:
+  - cleanup of my own initial code, resolving "returning null" warning errors.
 
 -----------------------------------------------------
 Conor Egan - C22466756:
