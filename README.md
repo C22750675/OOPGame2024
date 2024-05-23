@@ -78,6 +78,11 @@ Conor Egan - C22466756:
 -----------------------------------------------------
 Neal Zheng - C22524393:
 
+-attack animation 
+-round progression 
+-simplify power up 
+
+
 
 
 -----------------------------------------------------
